@@ -1,0 +1,38 @@
+.__cuerpo_nuevo_producto{
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.__cuerpo_nuevo_producto div{
+    display: flex;
+   
+    
+}
+
+.__columna_1{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.__columna_2{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.__columna_3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+
+
+.__formulario_boton{
+    display: flex;
+    justify-content: end;
+}
+

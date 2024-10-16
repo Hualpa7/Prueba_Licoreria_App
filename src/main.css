@@ -1,0 +1,16 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+}
+
+.botones{
+    display: flex;
+}
+
+/*input[type="number"]
+props...
+matchea a todos los inputs de tipo numbre
+
+*/

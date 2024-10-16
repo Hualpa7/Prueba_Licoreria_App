@@ -1,0 +1,60 @@
+
+button {                  /*todos los botones en general*/
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 10px 30px;
+    margin: 5px;
+    border-radius: 6px;
+    width: 150px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.050rem;
+    box-shadow: 5px 5px 10px #000000b3;
+
+}
+
+.no-habilitado{
+    background-color: #ccc; /*Color gris de fondo*/
+    color: #666;            /*Color gris letras*/
+    border: 2px solid #999; /*Bordes grises*/
+    opacity: 0.7;             /*Quito opacidad*/
+    cursor: not-allowed;
+}
+
+.habilitado{
+    cursor: pointer;
+    background-color: #9e030d; /*Color gris de fondo*/
+    color: #f9f9f9;            /*Color gris letras*/
+    border: 2px solid #6f0606; /*Bordes grises*/
+    transition: .7s;
+}
+
+
+.habilitado:hover{
+    border-color:#f54646ad;
+    transition: .7s;
+    background-color: #d12e2e;
+    box-shadow: 5px 5px 10px #f16b6bcb;
+    
+}
+
+.__boton_icono{
+    display: inline-block;
+    justify-content: center;
+    height: 20px;
+    width: 15px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+    
+}
+
+.__boton_contenido{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+ 
+

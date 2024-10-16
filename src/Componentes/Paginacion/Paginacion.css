@@ -1,0 +1,33 @@
+.__paginacion{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.__selector_num_paginas{
+    margin: 0px 5px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.__selector_num_paginas select{
+    width: 40%;
+    margin-left: 35px;
+    margin-top: 5px;
+   /* display: flex;
+    align-items: center;
+    justify-content: center;*/
+}
+
+.__paginacion button{
+    padding: 5px 15px;
+    margin: 2px;
+    border-radius: 100px;
+    width: auto;
+    height: auto;
+    text-align: center;
+    color: white;
+}

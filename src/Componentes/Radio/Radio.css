@@ -1,0 +1,52 @@
+.__radio {
+    display: flex; /* Alinea los elementos horizontalmente */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
+    gap: 10px; /* Espacio entre los elementos */
+  }
+  
+  .__chekeado {
+    display: flex;
+    align-items: center; /* Centra verticalmente el contenido */
+    gap: 5px; /* Espacio entre el radio y el texto */
+  }
+  
+  input[type="radio"] {
+    position: relative;
+    appearance: none;
+    border: 2px solid #000;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  input[type="radio"]:hover {
+    border: 2px solid #800020;
+    transition: .3s;
+    
+  }
+  
+  input[type="radio"]:checked {
+    background-color: #ffffff; /* Color de fondo */
+    border-color: #800020; /* Color borde */
+  }
+  
+  input[type="radio"]:checked::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #800020; /* Color bordo */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.7s ease;
+  }
+  
+  .__radio label {
+    cursor: pointer;
+  }
+  

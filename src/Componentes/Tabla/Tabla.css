@@ -1,0 +1,82 @@
+body{
+    font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.__tabla_contenedor {
+    height: 300px;
+    max-height: 300px; /* Altura fija para el contenedor de la tabla */
+    overflow-y: auto; /* Scroll vertical cuando se excede la altura */
+    overflow-x: hidden; /* Esconder scroll horizontal */
+    width: 100%;
+    position: relative;
+    display: flex; 
+    flex-direction: column; 
+    
+  }
+
+table{
+    table-layout:fixed; /* Las columnas se ajustarán automáticamente */
+    margin: 5px;
+    width: 99%; /* Asegura que la tabla ocupe todo el ancho disponible */
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
+    overflow-x: auto; /* Scroll horizontal si la tabla es más ancha que el modal */
+  
+}
+
+
+.__seleccionado {
+    background-color: #b3afafad;
+  }
+
+  .__cabecera th, .__cuerpo td {
+    width:10%;
+    padding: 10px;
+    text-align: center; /* Centrado horizontal */
+    vertical-align: middle; /* Centrado vertical */
+    border: 1px solid #000; /* Añade un borde para visualizar mejor las celdas */
+   /* word-wrap: break-word; /*para q el contenido alrgo se ajuste a la celda*/
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+    overflow: hidden; /* Oculta el contenido que desborde la celda */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto es más largo que la celda */
+    max-width: 100%; /* Limita el tamaño de la celda */
+    cursor: pointer; /* Cambia el cursor cuando el usuario pasa sobre el contenido */
+}
+
+.__cabecera {
+    
+    background-color: #9e030d;
+    color: white;
+}
+
+.__cuerpo{
+    flex: 1;
+    color: black;
+    overflow-y: auto; /* Scroll para la tabla */
+}
+
+.__cuerpo tr:hover{
+    border-color:#b3afafad;
+    transition: .7s;
+    background-color: #e2d4d4;
+}
+
+.__cuerpo td:hover {
+    white-space: normal; /* Muestra el texto completo al hacer hover */
+    overflow: visible; /* Deja que el contenido se muestre completo */
+    position: relative;
+    z-index: 1; /* Eleva la celda para evitar que se superponga con otras */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ba93934b; /* Fondo alterno para filas */
+  }
+
+  /* Clase para mostrar todo el contenido al seleccionar */
+.__cuerpo td:focus {
+    white-space: normal; /* Muestra el texto completo al enfocar la celda */
+    overflow: visible; /* Deja que el contenido se muestre completo */
+    position: relative;
+    z-index: 1; /* Eleva la celda para evitar que se superponga con otras */
+}

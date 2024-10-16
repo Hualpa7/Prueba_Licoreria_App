@@ -1,0 +1,39 @@
+.__cuerpo_agregar_carrito{
+    display: flex;
+    justify-content: space-around;
+    gap: 10%;
+    flex: 1;
+    
+}
+.__form_Agrego_carrito {
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.__columna1{
+    gap: 30px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 40px;
+}
+
+.__columna2{
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 9%;
+    flex: 1;
+  
+}
+
+.__columna3{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-top: 35%;
+    
+}
+

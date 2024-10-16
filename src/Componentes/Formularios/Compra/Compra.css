@@ -1,0 +1,85 @@
+.__formulario_compra{
+    display: flex;
+    flex-direction: column;
+}
+
+.__datos_compra{
+    display: flex;
+    justify-content: center;
+}
+
+.__datos_compra .__primera_columna{
+    flex-direction: column;
+    flex: 1;
+    display: flex;
+    gap: 22px;
+    margin-left: 20px;
+}
+.__datos_compra .__segunda_columna{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 54px;
+    justify-content: flex-start;
+}
+.__datos_compra .__tercera_columna{
+    margin-top: 95px;
+    flex: 1;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.__datos_compra .__tercera_columna .__boton button{
+    height: 38.8px;
+}
+.__submit{
+    padding: 0px 0 10px 0;
+    display: flex;
+    justify-content: end;
+    gap: 45px;
+}
+
+.__submit .__tarjeta{
+    font-size: large;
+    font-weight: 900;
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+    align-items: center;
+    
+}
+
+.__modal_nuevo_proveedor .__modal-cabecera{
+    flex-shrink: 0; /* No permitir que la cabecera se reduzca */
+    display: flex;
+    background-image: url(../../../assets/birra3.jpg);
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-position-y: 0;
+    background-color: linear-gradient( to right, #51010e,white), blue ;
+    border-radius: 8px 8px 0 0;
+  }
+
+.__modal_nuevo_proveedor .__boton_prov .habilitado{
+    background-color: #935a15;
+    border: 2px solid #562d0b;
+}
+
+.__modal_nuevo_proveedor .__boton_prov .habilitado:hover{
+    border: 2px solid #f1ca75;
+    transition: .7s;
+    background-color: #e6b031;
+    box-shadow: 5px 5px 10px #a1750c;
+}
+
+.__modal_nuevo_proveedor .__modal-cabecera .__cierre-boton .habilitado{
+    background-color: #935a15;
+    border: 2px solid #562d0b;
+}
+
+.__modal_nuevo_proveedor .__modal-cabecera .__cierre-boton .habilitado:hover{
+    background-color: #e6b031;
+    border: 2px solid #6e390d;
+    box-shadow: 5px 5px 10px #906910;
+}

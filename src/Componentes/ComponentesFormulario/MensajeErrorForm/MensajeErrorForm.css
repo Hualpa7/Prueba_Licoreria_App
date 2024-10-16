@@ -1,0 +1,29 @@
+.__mensaje_error_formulario{
+    display: inline;  /* Cambia el comportamiento de bloque a en línea */
+    color: #9e030d;
+    font-size: 0.8rem;
+   font-weight:600;
+    position: absolute;  /* Posiciona el span absolutamente */
+    background: rgba(255, 255, 255, 0.597);  /* Fondo semi-transparente para que no tape completamente otros elementos */
+    padding: 2px;  /* Añade un pequeño padding para mejor visibilidad */
+    z-index: 1; 
+    margin-top:72px ;
+    margin-left: 1px;
+    opacity: 0;
+    border-radius: 5px;
+    transform: translateY(-20px);  /* Empieza desplazado hacia arriba */
+    animation: animacion_error 0.5s forwards ease-in-out;  /* Aplica la animación */
+}
+
+
+/* Animación con keyframes */
+@keyframes animacion_error {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px); /* Posición inicial, oculto y arriba */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Termina en su posición original, visible */
+    }
+}

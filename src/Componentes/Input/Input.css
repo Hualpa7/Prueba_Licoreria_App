@@ -1,0 +1,71 @@
+  
+  
+  .__input {
+        display: block;
+        width: 150px;
+        padding: 5px 10px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        border:  solid #3a3939a7;
+        border-radius: 5px;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }   
+
+    .__input:focus {
+        background-color: #ed7f8a3f;
+        border-color: #9c1825e4;
+        outline: 0;
+        box-shadow: 0 0 0 2px #9c1825a3;
+        transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+    }
+
+    .__input-number{
+        width: 60px;
+    }
+  
+    .__input-search{
+        background-image: url('../../assets/lupa.png');
+        background-repeat: no-repeat;
+        background-position-x: 4px;
+        background-position-y: 7px;
+        padding-left: 30px;
+        width: 176px;
+        background-size: 20px;
+    }
+
+    .__input-search:not(:placeholder-shown) { /*Con esto puedo quitar la imagen de fondo cuando hay contenido*/
+        background-image: none; 
+        padding-left: 10px;
+      }
+
+      .__input-costo{
+       
+        background-image: url(/src/assets/peso.png);
+    background-repeat: no-repeat;
+    background-position-x: 6px;
+    background-position-y: 7px;
+    padding-left: 30px;
+    width: 60px;
+    background-size: 18px;
+       
+    }
+
+    
+    .__input-porcentaje{
+        background-image: url(/src/assets/porcentaje.png);
+        background-repeat: no-repeat;
+        background-position-x: 7px;
+        background-position-y: 11px;
+        padding-left: 30px;
+        width: 60px;
+        background-size: 13px;
+    }
+
+
+    .no-habilitado{
+        background-color: #ccc; /*Color gris de fondo*/
+    color: #666;            /*Color gris letras*/
+    
+    }
+

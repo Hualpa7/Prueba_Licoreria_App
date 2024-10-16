@@ -1,0 +1,116 @@
+.__modal-fondo {
+    position: fixed; /*Permite que se mantenga una posicion fija,ocupando toda la pantalla*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  /*lo anterior para que ocupen toda la pantalla*/
+    background-color: rgba(43, 42, 42, 0.475); /* Fondo oscuro semi-transparente */
+    display: flex; /*aplicoo flex para centrar la ventana*/
+    justify-content: center;
+    align-items: center; /*con estas propiedades alineo*/
+    z-index: 1000; /* me asegura que esté por encima de otros elementos.. valor alto para indicar prioridad */
+    animation: fadeIn 0.5s ease; /* Aplica animación de desvanecimiento */
+  }
+
+  
+  .__modal-contenido {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 8px;
+    width: 70%;
+    max-height:80%;
+    box-shadow: 20px 20px 5px rgba(0, 0, 0, 0.1); /*para agregar sombras*/
+     overflow: hidden; /* Oculta cualquier contenido que se desborde */
+     animation: slideIn 0.5s ease; /* Aplica animación de deslizamiento */
+    
+  }
+ 
+
+  .__modal-cabecera{
+    flex-shrink: 0; /* No permitir que la cabecera se reduzca */
+    display: flex;
+    justify-content: space-between;
+    background-image: url(../../assets/vino.jpg);
+    background-size: 150px;
+    background-repeat: no-repeat;
+    background-position-y: -10px;
+    background-color: #51010e;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .__modal-cabecera h2 {
+    
+    margin: 15px;
+    margin-left: 30px;
+    color: white;
+    font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+    font-size: 1.250rem;
+}
+
+.__cierre-boton{
+    margin: 5px 0 0 10px;
+    color: white;
+    
+}
+
+.__modal-cuerpo{
+    display: flex;
+    flex-direction: column; 
+    flex: 1; /* Ocupa el resto del espacio debajo de la cabecera */
+    overflow-y: auto; /* Permite desplazamiento vertical si es necesario */
+    padding: 15px;
+    box-sizing: border-box; /* Asegura que el padding no cause desbordamiento */
+
+  }
+ 
+.__cierre-boton button{
+
+    padding: 5px 25px;
+    margin: 5px 0;
+    border-radius: 20px;
+    width: 50%;
+    height: 80%;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #51010e;
+
+}  
+
+.__cierre-boton .habilitado:hover{
+  border-color:#f54646ad;
+  transition: .7s;
+  background-color: #d12e2e;
+  box-shadow: 5px 5px 10px #6b353e;
+  
+}
+  
+.__cierre-boton button, .__modal-cuerpo button, .__modal-cuerpo input {
+  max-width: 100%; /* Asegura que los botones o inputs no se desborden */
+  
+ 
+}
+  
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+

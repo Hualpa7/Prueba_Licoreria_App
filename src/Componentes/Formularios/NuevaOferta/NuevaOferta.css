@@ -1,0 +1,76 @@
+    .__cuerpo_formularios {
+        gap: 13px;
+        display: flex;
+        
+        margin-top: 14px;
+    }
+
+    .__eleccion_oferta {
+        display: flex;
+    gap: 15px;
+    margin-left: 20px;
+    font-weight: bolder;
+    }
+
+    .__eleccion_oferta .__radio_cuerpo label {
+        margin-left: 20px;
+    }
+
+    .__formulario_descuento {
+        justify-content: space-around;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .__formulario_combo{
+        justify-content: space-around;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .__cuerpo_descuento{
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: start;
+        margin-left: 20px;
+        gap: 20px;
+    }
+
+    .__cuerpo_combo{
+        display: flex;  
+        flex: 1;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: start;
+        margin-left: 20px;
+    }
+
+    .__busqueda_producto{
+        display: flex;
+    }
+
+
+    
+    .__boton_descuento {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 45px;
+   
+    }
+    .__boton_combo{
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+ 
+       
+    }
+
+   
