@@ -16,7 +16,7 @@ export default function NuevaMarca({ }) {
         <form onSubmit={handleSubmit((data) => {
             reset();
             console.log(data);
-        })} className="__form_nueva_marca">
+        })} className="__form_nueva_marca_categoria">
                     <Tarjeta descripcion="Nueva Marca" forid="marca" mensajeError={errors.marca?.message} >
                         <Input
                             tipo="text"

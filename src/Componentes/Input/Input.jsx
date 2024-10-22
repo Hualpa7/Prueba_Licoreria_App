@@ -26,7 +26,7 @@ const Input = forwardRef(function Input({ tipo, placeholder, deshabilitado, id, 
             type={tipo}
             className={`__input ${claseInput} ${deshabilit}`}
             placeholder={placeholder}
-            min={tipo === 'number' ? 0 : undefined}
+            
             disabled={deshabilitado}
             {...restoProps}
         ></input>

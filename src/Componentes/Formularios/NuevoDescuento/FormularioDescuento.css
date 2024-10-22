@@ -1,0 +1,31 @@
+.__formulario_descuento{
+    display: flex;
+    flex-direction: column;
+}
+
+.__cuerpo_descuento{
+    display: flex;
+}
+
+.__cuerpo_descuento .__columna1{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex: 1;
+    margin-left: 20px;
+}
+
+.__cuerpo_descuento .__columna2{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.__boton_descuento{
+    display: flex;
+    align-content: end;
+    justify-content: end;
+    margin-top: 40px ;
+}

@@ -26,9 +26,8 @@ table{
 }
 
 
-.__seleccionado {
-    background-color: #b3afafad;
-  }
+
+
 
   .__cabecera th, .__cuerpo td {
     width:10%;
@@ -56,6 +55,24 @@ table{
     overflow-y: auto; /* Scroll para la tabla */
 }
 
+.__cuerpo tr{
+   background-color: white;
+}
+
+/* Clase para filas con stock menor a 10 */
+.__bajo_stock_rojo {
+    background-color: #f16060 !important; /* Color de fondo rojo claro */
+}
+
+/* Clase para filas con stock menor a 20 */
+.__bajo_stock_naranja {
+    background-color: #f8ba5d !important; /* Color de fondo naranja claro */
+}
+
+.__seleccionado {
+    background-color: #4e4f4dad !important;
+  }
+
 .__cuerpo tr:hover{
     border-color:#b3afafad;
     transition: .7s;
@@ -68,10 +85,10 @@ table{
     position: relative;
     z-index: 1; /* Eleva la celda para evitar que se superponga con otras */
 }
-
+/*
 tbody tr:nth-child(even) {
-    background-color: #ba93934b; /* Fondo alterno para filas */
-  }
+    background-color: #ba93934b; /* Fondo alterno para filas 
+  }*/
 
   /* Clase para mostrar todo el contenido al seleccionar */
 .__cuerpo td:focus {

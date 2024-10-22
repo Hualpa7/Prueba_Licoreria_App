@@ -1,0 +1,47 @@
+[
+    {
+      "Proveedor": "Distribuidora Norte",
+      "Producto": "Cerveza Lager 500ml",
+      "Cantidad": 100,
+      "Fecha": "15/11/2024",
+      "Correo": "contacto@distribuidorabnorte.com",
+      "Telefono": "+54 9 1234 567890",
+      "Total_Compra": 50000.00
+    },
+    {
+      "Proveedor": "Bebidas del Sur",
+      "Producto": "Vodka Premium 1L",
+      "Cantidad": 50,
+      "Fecha": "20/11/2024",
+      "Correo": "ventas@bebidassur.com",
+      "Telefono": "+54 9 9876 543210",
+      "Total_Compra": 75000.00
+    },
+    {
+      "Proveedor": "Importadora Andes",
+      "Producto": "Whisky Escocés 750ml",
+      "Cantidad": 30,
+      "Fecha": "25/11/2024",
+      "Correo": "info@importadoraandes.com",
+      "Telefono": "+54 9 3456 789012",
+      "Total_Compra": 90000.00
+    },
+    {
+      "Proveedor": "Vinos del Valle",
+      "Producto": "Vino Malbec 1L",
+      "Cantidad": 80,
+      "Fecha": "01/12/2024",
+      "Correo": "contacto@vinosvalle.com",
+      "Telefono": "+54 9 5678 123456",
+      "Total_Compra": 64000.00
+    },
+    {
+      "Proveedor": "Bodega del Oeste",
+      "Producto": "Tequila Reposado 750ml",
+      "Cantidad": 40,
+      "Fecha": "05/12/2024",
+      "Correo": "ventas@bodegaoeste.com",
+      "Telefono": "+54 9 7890 654321",
+      "Total_Compra": 52000.00
+    }
+]

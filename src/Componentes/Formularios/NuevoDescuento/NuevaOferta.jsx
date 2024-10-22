@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Radio from "../../Radio/Radio";
 import FormularioDescuento from "./FormularioDescuento";
-import FormularioCombo from "./FormularioCombo";
+import FormularioCombo from "../../NuevoCombo/FormularioCombo";
 
 import './NuevaOferta.css'
 

@@ -1,0 +1,49 @@
+[
+    {
+      "Nombre_Combo": "Combo Fiesta",
+      "Descripcion": [
+        { "Bebida": "Cerveza", "Cantidad": 6 },
+        { "Bebida": "Vodka", "Cantidad": 2 },
+        { "Bebida": "Whisky", "Cantidad": 1 }
+      ],
+      "Costo_Combo": 5000,
+      "Duracion": "01/12/2024"
+    },
+    {
+      "Nombre_Combo": "Combo Relax",
+      "Descripcion": [
+        { "Bebida": "Vino Tinto", "Cantidad": 4 },
+        { "Bebida": "Champagne", "Cantidad": 2 }
+      ],
+      "Costo_Combo": 3000,
+      "Duracion": "15/11/2024"
+    },
+    {
+      "Nombre_Combo": "Combo Verano",
+      "Descripcion": [
+        { "Bebida": "Cerveza", "Cantidad": 12 },
+        { "Bebida": "Ron", "Cantidad": 1 },
+        { "Bebida": "Tequila", "Cantidad": 1 }
+      ],
+      "Costo_Combo": 4500,
+      "Duracion": "20/12/2024"
+    },
+    {
+      "Nombre_Combo": "Combo Premium",
+      "Descripcion": [
+        { "Bebida": "Champagne", "Cantidad": 4 },
+        { "Bebida": "Whisky", "Cantidad": 2 }
+      ],
+      "Costo_Combo": 7000,
+      "Duracion": "01/01/2025"
+    },
+    {
+      "Nombre_Combo": "Combo Económico",
+      "Descripcion": [
+        { "Bebida": "Vino Blanco", "Cantidad": 6 },
+        { "Bebida": "Cerveza", "Cantidad": 4 }
+      ],
+      "Costo_Combo": 2500,
+      "Duracion": "10/11/2024"
+    }
+  ]

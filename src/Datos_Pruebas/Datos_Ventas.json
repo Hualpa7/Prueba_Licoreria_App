@@ -1,0 +1,143 @@
+[
+    {
+      "Numero_Venta": "1001",
+      "Total": 20000,
+      "Fecha": "10/11/2024",
+      "Descuento_Gral": "10%",
+      "Neto": 18000,
+      "Vendedor": "Juan Pérez",
+      "Datos": [
+        {
+          "Codigo_Producto": "A001",
+          "Nombre_Producto": "Cerveza Lager 500ml",
+          "Cantidad": 10,
+          "Subtotal": 1500,
+          "IVA": "21%",
+          "Descuento": "5%",
+          "Total_Producto": 1495
+        },
+        {
+          "Codigo_Producto": "A002",
+          "Nombre_Producto": "Vodka Premium 1L",
+          "Cantidad": 5,
+          "Subtotal": 6000,
+          "IVA": "21%",
+          "Descuento": "0%",
+          "Total_Producto": 7260
+        }
+      ]
+    },
+    {
+      "Numero_Venta": "1002",
+      "Total": 15000,
+      "Fecha": "12/11/2024",
+      "Descuento_Gral": "5%",
+      "Neto": 14250,
+      "Vendedor": "María López",
+      "Datos": [
+        {
+          "Codigo_Producto": "B001",
+          "Nombre_Producto": "Whisky Escocés 750ml",
+          "Cantidad": 3,
+          "Subtotal": 6000,
+          "IVA": "21%",
+          "Descuento": "10%",
+          "Total_Producto": 5940
+        },
+        {
+          "Codigo_Producto": "B002",
+          "Nombre_Producto": "Tequila Reposado 750ml",
+          "Cantidad": 4,
+          "Subtotal": 8000,
+          "IVA": "21%",
+          "Descuento": "0%",
+          "Total_Producto": 9680
+        }
+      ]
+    },
+    {
+      "Numero_Venta": "1003",
+      "Total": 30000,
+      "Fecha": "15/11/2024",
+      "Descuento_Gral": "15%",
+      "Neto": 25500,
+      "Vendedor": "Carlos Martínez",
+      "Datos": [
+        {
+          "Codigo_Producto": "C001",
+          "Nombre_Producto": "Vino Tinto 750ml",
+          "Cantidad": 15,
+          "Subtotal": 15000,
+          "IVA": "21%",
+          "Descuento": "10%",
+          "Total_Producto": 14535
+        },
+        {
+          "Codigo_Producto": "C002",
+          "Nombre_Producto": "Ron Añejo 1L",
+          "Cantidad": 10,
+          "Subtotal": 10000,
+          "IVA": "21%",
+          "Descuento": "5%",
+          "Total_Producto": 11155
+        }
+      ]
+    },
+    {
+      "Numero_Venta": "1004",
+      "Total": 5000,
+      "Fecha": "20/11/2024",
+      "Descuento_Gral": "0%",
+      "Neto": 5000,
+      "Vendedor": "Laura Rodríguez",
+      "Datos": [
+        {
+          "Codigo_Producto": "D001",
+          "Nombre_Producto": "Champagne 750ml",
+          "Cantidad": 2,
+          "Subtotal": 4000,
+          "IVA": "21%",
+          "Descuento": "0%",
+          "Total_Producto": 4840
+        },
+        {
+          "Codigo_Producto": "D002",
+          "Nombre_Producto": "Gin Tonic 700ml",
+          "Cantidad": 1,
+          "Subtotal": 1000,
+          "IVA": "21%",
+          "Descuento": "0%",
+          "Total_Producto": 1210
+        }
+      ]
+    },
+    {
+      "Numero_Venta": "1005",
+      "Total": 10000,
+      "Fecha": "25/11/2024",
+      "Descuento_Gral": "20%",
+      "Neto": 8000,
+      "Vendedor": "Pedro Gómez",
+      "Datos": [
+        {
+          "Codigo_Producto": "E001",
+          "Nombre_Producto": "Mezcal 750ml",
+          "Cantidad": 3,
+          "Subtotal": 6000,
+          "IVA": "21%",
+          "Descuento": "15%",
+          "Total_Producto": 6180
+        },
+        {
+          "Codigo_Producto": "E002",
+          "Nombre_Producto": "Cerveza IPA 500ml",
+          "Cantidad": 5,
+          "Subtotal": 2000,
+          "IVA": "21%",
+          "Descuento": "0%",
+          "Total_Producto": 2420
+        }
+      ]
+    }
+  ]
+  

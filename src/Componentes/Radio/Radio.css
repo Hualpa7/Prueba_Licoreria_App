@@ -1,52 +1,56 @@
 .__radio {
-    display: flex; /* Alinea los elementos horizontalmente */
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
-    gap: 10px; /* Espacio entre los elementos */
-  }
-  
-  .__chekeado {
-    display: flex;
-    align-items: center; /* Centra verticalmente el contenido */
-    gap: 5px; /* Espacio entre el radio y el texto */
-  }
-  
-  input[type="radio"] {
-    position: relative;
-    appearance: none;
-    border: 2px solid #000;
-    width: 20px;
-    height: 20px;
-    border-radius: 100%;
-    cursor: pointer;
-    transition: .3s;
-  }
+  display: flex; /* Alinea los elementos horizontalmente */
+  flex-direction: column;
+  gap: 10px; /* Espacio entre los elementos */
+}
 
-  input[type="radio"]:hover {
-    border: 2px solid #800020;
-    transition: .3s;
-    
-  }
-  
-  input[type="radio"]:checked {
-    background-color: #ffffff; /* Color de fondo */
-    border-color: #800020; /* Color borde */
-  }
-  
-  input[type="radio"]:checked::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background-color: #800020; /* Color bordo */
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: background-color 0.7s ease;
-  }
-  
-  .__radio label {
-    cursor: pointer;
-  }
-  
+.__chekeado {
+  display: flex;
+  align-items: center; /* Centra verticalmente el contenido */
+  gap: 5px; /* Espacio entre el radio y el texto */
+  width: max-content;
+}
+
+
+
+.__chekeado input[type="radio"] {
+  position: relative;
+  appearance: none;
+  border: 2px solid #000;
+  width: 20px;
+  max-width: 20px;
+  min-width: 20px;
+  height: 20px;
+  max-height: 20px;
+  min-height: 20px;
+  border-radius: 50%; /* Cambia a porcentaje para asegurar la circularidad */
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s; /* Asegura que ambas propiedades transicionan */
+}
+
+.__chekeado input[type="radio"]:hover {
+  border-color: #800020;
+}
+
+.__chekeado input[type="radio"]:checked {
+  background-color: #ffffff; /* Color de fondo */
+  border-color: #800020; /* Color borde */
+}
+
+.__chekeado input[type="radio"]:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #800020; /* Color bordo */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.7s ease;
+}
+
+.__chekeado label {
+  cursor: pointer;
+  padding: 5px; /* Ajusta el padding según tus necesidades */
+}

@@ -2,7 +2,7 @@ import Tabla from '../Tabla/Tabla';
 import Paginacion from '../Paginacion/Paginacion';
 import  { useState } from 'react';
 
-export default function TablaConPaginacion ({ columnas, datos, itemsPorPagina,itemsPorPaginaOpcional }) {
+export default function TablaConPaginacion ({ columnas, datos, itemsPorPagina,itemsPorPaginaOpcional,onElementoSeleccionado }) {
   const [paginaActual, setPaginaActual] = useState(0);
   const [elementoSeleccionado, setElementoSeleccionado] = useState(null);
   const [itemsPorPaginaSeleccionado, setItemsPorPaginaSeleccionado] = useState(itemsPorPagina);
@@ -17,6 +17,7 @@ export default function TablaConPaginacion ({ columnas, datos, itemsPorPagina,it
 
   const manejarSeleccion = (elemento) => {
     setElementoSeleccionado(elemento);
+    onElementoSeleccionado(elemento);
   };
 
   const cambiarPagina = (nuevaPagina) => {

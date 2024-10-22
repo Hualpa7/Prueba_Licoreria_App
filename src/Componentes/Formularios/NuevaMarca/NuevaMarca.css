@@ -1,19 +1,19 @@
-.__form_nueva_marca {
+.__form_nueva_marca_categoria {
     display: flex;
     
 }
 
-.__form_nueva_marca .__tarjeta{
+.__form_nueva_marca_categoria .__tarjeta{
     flex: 1;
     padding-bottom: 20px;
     margin-left: 20px;
 }
 
-.__form_nueva_marca .__tarjeta .__input{
+.__form_nueva_marca_categoria .__tarjeta .__input{
    width: 75%;
 }
 
-.__form_nueva_marca .__boton {
+.__form_nueva_marca_categoria .__boton {
    display: flex;
    align-items: center;
    margin-top: 10px;

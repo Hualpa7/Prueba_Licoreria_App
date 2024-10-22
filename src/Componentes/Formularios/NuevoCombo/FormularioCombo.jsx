@@ -3,13 +3,11 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Boton from "../../Boton/Boton";
-import MensajeErrorForm from "../../ComponentesFormulario/MensajeErrorForm/MensajeErrorForm";
 
 export default function FormularioCombo({ seleccion }) {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        defaultValues: {    //constante que devuleve todo lo del form
-            codigo: "203-2333",
+        defaultValues: {    
 
         }
 
@@ -18,7 +16,7 @@ export default function FormularioCombo({ seleccion }) {
 
     return (
         <>
-            {/* Formulario de combo */}
+          
             <form onSubmit={handleSubmit((data) => {
                 reset();
                 console.log(data);

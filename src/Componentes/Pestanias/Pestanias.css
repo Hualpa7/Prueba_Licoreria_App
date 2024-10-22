@@ -1,0 +1,51 @@
+ul.__pestanias {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+   
+    
+  }
+  
+  ul.__pestanias li {
+    width: 150px;
+    background-color: #9e030d2a;
+    
+  }
+  
+  ul.__pestanias li a {
+    box-shadow: 5px 5px 10px #000000b3;
+    border-radius: 0 0 5px 5px;
+    display: block;
+    padding: 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    transition: .5s;
+    background-color: #9e030d82; /* Color bordo/gris de pestañas inactivas */
+  }
+  
+  ul.__pestanias li a:hover {
+    background-color: #9e030d; /* Color de hover */
+    transition: .7s;
+    box-shadow: 5px 5px 10px #f16b6bcb;
+    padding: 20px 20px;
+    
+  }
+  
+  ul.__pestanias li.active a {
+    background-color: #9e030d; /* Color llamativo para la pestaña activa */
+    cursor: default;
+    box-shadow: 5px 9px 20px #fb7e7ec9;
+    padding: 20px 20px;
+    
+  }
+  
+  ul.__pestanias li.active a:hover {
+    background-color: #D97E64; /* Evita que cambie de color al hover en pestaña activa */
+  }
+  
+  ul.__pestanias li.disabled a {
+    pointer-events: none; /* Inhabilitar el click en la pestaña activa */
+    
+  }

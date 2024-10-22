@@ -3,7 +3,6 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Boton from "../../Boton/Boton";
-import MensajeErrorForm from "../../ComponentesFormulario/MensajeErrorForm/MensajeErrorForm";
 import iconMas from "../../../assets/mas.png";
 import { useState } from 'react'
 import Modal from "../../Modal/Modal";

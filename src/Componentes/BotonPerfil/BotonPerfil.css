@@ -1,0 +1,19 @@
+.__boton_perfil button{
+    border-radius: 100%;
+    width: 50px;
+    height: 60px;
+    background-image: url(../../assets/usuario.png);
+    background-size: 100%;
+    border: 1px solid #6f0606;
+   
+}
+
+.__boton_perfil button:hover{
+    border: 1px solid #e1d2d2;
+    background-color: #d12e2e;
+    transition: .7s;
+    box-shadow: 5px 5px 10px #f16b6bcb;
+    cursor: pointer;
+
+    
+}

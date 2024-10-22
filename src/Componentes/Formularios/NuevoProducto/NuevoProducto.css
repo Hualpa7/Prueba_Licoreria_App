@@ -1,6 +1,7 @@
 .__cuerpo_nuevo_producto{
     display: flex;
     justify-content: space-around;
+    margin-left: 20px;
     
 }
 
@@ -11,23 +12,48 @@
 }
 
 .__columna_1{
-    gap: 20px;
+    gap: 30px;
     display: flex;
     flex-direction: column;
+    flex:1;
 }
 
 .__columna_2{
-    gap: 20px;
+    gap: 30px;
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .__columna_3{
+    gap: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    flex: 1;
+    margin-top: 40px;
+    align-items: baseline;
     
 }
+
+.__columna_3 .__tarjeta{
+align-items: center;
+}
+
+
+
+
+
+.__columna_4{
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+
 
 
 
@@ -36,3 +62,7 @@
     justify-content: end;
 }
 
+.__cuerpo_nuevo_producto .__observacion input{
+    height: 100px;
+    text-align: start;
+}

@@ -1,0 +1,42 @@
+[
+    {
+      "Codigo": "001",
+      "Producto": "Gaseosa Cola 1L",
+      "Costo": 150.75,
+      "Porcentaje_Desc": "10%",
+      "Costo_Descuento_Aplicado": 135.68,
+      "Duracion": "01/02/2024"
+    },
+    {
+      "Codigo": "002",
+      "Producto": "Pack Cerveza 6x350ml",
+      "Costo": 600.50,
+      "Porcentaje_Desc": "15%",
+      "Costo_Descuento_Aplicado": 510.43,
+      "Duracion": "15/03/2024"
+    },
+    {
+      "Codigo": "003",
+      "Producto": "Vino Tinto 750ml",
+      "Costo": 850.00,
+      "Porcentaje_Desc": "20%",
+      "Costo_Descuento_Aplicado": 680.00,
+      "Duracion": "20/04/2024"
+    },
+    {
+      "Codigo": "004",
+      "Producto": "Whisky 1L",
+      "Costo": 2000.00,
+      "Porcentaje_Desc": "25%",
+      "Costo_Descuento_Aplicado": 1500.00,
+      "Duracion": "30/05/2024"
+    },
+    {
+      "Codigo": "005",
+      "Producto": "Vodka 1L",
+      "Costo": 1200.00,
+      "Porcentaje_Desc": "5%",
+      "Costo_Descuento_Aplicado": 1140.00,
+      "Duracion": "10/06/2024"
+    }
+  ]

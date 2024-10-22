@@ -1,0 +1,27 @@
+.__plantilla_paginas {
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr auto auto;
+    height: 100vh; /* Para que ocupe toda la pantalla */
+    background-color: rgb(245 205 116 / 72%);
+  }
+  
+  
+  header {
+    grid-row: 1;
+    
+  }
+
+  nav {
+    grid-row: 2;                             /* Las pestañas (botones) van en la segunda fila */
+   
+  }
+  
+  main {
+    grid-row: 3;
+   
+  }
+  
+  footer {
+    grid-row: 4;
+    
+  }

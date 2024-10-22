@@ -1,0 +1,157 @@
+[
+  {
+    "Codigo": "4756",
+    "Nombre": "Coca Cola",
+    "Stock": 7,
+    "Costo": "2700,50",
+    "Modificacion": "01/12/2024",
+    "Descuento": 0,
+    "Cantidad_minima": 20,
+    "Categoria": "Gaseosas",
+    "Marca": "Coca Cola"
+  },
+  {
+    "Codigo": "4757",
+    "Nombre": "Fanta",
+    "Stock": 15,
+    "Costo": "2500,00",
+    "Modificacion": "02/12/2024",
+    "Descuento": 5,
+    "Cantidad_minima": 10,
+    "Categoria": "Gaseosas",
+    "Marca": "Fanta"
+  },
+  
+  {
+    "Codigo": "4761",
+    "Nombre": "Pepsi Max",
+    "Stock": 30,
+    "Costo": "2900,50",
+    "Modificacion": "06/12/2024",
+    "Descuento": 5,
+    "Cantidad_minima": 20,
+    "Categoria": "Gaseosas",
+    "Marca": "Pepsi"
+  },
+  {
+    "Codigo": "4762",
+    "Nombre": "Fanta Naranja",
+    "Stock": 25,
+    "Costo": "2700,00",
+    "Modificacion": "07/12/2024",
+    "Descuento": 8,
+    "Cantidad_minima": 15,
+    "Categoria": "Gaseosas",
+    "Marca": "Fanta"
+  },
+  {
+    "Codigo": "4763",
+    "Nombre": "Coca Cola Light",
+    "Stock": 40,
+    "Costo": "2800,50",
+    "Modificacion": "08/12/2024",
+    "Descuento": 6,
+    "Cantidad_minima": 20,
+    "Categoria": "Gaseosas",
+    "Marca": "Coca Cola"
+  },
+  {
+    "Codigo": "4764",
+    "Nombre": "Pepsi Light",
+    "Stock": 35,
+    "Costo": "2850,00",
+    "Modificacion": "09/12/2024",
+    "Descuento": 3,
+    "Cantidad_minima": 25,
+    "Categoria": "Gaseosas",
+    "Marca": "Pepsi"
+  },
+  {
+    "Codigo": "4765",
+    "Nombre": "Fanta Uva",
+    "Stock": 28,
+    "Costo": "2650,75",
+    "Modificacion": "10/12/2024",
+    "Descuento": 7,
+    "Cantidad_minima": 18,
+    "Categoria": "Gaseosas",
+    "Marca": "Fanta"
+  },
+  {
+    "Codigo": "4766",
+    "Nombre": "Coca Cola Zero",
+    "Stock": 45,
+    "Costo": "2900,00",
+    "Modificacion": "11/12/2024",
+    "Descuento": 10,
+    "Cantidad_minima": 22,
+    "Categoria": "Gaseosas",
+    "Marca": "Coca Cola"
+  },
+  {
+    "Codigo": "4767",
+    "Nombre": "Pepsi Regular",
+    "Stock": 38,
+    "Costo": "2800,00",
+    "Modificacion": "12/12/2024",
+    "Descuento": 2,
+    "Cantidad_minima": 20,
+    "Categoria": "Gaseosas",
+    "Marca": "Pepsi"
+  },
+  {
+    "Codigo": "4768",
+    "Nombre": "Fanta Limón",
+    "Stock": 32,
+    "Costo": "2600,75",
+    "Modificacion": "13/12/2024",
+    "Descuento": 4,
+    "Cantidad_minima": 17,
+    "Categoria": "Gaseosas",
+    "Marca": "Fanta"
+  },
+  {
+    "Codigo": "4769",
+    "Nombre": "Coca Cola Original",
+    "Stock": 50,
+    "Costo": "3000,50",
+    "Modificacion": "14/12/2024",
+    "Descuento": 5,
+    "Cantidad_minima": 25,
+    "Categoria": "Gaseosas",
+    "Marca": "Coca Cola"
+  },
+  {
+    "Codigo": "4758",
+    "Nombre": "Sprite",
+    "Stock": 10,
+    "Costo": "2600,75",
+    "Modificacion": "03/12/2024",
+    "Descuento": 2,
+    "Cantidad_minima": 15,
+    "Categoria": "Gaseosas",
+    "Marca": "Sprite"
+  },
+  {
+    "Codigo": "4759",
+    "Nombre": "Pepsi",
+    "Stock": 8,
+    "Costo": "2800,50",
+    "Modificacion": "04/12/2024",
+    "Descuento": 3,
+    "Cantidad_minima": 20,
+    "Categoria": "Gaseosas",
+    "Marca": "Pepsi"
+  },
+  {
+    "Codigo": "4760",
+    "Nombre": "7 Up",
+    "Stock": 12,
+    "Costo": "2400,00",
+    "Modificacion": "05/12/2024",
+    "Descuento": 1,
+    "Cantidad_minima": 18,
+    "Categoria": "Gaseosas",
+    "Marca": "7 Up"
+  }
+]

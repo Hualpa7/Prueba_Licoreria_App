@@ -1,0 +1,107 @@
+.__panel_ventas{
+    background-image: url(../../../assets/birra3.jpg);
+    display: flex;
+    gap: 15px;
+}
+
+.__panel_ventas .__columna1{
+   flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-left: 20px;
+    padding-bottom: 20px;
+    margin-top: 100.5px;
+}
+
+.__panel_ventas .__linea_vertical{
+    width: 2px;
+    background-color: #000;
+    margin: 25px 20px;
+    transform: translateX(-28px);
+    transform: translateY(-7px) translateX(5px);
+
+}
+
+
+.__panel_ventas .__columna2{
+    flex: 1;
+    display: flex;
+    margin: 0;
+    margin-top: 10px;
+    justify-content: end;
+    gap: 20px;
+}
+
+.__panel_ventas .__columna2 .__radio{
+    margin-top: 15px;
+    display: flex;
+    gap: 35px;
+}
+
+.__panel_ventas .__columna3{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.__panel_ventas .__columna3 .__fila1{
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    margin-top:10px ;
+    gap: 40px;
+}
+
+.__panel_ventas .__columna3 .__fila2{
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    gap: 15px;
+    align-items: center;
+}
+
+.__panel_ventas  .__columna3 label{
+    color: rgb(14, 14, 14);
+    font-weight:900;
+    font-size: 1rem;
+    
+
+}
+
+
+.__panel_ventas .__columna4{
+flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+ 
+    align-items: center;
+}
+
+.__panel_ventas .__columna5{
+    flex:0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 20px;
+    margin-top: 10px;
+   
+}
+
+.__panel_ventas .__tarjeta label{
+    color: white;
+    font-weight:bolder;
+    text-shadow: 0px 0px 0 #000, 3px 2px 0 #000, 2px 2px 0 #000, 3px 2px 0 #000;
+}
+
+.__panel_ventas  .__chekeado{
+    color: rgb(14, 14, 14);
+    font-weight:900;
+    font-size: 1rem;
+    
+
+}
