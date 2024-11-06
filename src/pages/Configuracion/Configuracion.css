@@ -1,0 +1,36 @@
+.__panel_perfil{
+    background-image: url('../../assets/vodka.webp');
+    display: flex;
+    flex-direction: row;
+    background-size: 25%;
+    
+    align-content: end;
+    
+}
+
+.__usuario_imagen{
+    display: flex;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    background-position: center;
+    flex: 1;
+    margin: 20px;
+}
+
+.__panel_perfil .__boton_perfil{
+    display: flex;
+    justify-content: end;
+    margin-right:10px;
+    margin-top: 5px;
+    flex:1;
+}
+
+.__cuerpo_creaciones{
+    display: flex;
+    background-color: white;
+    padding: 10px;
+    background-size:auto;
+}

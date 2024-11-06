@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;  /*lo anterior para que ocupen toda la pantalla*/
-    background-color: rgba(43, 42, 42, 0.475); /* Fondo oscuro semi-transparente */
+    background-color: rgba(43, 42, 42, 0.612); /* Fondo oscuro semi-transparente */
     display: flex; /*aplicoo flex para centrar la ventana*/
     justify-content: center;
     align-items: center; /*con estas propiedades alineo*/
@@ -12,6 +12,7 @@
     animation: fadeIn 0.5s ease; /* Aplica animación de desvanecimiento */
   }
 
+ 
   
   .__modal-contenido {
     display: flex;
@@ -20,7 +21,7 @@
     border-radius: 8px;
     width: 70%;
     max-height:80%;
-    box-shadow: 20px 20px 5px rgba(0, 0, 0, 0.1); /*para agregar sombras*/
+    box-shadow: 30px 30px 10px rgba(0, 0, 0, 0.401); /*para agregar sombras*/
      overflow: hidden; /* Oculta cualquier contenido que se desborde */
      animation: slideIn 0.5s ease; /* Aplica animación de deslizamiento */
     

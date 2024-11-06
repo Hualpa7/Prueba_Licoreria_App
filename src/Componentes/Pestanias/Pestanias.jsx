@@ -30,9 +30,11 @@ export default function Pestanias() {
       
       <Suspense fallback={<div>Cargando...</div>}>
         <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
+
+        {navItems.map((route, index) => (
+            <Route key={index} path={route.path}  />
           ))}
+          
         </Routes>
       </Suspense>
     </>

@@ -53,7 +53,7 @@ export default function Promociones({ }) {
   const main = <TablaConPaginacion
     columnas={ofertaSeleccionada === 'Combo' ? columnasCombo : columnasDescuento}
     datos={ofertaSeleccionada === 'Combo' ? datosCombo : datosDescuento}
-    itemsPorPagina={5}
+    itemsPorPagina={6}
     itemsPorPaginaOpcional
     onElementoSeleccionado={manejarSeleccion}>
 
@@ -62,15 +62,15 @@ export default function Promociones({ }) {
   const navigation = <Pestanias></Pestanias>
 
   const footer = <div style={{ display: "flex" }}>
-    <Boton descripcion={"Nuevo"} onClick={manejaModalNuevo} habilitado></Boton>
-    <Boton descripcion={"Ver"} onClick={manejaModifiOferta} habilitado={elementoSeleccionado}></Boton>
-    <Boton descripcion={"Eliminar"}></Boton>
+    <Boton descripcion={"NUEVO"} onClick={manejaModalNuevo} habilitado></Boton>
+    <Boton descripcion={"VER"} onClick={manejaModifiOferta} habilitado={elementoSeleccionado}></Boton>
+    <Boton descripcion={"ELIMINAR"}></Boton>
     <Modal visible={modalNuevo} titulo={`Cargar Nuevo ${ofertaSeleccionada}`} funcion={manejaModalNuevo} anchura={"600px"} >
       {ofertaSeleccionada === 'Combo' ? <FormularioCombo /> : <FormularioDescuento />}
     </Modal>
 
     <Modal visible={modalModifOferta} titulo={`Detalles del ${ofertaSeleccionada}`} funcion={manejaModifiOferta} anchura={"600px"} >
-      {ofertaSeleccionada === 'Combo' ? '' : <ModificarDescuento autocompletar={elementoSeleccionado} />}
+      {ofertaSeleccionada === 'Combo' ? '' : <ModificarDescuento autocompletar={elementoSeleccionado} onGuardar ={manejaModifiOferta} />}
     </Modal>
 
   </div>

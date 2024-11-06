@@ -1,0 +1,41 @@
+.__checkboxes{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 5px;
+    gap: 10px;
+    width:max-content;
+    padding: 15px;
+
+}
+
+.__labelCheckbox{
+    display: flex;
+    gap: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.__labelCheckbox:hover{
+    color: brown;
+}
+
+.__inputCheckbox{
+    background-color: brown;
+}
+
+.__label_Deshabilitado{
+    display: flex;
+    gap: 10px;
+    font-weight: 700;
+    color: rgb(84, 83, 83);
+    cursor: not-allowed;
+}
+
+.__inputCheckbox:checked + .__labelCheckbox {
+    color: brown;
+}
+
+.__inputCheckbox{
+     width: 18px;
+}

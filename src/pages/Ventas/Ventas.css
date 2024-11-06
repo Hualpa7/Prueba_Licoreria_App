@@ -1,0 +1,16 @@
+.__footer_ventas{
+    display: flex;
+}
+
+.__footer_ventas .__tabla_contenedor{
+    height: auto;
+}
+
+.__footer_ventas .__contenedor_botones{
+    justify-content: end;
+}
+
+.__footer_ventas .__info_total_elementos{
+    color: rgb(118, 117, 117);
+   
+}

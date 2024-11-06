@@ -4,13 +4,13 @@ import Selector from "../../Selector/Selector";
 import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from "../../Boton/Boton";
 import './NuevoProducto.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import iconMas from "../../../assets/mas.png";
 import NuevaCategoria from "../NuevaCategoria/NuevaCategoria"
 import NuevaMarca from "../NuevaMarca/NuevaMarca"
 import Modal from "../../Modal/Modal";
 
-export default function NuevoProducto({ autocompletar }) {
+export default function NuevoProducto({ }) {
 
     const [modalNuevaMarca, setModalNuevaMarca] = useState(false); // Abre o cierra el modal de nueva marca
 
@@ -30,15 +30,83 @@ export default function NuevoProducto({ autocompletar }) {
         }
     });
 
+    const[categorias,setCategorias] = useState([]);
+    const[marcas,setMarcas] = useState([]);
 
+    useEffect(()=>{
+      fetch('http://127.0.0.1:8000/api/categoria')
+      .then(respuesta=>respuesta.json())
+      .then(datos => setCategorias(datos))
+      .catch(e =>console.log(e));
+    },[]);
+   
+
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/marca')
+        .then(respuesta=>respuesta.json())
+        .then(datos => setMarcas(datos))
+        .catch(e =>console.log(e));
+      },[]);
+
+
+      const onSubmit = async (data) => {
+  try {
+    // Paso 1: Crear el producto
+    const respuestaProducto = await fetch('http://127.0.0.1:8000/api/producto', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!respuestaProducto.ok) {
+      console.error('Error al crear el producto');
+      return;
+    }
+
+  
+    const productoCreado = await respuestaProducto.json();
+    const id_producto = productoCreado.id_producto; // Capturamos el ID del producto creado
+    console.log('Producto creado:', productoCreado);
+
+    // Paso 2: Crear el registro en la tabla `stock`
+    const stockData = {
+      cantidad: data.cantidad,  // Usamos la cantidad del formulario
+      tipo: "Manual",
+      observaciones: "Carga Inicial",
+      id_producto: id_producto,  // Usamos el id_producto del producto recién creado
+      id_sucursal: 1,            // Valor fijo en 1
+    };
+
+    const respuestaStock = await fetch('http://127.0.0.1:8000/api/stock', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(stockData),
+    });
+
+    if (!respuestaStock.ok) {
+      console.error('Error al crear el registro en stock');
+      return;
+    }
+
+    const stockCreado = await respuestaStock.json();
+    console.log('Registro en stock creado:', stockCreado);
+
+    reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
+
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+  }
+};
 
 
     return (
         <>
-            <form onSubmit={handleSubmit((data) => {
-                reset();
-                console.log(data);
-            })}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="__cuerpo_nuevo_producto">
                     <div className="__columna_1">
                         <Tarjeta descripcion="Codigo" forid="codigo" mensajeError={errors.codigo?.message}>
@@ -55,6 +123,23 @@ export default function NuevoProducto({ autocompletar }) {
                                 id="producto"
                                 placeholder="Nombre del producto"
                                 {...register("producto", { required: { value: true, message: "Ingrese nombre del Producto" } })}
+                            > </Input>
+                        </Tarjeta>
+                        <Tarjeta descripcion="Minima Alerta" forid="alerta" mensajeError={errors.stock?.message}>
+                            <Input
+                                tipo="number"
+                                id="alerta"
+                                placeholder="0"
+                                {...register("alerta_minima", {
+                                    required: {
+                                        value: true,
+                                        message: "Ingrese valor para alertar"
+                                    },
+                                    validate: (value) => {
+                                        if (value >= 0) return true;
+                                        else return "Ingrese una cantidad entre mayor a '0'";
+                                    },
+                                })}
                             > </Input>
                         </Tarjeta>
                         <Tarjeta descripcion="Costo" forid="costo" mensajeError={errors.costo?.message}>
@@ -85,13 +170,15 @@ export default function NuevoProducto({ autocompletar }) {
                     </div>
                     <div className="__columna_2">
                         <Tarjeta descripcion="Categoria" forid="categoria">
-                            <Selector opciones={["Gaseosa", "Cerveza", "Vino"]} id="categoria"
-                                {...register("categoria")}>
+                            <Selector opciones={categorias.map(cat => ({label:cat.nombre_categoria, value: cat.id_categoria}))}
+                             id="categoria"
+                                {...register("id_categoria")}>
                             </Selector>
                         </Tarjeta>
                         <Tarjeta descripcion="Marca" forid="marca">
-                            <Selector opciones={["Pepsi", "Quilmes", "Coca-Cola"]} id="marca"
-                                {...register("marca")}
+                            <Selector opciones={marcas.map(marca => ({label:marca.nombre_marca, value: marca.id_marca}))} 
+                            id="marca"
+                                {...register("id_marca")}
                             >
                             </Selector>
                         </Tarjeta>
@@ -100,7 +187,7 @@ export default function NuevoProducto({ autocompletar }) {
                                 tipo="number"
                                 id="stock"
                                 placeholder="0"
-                                {...register("stock", {
+                                {...register("cantidad", {
                                     required: {
                                         value: true,
                                         message: "Ingrese cantidad del Producto"
@@ -122,6 +209,7 @@ export default function NuevoProducto({ autocompletar }) {
                         <Tarjeta descripcion="Nueva Marca">
                             <Boton icono={iconMas} onClick={manejaNuevaMarca} habilitado></Boton>
                         </Tarjeta>
+                        
 
                     </div>
 

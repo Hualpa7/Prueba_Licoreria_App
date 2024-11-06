@@ -1,0 +1,17 @@
+.__formulario_nuevo_rol{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.__cuerpo_nuevo_rol{
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+}
+
+.__boton_nuevo_rol{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}

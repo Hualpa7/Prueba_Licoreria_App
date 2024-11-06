@@ -1,0 +1,160 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    background-image: url(../../../assets/vinoteca.png);
+    background-size: 100%;
+    
+    
+}
+
+
+.formLogin{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(30%,-50%);
+    width: 400px;
+    background: rgba(255, 255, 255, 0.816);
+    border-radius: 20px;
+} 
+
+
+#inicio{
+    background-image: url(../../../assets/vino.jpg),url(../../../assets/vino2.jpg);
+    background-size: 50%,50%;
+    background-position: 0% 50%,100% 50%;
+    background-repeat: no-repeat, no-repeat;
+    background-color: #4b0004;
+    padding: 10px 0 10px 0;
+    border-radius: 20px 20px 0 0;
+
+}
+
+
+.formLogin h2{
+    color: rgb(238, 236, 232);
+    text-align: center;
+    
+ 
+}
+
+.formLogin form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.boxInput{
+    position: relative;
+    
+    margin: 30px 0;
+}
+
+.boxInput input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    
+}
+
+.boxInput label{
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #02020286;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+    margin: 0px 0;
+}
+
+.boxInput span::before{
+    content: '';
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: silver;
+    transition: .7s;
+}
+
+
+
+.boxInput input:focus ~ label,
+.boxInput input:valid ~ label{
+top: -5px;
+color: #800114;
+transition: top 0.3s ease, color 0.3s ease;
+font-weight:lighter;
+}
+
+.boxInput input:focus ~ span::before
+{
+        background-color: #800114;
+}
+
+
+
+#bottomIniciar{
+     width: 100%;
+     height: 50px;
+     margin: 0 0 10% 0;
+     border: 1px solid;
+     background-color: #800114;
+     border-radius: 25px;
+     font-size: 18px;
+     color: white;
+     font-weight: bold;
+     cursor: pointer;
+     outline: none;
+     font-family:Arial, Helvetica, sans-serif;
+
+}
+
+#bottomIniciar:hover{
+    border-color:#cd2934;
+    transition: .7s;
+    background-color: #cd2934;
+}
+
+.rememberPassword{
+    margin: -5px 0 20px 5px;
+    
+}
+
+.rememberPassword a{
+    color: blue;
+    text-decoration: none;
+}
+
+.rememberPassword a:hover{
+    text-decoration: underline;
+}
+
+
+
+.signUp{
+    margin: 30px 0;
+    text-align: center;
+    font-size: 16px;
+    color: black;
+
+}
+
+.signUp a{
+    color: blue;
+    text-decoration: none;
+}
+
+
+.signUp a:hover{
+    text-decoration: underline;
+}
+

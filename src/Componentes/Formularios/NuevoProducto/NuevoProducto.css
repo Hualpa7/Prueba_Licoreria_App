@@ -55,14 +55,13 @@ align-items: center;
 }
 
 
-
-
 .__formulario_boton{
     display: flex;
     justify-content: end;
 }
 
-.__cuerpo_nuevo_producto .__observacion input{
-    height: 100px;
-    text-align: start;
+.__cuerpo_nuevo_producto .__columna_3 .__boton_icono{
+    width: 20px;
 }
+
+

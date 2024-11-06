@@ -20,6 +20,14 @@
     transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
 }
 
+.__selector:hover {
+    background-color: rgb(250, 202, 202);
+    border-color: #9c1825e4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #9c1825a3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+}
+
 .__selector > option{
     background-color: #ffffff;
 }

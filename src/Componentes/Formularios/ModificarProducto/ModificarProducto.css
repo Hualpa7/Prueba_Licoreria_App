@@ -1,0 +1,94 @@
+.__cuerpo_nuevo_producto .__columna_2 .__fila3 {
+    display: flex;
+    gap: 10px;
+}
+
+.__cuerpo_nuevo_producto .__columna_2 .__fila3 button {
+    margin-top: 30px;
+    height: 40px;
+    width: 20px;
+    border-radius: 100px;
+}
+
+.__formulario_modificar_producto .__formulario_boton{
+    margin-top: 40px;
+}
+
+
+.__formulario_modificar_producto .__observacion textarea{
+     box-sizing: border-box;
+     height: 100px;
+     padding: 10px; 
+     font-size: 16px; 
+     resize: vertical;
+     line-height: 1.5;
+     border:  solid #3a3939a7;
+     border-radius: 5px;
+     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+     
+}
+.__formulario_modificar_producto .__observacion .__texto_deshabilitado{
+    background-color: #ccc; /*Color gris de fondo*/
+    border-color: #777373e4;
+    outline: 0;
+    box-shadow: 0 0 0 0px #0b0b0ba3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+    cursor: not-allowed;
+}
+
+.__formulario_modificar_producto .__texto_habilitado:focus {
+    background-color: rgb(250, 202, 202);
+    border-color: #9c1825e4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #9c1825a3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+}
+
+.__formulario_modificar_producto .__texto_habilitado:hover  {
+    background-color: rgb(250, 202, 202);
+    border-color: #9c1825e4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #9c1825a3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+}
+
+.__formulario_modificar_producto .__observacion span {
+    margin-top: 135px;
+}
+
+.__observacion{
+    display: flex;
+    flex-direction: column;
+    gap: 68px;
+}
+
+.__mensaje_cantidad{
+    display: inline;  /* Cambia el comportamiento de bloque a en línea */
+    color: #9e030d;
+    font-size: 0.8rem;
+   font-weight:600;
+    position: absolute;  /* Posiciona el span absolutamente */
+    background: rgba(255, 255, 255, 0.597);  /* Fondo semi-transparente para que no tape completamente otros elementos */
+    padding: 2px;  /* Añade un pequeño padding para mejor visibilidad */
+    z-index: 1; 
+    margin-top:280px ;
+    margin-left: 1px;
+    opacity: 0;
+    border-radius: 5px;
+    transform: translateY(-20px);  /* Empieza desplazado hacia arriba */
+    animation: animacion_mensaje 0.5s forwards ease-in-out;  /* Aplica la animación */
+}
+
+
+/* Animación con keyframes */
+@keyframes animacion_mensaje {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px); /* Posición inicial, oculto y arriba */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Termina en su posición original, visible */
+    }
+}
+

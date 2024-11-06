@@ -14,22 +14,6 @@ export default function AgregarCarrito({ }) {
 
     });
 
-    /*
-    const manejarSubmit = (e) => { //Evita mandar la accion predeterminada de enviar el formulario y que se recargue la pagina
-        e.preventDefault();
-
-        // Obtengo los valores de los inputs  a traves de us ID
-        const NuevoProducto = {
-            producto: e.target.producto.value,
-            cantidad: e.target.cantidad.value,
-            iva: e.target.iva.value,
-            tipoBusqueda: e.target.tipoBusqueda.value,
-
-        };
-
-
-        console.log(NuevoProducto);  // muestro en consola si los datos corresponden
-    };*/
 
     return (
         <form onSubmit={handleSubmit((data) => {

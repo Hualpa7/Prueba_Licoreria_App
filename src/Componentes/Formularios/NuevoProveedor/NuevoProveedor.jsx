@@ -3,7 +3,8 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import './NuevoProveedor.css';
-export default function NuevoProveedor({ }) {
+
+export default function NuevoProveedor({ onGuardar }) {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
@@ -13,14 +14,33 @@ export default function NuevoProveedor({ }) {
 
     });
 
+    const onSubmit = async (data) => {
+        try {
+          const respuesta = await fetch('http://127.0.0.1:8000/api/proveedor', { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify(data), 
+          });
+    
+          if (respuesta.ok) { 
+            reset();
+            const proveedorCreado = await respuesta.json();
+            console.log('Proveedor creado:', proveedorCreado);
+          } else {
+            console.error('Error al crear el proveedor'); 
+          }
+        } catch (error) {
+          console.error('Error en la solicitud:', error);
+        }
+      };
+
 
     return (
         <>
-            {/* Formulario de combo */}
-            <form onSubmit={handleSubmit((data) => {
-                reset();
-                console.log(data);
-            })} className="__formulario_proveedor">
+
+            <form onSubmit={handleSubmit(onSubmit)}className="__formulario_proveedor">
                 <div className="__cuerpo_proveedor">
                     <div className="__primera_columna">
                         <Tarjeta descripcion="ID Nº" forid="id_prov">
@@ -28,7 +48,6 @@ export default function NuevoProveedor({ }) {
                                 tipo="text"
                                 id="id_prov"
                                 deshabilitado
-                                {...register("id_prov")}
                             />
                         </Tarjeta>
                         <Tarjeta descripcion="Nombre" forid="nombre" mensajeError={errors.nombre?.message}>
@@ -44,9 +63,10 @@ export default function NuevoProveedor({ }) {
                             <Input
                                 tipo="text"
                                 id="tel"
-                                placeholder = "3878-375270"
-                                {...register("tel", { required: { value: true, message: "Ingrese Telefono" },
-                                    pattern:{ value:/^\d{3,4}-\d{6,7}$/, message: "Telefono No Valido"}
+                                placeholder="3878-375270"
+                                {...register("telefono", {
+                                    required: { value: true, message: "Ingrese Telefono" },
+                                    pattern: { value: /^\d{3,4}-\d{6,7}$/, message: "Telefono No Valido" }
                                 })}
                             />
                         </Tarjeta>
@@ -54,10 +74,11 @@ export default function NuevoProveedor({ }) {
                             <Input
                                 tipo="text"
                                 id="mail"
-                                placeholder = "example@gmail.com"
-                                {...register("mail", { required: { value: true, message: "Ingrese Correo" },
-                                pattern:{ value:/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/, message: "Correo No Valido"}
-                             })}
+                                placeholder="example@gmail.com"
+                                {...register("correo", {
+                                    required: { value: true, message: "Ingrese Correo" },
+                                    pattern: { value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/, message: "Correo No Valido" }
+                                })}
                             />
                         </Tarjeta>
                     </div>

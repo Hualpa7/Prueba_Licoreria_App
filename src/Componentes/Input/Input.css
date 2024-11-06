@@ -21,6 +21,15 @@
         transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
     }
 
+    .__input:hover {
+        background-color: rgb(250, 202, 202);
+        border-color: #9c1825e4;
+        outline: 0;
+        box-shadow: 0 0 0 2px #9c1825a3;
+        transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+    }
+
+
     .__input-number{
         width: 60px;
     }
@@ -66,7 +75,13 @@
 
     .no-habilitado{
         background-color: #ccc; /*Color gris de fondo*/
-    color: #666;            /*Color gris letras*/
-    
+        color: #000000;            /*Color gris letras*/
     }
 
+    .no-habilitado:hover{
+        background-color: #ccc; /*Color gris de fondo*/
+        border-color: #777373e4;
+        outline: 0;
+        box-shadow: 0 0 0 0px #0b0b0ba3;
+        transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+    }

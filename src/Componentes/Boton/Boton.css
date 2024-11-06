@@ -20,6 +20,7 @@ button {                  /*todos los botones en general*/
     border: 2px solid #999; /*Bordes grises*/
     opacity: 0.7;             /*Quito opacidad*/
     cursor: not-allowed;
+    box-shadow: 0px 0px 0px #000000b3;
 }
 
 .habilitado{

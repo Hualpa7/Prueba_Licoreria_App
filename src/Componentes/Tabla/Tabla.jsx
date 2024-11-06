@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import './Tabla.css';
 
+export default function Tabla({ columnas, datos, onSeleccionar, onOrdenar, columnaOrden, ordenAscendente }) {
+  const [seleccionado, setSeleccionado] = useState(null);
 
-
-export default function Tabla({ columnas, datos, onSeleccionar }) {
-
+  const manejarSeleccion = (elemento) => {
+    const nuevoSeleccionado = JSON.stringify(elemento) === JSON.stringify(seleccionado) ? null : elemento;
+    setSeleccionado(nuevoSeleccionado);
+    if (onSeleccionar) onSeleccionar(nuevoSeleccionado);
+  };
 
    // Función para determinar la clase de color según el stock
    const obtenerClaseStock = (stock, minimo) => {
@@ -13,34 +17,35 @@ export default function Tabla({ columnas, datos, onSeleccionar }) {
     return ''; // Sin clase especial si el stock es mayor o igual a 20
   };
 
-  const [seleccionado, setSeleccionado] = useState(null); //permite almacenar un unico elemento seleccionado
-
-  const manejarSeleccion = (elemento) => { //JSON.stringify para comparar los objetios tranfrmados en strings
-    const nuevoSeleccionado = JSON.stringify(elemento) === JSON.stringify(seleccionado) ? null : elemento; //permite tener un solo elemento seleccionado si es el mismo null
-    setSeleccionado(nuevoSeleccionado);
-    onSeleccionar(nuevoSeleccionado); //se pasa la seleccion al padre
-  }
 
   return (
-    <div className='__tabla_contenedor'>
-
+    <div className="__tabla_contenedor">
       <table>
-        <thead className='__cabecera'>
+        <thead className="__cabecera">
           <tr>
-            {columnas.map((columna, indice) => ( //se mapea el array de elementos cabecera y se los genera
-              <th key={indice}>{columna}</th>
+            {columnas.map((columna, indice) => (
+              <th key={indice} onClick={() => onOrdenar(columna)}>  {/* Agregar manejador de clic en el encabezado */}
+                {columna}
+                {columnaOrden === columna && (
+                  <span>
+                    {ordenAscendente ? ' 🔼' : ' 🔽'}  {/* Mostrar la dirección del orden */}
+                  </span>
+                )}
+              </th>
             ))}
           </tr>
         </thead>
-        <tbody className='__cuerpo'>
-          {datos.map((elemento, indice) => (  //se mapea el array de datos y se los va generando
-            <tr key={indice}
-            className={`${JSON.stringify(seleccionado) === JSON.stringify(elemento) ? '__seleccionado' : ''} ${obtenerClaseStock(elemento.Stock, elemento.Cantidad_minima)}`} // Aplicar clases según la selección y el stock
-             onClick={() => manejarSeleccion(elemento)} // Maneja el doble clic para seleccionar una fila
-             >
-              {columnas.map((columna, i) => { // Funcion para verificar si estoy pasando un array para cada celda como en el caso de combo
-                const valor = elemento[columna];//si estoy pasando el combo, entonces transformo el array en un string
-                return (                          //caso contrario se agrega el elemendo
+        <tbody className="__cuerpo">
+          {datos.map((elemento, indice) => (
+            <tr
+              key={indice}
+              className={`${JSON.stringify(seleccionado) === JSON.stringify(elemento) ? '__seleccionado' : ''} ${obtenerClaseStock(elemento.Stock, elemento.Cantidad_minima)}`} // Aplicar clases según la selección y el stock
+     
+              onClick={() => manejarSeleccion(elemento)}
+            >
+              {columnas.map((columna, i) => {
+                const valor = elemento[columna];
+                return (
                   <td key={i}>
                     {Array.isArray(valor)
                       ? valor.map(item => `${item.Bebida} x${item.Cantidad}`).join(' - ')
@@ -54,5 +59,4 @@ export default function Tabla({ columnas, datos, onSeleccionar }) {
       </table>
     </div>
   );
-
 }

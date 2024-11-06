@@ -5,7 +5,7 @@ import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import '../NuevoDescuento/FormularioDescuento.css'
 
-export default function ModificarDescuento({autocompletar }) {
+export default function ModificarDescuento({autocompletar, onGuardar }) {
 
     const [modificar, setModificar] = useState(false); // Estado que Habilita la modificacion del descuento
 
@@ -28,6 +28,7 @@ export default function ModificarDescuento({autocompletar }) {
             <form onSubmit={handleSubmit((data) => {
                 reset();
                 console.log(data);
+                onGuardar();
             })} className="__formulario_descuento">
                 <div className="__cuerpo_descuento">
                     <div className="__columna1">

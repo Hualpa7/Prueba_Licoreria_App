@@ -3,10 +3,21 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Boton from "../../Boton/Boton";
+import React, { useState } from 'react';
 import './RegistroUsuario.css';
+import iconMas from "../../../assets/mas.png";
+import Modal from "../../Modal/Modal";
+import NuevoRol from "../NuevoRol/NuevoRol";
 
 
 export default function RegistroUsuario({ }) {
+
+    const [modalNuevoRol, setModalNuevoRol] = useState(false); // Abre o cierra el modal nueva oferta
+
+    const manejaModalNuevoRol = () => {
+        setModalNuevoRol(!modalNuevoRol);
+    };
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         //constante que devuleve todo lo del form
@@ -85,12 +96,21 @@ export default function RegistroUsuario({ }) {
                             />
                         </Tarjeta>
                     </div>
+                    <div className="__columna3">
+                         <Boton icono={iconMas} habilitado onClick={manejaModalNuevoRol}></Boton>
+                    </div>
                    
                 </div>
                 <div className="__boton_registro">
                     <Boton descripcion='Registrar' habilitado submit></Boton>
                 </div>
+                <div className="__modal_nuevo_proveedor">
+
+            </div>
             </form>
+            <Modal visible={modalNuevoRol} titulo="Nuevo Rol" funcion={manejaModalNuevoRol} anchura={"500px"} >
+                <NuevoRol onGuardar={manejaModalNuevoRol}></NuevoRol>
+            </Modal>
         </>
 
     )

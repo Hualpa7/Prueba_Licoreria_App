@@ -6,15 +6,25 @@ import Boton from '../../Boton/Boton';
 import Radio from '../../Radio/Radio'
 import { useState } from 'react';
 import BotonPerfil from '../../BotonPerfil/BotonPerfil';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function PanelVentas({ }) {
+
+    const navegarHacia = useNavigate();
+
+    const clickPerfil = () =>{
+    
+       navegarHacia('/datosPerfil');
+    }
 
     const [seleccion, setSeleccion] = useState('');//valor por defecto
 
     const manejarSeleccion = (valor) => { 
         setSeleccion(valor);             
-    };                                  
+    }; 
+    
+    
 
 
     return (
@@ -22,12 +32,17 @@ export default function PanelVentas({ }) {
             <div className='__panel_ventas'>
                 <div className='__columna1'>
                     <Tarjeta descripcion="Metodo de Pago" forid="metodo_pago">
-                        <Selector opciones={["Efectivo", "Transferencia"]} id="metodo_pago" />
+                    <Selector opciones={[{label:"Efectivo",value:"Efectivo"},{label:"Transferencia",value:"Transferencia"}]}
+                        id="metodo_pago" />
                     </Tarjeta>
                 </div>
                 <div className='__columna2'>
                 <div className='__linea_vertical'></div>
-                    <Radio opciones={["Ventas del mes de", "Ver ventas desde el", "Todas las ventas"]} name="periodo_ventas" onFuncion={manejarSeleccion} ></Radio>
+                    <Radio opciones={["Ventas del mes de", "Ver ventas desde el", "Todas las ventas"]} 
+                    name="periodo_ventas" 
+                    onFuncion={manejarSeleccion}
+                    valorDefecto={"Todas las ventas"}
+                    ></Radio>
                 </div>
                 <div className='__columna3'>
                     <div className='__fila1'>
@@ -57,7 +72,7 @@ export default function PanelVentas({ }) {
                     <Boton habilitado descripcion="Generar Informe"></Boton>
                 </div>
                 <div className='__columna5'>
-                    <BotonPerfil></BotonPerfil>
+                    <BotonPerfil onClick={clickPerfil}></BotonPerfil>
                 </div>
             </div>
         </>

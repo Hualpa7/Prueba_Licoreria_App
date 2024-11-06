@@ -134,7 +134,7 @@ export default function Compra({ }) {
             <div className="__modal_nuevo_proveedor">
 
             <Modal visible={modalNuevoProveedor} titulo="Nuevo Proveedor" funcion={manejaNuevoProveedor} anchura={"500px"} >
-                <NuevoProveedor></NuevoProveedor>
+                <NuevoProveedor onGuardar={manejaNuevoProveedor}></NuevoProveedor>
             </Modal>
             </div>
         </>

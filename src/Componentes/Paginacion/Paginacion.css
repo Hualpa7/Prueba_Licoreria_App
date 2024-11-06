@@ -1,33 +1,101 @@
-.__paginacion{
+.__paginacion {
     display: flex;
-    justify-content: flex-end;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 0;
+    width: 100%;
 }
 
-.__selector_num_paginas{
-    margin: 0px 5px 5px;
+.__info_total_elementos {
+    flex: 1;
+    text-align: left;
+    margin-left: 10px;
+    color: wheat;
+    font-weight: 600;
+}
+
+.__contenedor_botones {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+}
+
+.__contenedor_botones button, .__contenedor_botones img {
+    height: 40px;
+    padding: 5px 15px;
+    margin: 2px;
+    border-radius: 10px;
+    width: auto;
+    width: 40px;
+   
+    text-align: center;
+  
+}
+
+.__botones_con_numeros{
+    display: flex;
+}
+
+
+.__botones_con_numeros button:hover {
+    border-color:#f54646ad;
+    transition: .7s;
+    background-color: #d12e2e;
+    box-shadow: 5px 5px 10px #f16b6bcb;
+    color: white;
+    transition: .5s;
+    cursor: pointer;
+}
+
+.boton_activo {
+    background: #9e030d;
+    border-color: #d37961;
+    color: white;
+   
+}
+
+
+
+.__selector_num_paginas label{
+    font-weight: 800;
+    color: wheat;
+}
+
+.__selector_num_paginas {
+    flex: 1;
+    text-align: right;
+    margin-right: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: end;
 }
 
 .__selector_num_paginas select{
-    width: 40%;
-    margin-left: 35px;
-    margin-top: 5px;
-   /* display: flex;
-    align-items: center;
-    justify-content: center;*/
+    border-radius: 10px;
+    size: 30px;
+    width: 45px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
 }
 
-.__paginacion button{
-    padding: 5px 15px;
-    margin: 2px;
-    border-radius: 100px;
-    width: auto;
-    height: auto;
-    text-align: center;
-    color: white;
+.__selector_num_paginas select:focus{
+    background-color: rgb(250, 202, 202);
+    border-color: #9c1825e4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #9c1825a3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
 }
+
+
+.__selector_num_paginas select:hover{
+  
+    border-color: #9c1825e4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #9c1825a3;
+    transition: border-color .15s ease-in-out, box-shadow .25s ease-in-out;
+}
+
+
+

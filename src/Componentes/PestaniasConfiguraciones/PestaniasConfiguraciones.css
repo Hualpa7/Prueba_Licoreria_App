@@ -1,0 +1,47 @@
+ul.__pestanias_configuraciones {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul.__pestanias_configuraciones li {
+    font-weight: 700;
+    font-size: 20px;
+    width: 100px;
+    font-variant: all-small-caps;
+    
+  }
+
+  ul.__pestanias_configuraciones li a {
+    border-radius: 0 0 5px 5px;
+    display: block;
+    margin: 13px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(94, 90, 90);
+    transition: .5s;
+ 
+  }
+
+  ul.__pestanias_configuraciones li a:hover {
+    color: #9e030d; /* Color de hover */
+    transition: .7s;
+ 
+
+  }
+
+  ul.__pestanias_configuraciones li:hover {
+    width: 200px;
+    background-color: rgba(128, 128, 128, 0.448);
+    border-radius: 50px;
+    transition: .5s;
+  }
+
+  ul.__pestanias_configuraciones li:active {
+    width: 200px;
+    background-color: rgba(128, 128, 128, 0.448);
+    border-radius: 50px;
+    transition: .5s;
+  }

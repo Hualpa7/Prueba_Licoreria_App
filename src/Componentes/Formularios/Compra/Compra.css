@@ -50,6 +50,10 @@
     
 }
 
+.__formulario_compra .__tercera_columna .__boton_icono{
+    width: 20px;
+}
+
 .__modal_nuevo_proveedor .__modal-cabecera{
     flex-shrink: 0; /* No permitir que la cabecera se reduzca */
     display: flex;

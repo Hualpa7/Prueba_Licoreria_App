@@ -44,7 +44,7 @@ table{
 }
 
 .__cabecera {
-    
+
     background-color: #9e030d;
     color: white;
 }
@@ -62,15 +62,27 @@ table{
 /* Clase para filas con stock menor a 10 */
 .__bajo_stock_rojo {
     background-color: #f16060 !important; /* Color de fondo rojo claro */
+    background-image: url(../../assets/alerta_roja.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position-x:98%;
+    background-position-y: 50%;
+
 }
 
 /* Clase para filas con stock menor a 20 */
 .__bajo_stock_naranja {
     background-color: #f8ba5d !important; /* Color de fondo naranja claro */
+    background-image: url(../../assets/alerta_amarilla.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position-x:98%;
+    background-position-y: 50%;
 }
 
 .__seleccionado {
-    background-color: #4e4f4dad !important;
+    background-color: #e2d4d4 !important;
+    outline: 3px solid #007bff; 
   }
 
 .__cuerpo tr:hover{
@@ -86,14 +98,43 @@ table{
     z-index: 1; /* Eleva la celda para evitar que se superponga con otras */
 }
 /*
-tbody tr:nth-child(even) {
-    background-color: #ba93934b; /* Fondo alterno para filas 
-  }*/
 
-  /* Clase para mostrar todo el contenido al seleccionar */
-.__cuerpo td:focus {
-    white-space: normal; /* Muestra el texto completo al enfocar la celda */
+
+/* Hover para filas con bajo stock */
+.__bajo_stock_rojo:hover, .__bajo_stock_naranja:hover {
+    background-color: #e2d4d4 !important; /* Cambia el color en hover */
+    cursor: pointer;
+}
+
+/* Efecto de elevación en las celdas */
+.__cuerpo tr:hover {
+    white-space: normal;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+    transform: scale(101%);
+    transform: translateY(-1px); /* Elevar la celda al hacer hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+    transition: transform 0.3s, box-shadow 0.3s;
+    outline: 2px solid #007bff; /* Borde azul */
+}
+
+/* Hover en toda la fila que afecta también a las celdas */
+.__cuerpo tr:hover td {
+    transition: 0.3s;
+}
+
+thead th {
+    background-color: #9e030d ;
+    position: sticky; /* Mantener la cabecera fija */
+    top: 0;           /* Asegurarse de que esté al principio del scroll */
+    z-index: 1;       /* Asegurarse de que la cabecera esté por encima del contenido */
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1); /* Opcional: sombra para destacar la cabecera */
+  }
+
+ thead th:hover{
+    white-space: normal; /* Muestra el texto completo al hacer hover */
     overflow: visible; /* Deja que el contenido se muestre completo */
     position: relative;
     z-index: 1; /* Eleva la celda para evitar que se superponga con otras */
-}
+}  
