@@ -23,7 +23,7 @@ export default function PestaniasConfiguraciones() {
           {navItems.map((item) => (
             <li 
               key={item.path} 
-              className={location.pathname === `/configuraciones/${item.path}` ? "active disabled" : ""}
+              className={location.pathname.endsWith(item.path) ? "active disabled" : ""}
             >
               <Link to={`/configuraciones/${item.path}`}>{item.label}</Link>
             </li>

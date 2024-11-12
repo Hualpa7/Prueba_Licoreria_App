@@ -45,8 +45,8 @@
     }
 
     .__input-search:not(:placeholder-shown) { /*Con esto puedo quitar la imagen de fondo cuando hay contenido*/
-        background-image: none; 
-        padding-left: 10px;
+        background-image: url('../../assets/lupa.png');
+        padding-left: 30px;
       }
 
       .__input-costo{

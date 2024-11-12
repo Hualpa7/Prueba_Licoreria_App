@@ -1,26 +1,52 @@
 /* Añade esto en tu archivo CSS */
 @keyframes spinner {
-    0% {
-      transform: rotate(0deg);
+    0%,50% {
+      transform: scale(2) rotate(0deg);
+    }
+    100%,50% {
+      transform: scale(0.5) rotate(360deg);
+    }
+  }
+
+  @keyframes expand {
+    0%,100% {
+      transform: scale(1);
     }
     100% {
-      transform: rotate(360deg);
+      transform: scale(0.5);
     }
+  }
+
+  .__cargando_fondo{
+    position: fixed; /*Permite que se mantenga una posicion fija,ocupando toda la pantalla*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  /*lo anterior para que ocupen toda la pantalla*/
+    background-color: rgba(43, 42, 42, 0.612); /* Fondo oscuro semi-transparente */
+    display: flex; /*aplicoo flex para centrar la ventana*/
+    justify-content: center;
+    align-items: center; /*con estas propiedades alineo*/
+    z-index: 1000; /* me asegura que esté por encima de otros elementos.. valor alto para indicar prioridad */
+    cursor: wait;
   }
   
   .__cargando {
-    width: 40px;
-    height: 40px;
-    border: 5px solid rgba(0, 0, 0, 0.1);
-    border-top: 5px solid #f54646ad;
+    width: 80px;
+    height: 80px;
+    background-image: url('/src/assets/cargando.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
     border-radius: 50%;
-    animation: spinner 1s linear infinite;
-    margin: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    animation: spinner 1s alternate-reverse infinite;
+    position: fixed;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
   }
+  
   
 
 *{

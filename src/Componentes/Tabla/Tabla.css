@@ -45,7 +45,7 @@ table{
 
 .__cabecera {
 
-    background-color: #9e030d;
+   
     color: white;
 }
 
@@ -80,9 +80,14 @@ table{
     background-position-y: 50%;
 }
 
+
+
+
+/*///////////////////////////////////////*/
+
 .__seleccionado {
-    background-color: #e2d4d4 !important;
-    outline: 3px solid #007bff; 
+    background-color: #e2d4d4 ;
+    outline: 4px solid #007bff !important; 
   }
 
 .__cuerpo tr:hover{
@@ -102,7 +107,7 @@ table{
 
 /* Hover para filas con bajo stock */
 .__bajo_stock_rojo:hover, .__bajo_stock_naranja:hover {
-    background-color: #e2d4d4 !important; /* Cambia el color en hover */
+    background-color: #e2d4d4 ; /* Cambia el color en hover */
     cursor: pointer;
 }
 
@@ -112,7 +117,7 @@ table{
     overflow: visible;
     position: relative;
     z-index: 1;
-    transform: scale(101%);
+    transform: scale(102%);
     transform: translateY(-1px); /* Elevar la celda al hacer hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añadir sombra */
     transition: transform 0.3s, box-shadow 0.3s;
@@ -125,7 +130,7 @@ table{
 }
 
 thead th {
-    background-color: #9e030d ;
+    background-color: #9e030dc6 ;
     position: sticky; /* Mantener la cabecera fija */
     top: 0;           /* Asegurarse de que esté al principio del scroll */
     z-index: 1;       /* Asegurarse de que la cabecera esté por encima del contenido */

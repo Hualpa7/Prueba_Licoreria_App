@@ -1,14 +1,10 @@
 import React, { Suspense } from 'react'
-import { Routes, Route, Link, useLocation, Outlet } from 'react-router-dom'
+import { Routes, Route, Link,useLocation } from 'react-router-dom'
 import BotonPerfil from '../../Componentes/BotonPerfil/BotonPerfil';
 import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
-import './Configuracion.css';
-import Categorias from '../Configuraciones/Categorias/Categorias';
-import PestaniasConfiguraciones from '../../Componentes/PestaniasConfiguraciones/PestaniasConfiguraciones';
+import './Datos.css';
 
-export default function Configuracion() {
-
-
+export default function Datos() {
     const location = useLocation(); // Obtener la ruta actual para resaltar la pestaña activa
 
     const navItems = [
@@ -16,10 +12,6 @@ export default function Configuracion() {
         { path: "/configuraciones/*", label: "Configurar" },
     ];
     const urlImg = `url("${'https://http2.mlstatic.com/D_NQ_NP_884067-MLA53246821009_012023-O.webp'}")`;
-
-   
-
-
 
     const header = <>
         <div className='__panel_perfil'>
@@ -49,12 +41,8 @@ export default function Configuracion() {
 
 
 
-    const main = (
-        <div>
-            <PestaniasConfiguraciones/>
-            <Outlet/>
-        </div>
-    )
+    const main = <> <h1>Datos</h1>
+    </>
 
 
     return <PlantillaPages header={header} navigation={navigation} main={main} />;

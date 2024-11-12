@@ -1,14 +1,9 @@
 
 import { useState } from 'react';
 import './Radio.css';
-export default function Radio({ opciones, name, onFuncion,valorDefecto }) {
-  const [seleccion, setSeleccion] = useState(valorDefecto||'');
+export default function Radio({ opciones,name,value,onChange  }) {
 
-  const manejaCambio = (e) => {
-    setSeleccion(e.target.value);
-    { onFuncion && onFuncion(e.target.value); }
-
-  };
+  
 
   return (
     <div className='__radio'>
@@ -19,8 +14,8 @@ export default function Radio({ opciones, name, onFuncion,valorDefecto }) {
             type="radio"
             name={name}
             value={opcion}
-            checked={seleccion === opcion}
-            onChange={manejaCambio}
+            checked={value == opcion} 
+           onChange={() => onChange(opcion)}
           />
           {opcion}
         </label>

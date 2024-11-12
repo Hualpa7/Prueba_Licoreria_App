@@ -9,15 +9,18 @@ import restar from '../../../assets/eliminar.png'
 import { useState, useEffect } from 'react'
 
 
-export default function ModificarProducto({ autocompletar, onGuardar }) {
+export default function ModificarProducto({ autocompletar, onGuardar, categorias, marcas }) {
+
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
-            fecha: new Date().toLocaleDateString('es-AR'),
+            
             codigo: autocompletar.codigo,
             producto: autocompletar.producto,
             costo: autocompletar.costo,
             alerta_minima: autocompletar.alerta_minima,
+            id_categoria: autocompletar.id_categoria,
+            id_marca: autocompletar.id_marca
 
 
         }
@@ -31,7 +34,6 @@ export default function ModificarProducto({ autocompletar, onGuardar }) {
     const [cantidadDisminuida, setCantidadDisminuida] = useState(0);
 
 
-
     const manejaModificacion = () => {
         setModificar(!modificar);
     };
@@ -42,37 +44,14 @@ export default function ModificarProducto({ autocompletar, onGuardar }) {
         }
         if (cant > 0) {
             setCant(cant - 1);
-            setCantidadDisminuida(cantidadDisminuida + 1)
+            setCantidadDisminuida(cantidadDisminuida - 1)
         }
     }
-
-    const [categorias, setCategorias] = useState([]);
-    const [marcas, setMarcas] = useState([]);
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/categoria')
-            .then(respuesta => respuesta.json())
-            .then(datos => setCategorias(datos))
-            .catch(e => console.log(e));
-    }, []);
-
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/marca')
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                setMarcas(datos)
-                setValue('id_marca', 6)
-
-            })
-
-            .catch(e => console.log(e));
-
-    }, []);
 
 
 
     const onSubmit = async (data) => {
+        setCargando(true);
         console.log(data);
         try {
             const productoUrl = `http://127.0.0.1:8000/api/producto/${autocompletar.id_producto}`;
@@ -127,13 +106,24 @@ export default function ModificarProducto({ autocompletar, onGuardar }) {
 
         } catch (error) {
             console.error('Error en la solicitud:', error);
+        } finally{
+            setCargando(false);
         }
     };
 
 
 
+
+    /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
+    const [cargando, setCargando] = useState(false);
+
+
+
+    ///////LAYOUT
+
     return (
         <>
+           {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
             <form onSubmit={handleSubmit(onSubmit)} className="__formulario_modificar_producto">
                 <div className="__cuerpo_nuevo_producto">
                     <div className="__columna_1">
@@ -170,7 +160,7 @@ export default function ModificarProducto({ autocompletar, onGuardar }) {
                                             return "Valor con 2 decimales luego de la ','";
                                         }
                                         // Reemplaza la coma por un punto y convierte a número
-                                        const numericValue = parseFloat(String(value).replace(',', '.'));
+                                        const numericValue = parseFloat(value.replace(',', '.'));
                                         if (numericValue <= 0) {
                                             return "Ingrese un precio positivo";
                                         }
@@ -212,12 +202,12 @@ export default function ModificarProducto({ autocompletar, onGuardar }) {
                         {modCant && <div className="__mensaje_cantidad">Cantidad disminuida: {cantidadDisminuida}</div>/*Muestra mensaje cuando se disminuye*/}
                     </div>
                     <div className="__observacion">
-                        <Tarjeta descripcion="Observacion" forid="observacion" mensajeError={errors.observacion?.message}>
+                        <Tarjeta descripcion="Observacion" forid="observacion" mensajeError={errors.observaciones?.message}>
                             <textarea
                                 id="obeservacion"
                                 disabled={!modificar}
                                 className={`${modificar ? '__texto_habilitado' : '__texto_deshabilitado'}`}
-                                {...register("observaciones", { required: { value: (cantidadDisminuida > 0), message: "Ingrese motivo" } })}
+                                {...register("observaciones", { required: { value: (cantidadDisminuida < 0), message: "Ingrese motivo" } })}
                             > </textarea>
                         </Tarjeta>
                         <Tarjeta descripcion="Minima Alerta" forid="alerta" mensajeError={errors.stock?.message}>

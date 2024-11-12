@@ -2,7 +2,7 @@
     display: grid;
     grid-template-rows: 0.5fr 0.5fr 1fr auto;
     height: 100vh; /* Para que ocupe toda la pantalla */
-    background-color: rgb(214 174 84 / 61%);
+    background-color: rgb(158 3 13 / 9%);
 }
   
   header {

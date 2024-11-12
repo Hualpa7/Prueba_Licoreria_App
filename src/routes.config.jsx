@@ -1,6 +1,6 @@
 import { Inicio, Compras, Ventas, Promociones, Vender, 
     Productos,InicioSesion,Perfil, Configuracion,
-     Categorias,Marcas,Proveedores,Sucursales,Usuarios,Roles } from "./pages";
+     Categorias,Marcas,Proveedores,Sucursales,Usuarios,Roles,Datos } from "./pages";
 
      import { Navigate } from "react-router-dom";
 
@@ -37,9 +37,10 @@ const routes = [
         element: <InicioSesion/>
     },
     {
-        path: '/datosPerfil/*',
+        path: '/perfil',
         element: <Perfil/>
     },
+    
     {
         path: '/configuraciones/*',
         element: <Configuracion/>,

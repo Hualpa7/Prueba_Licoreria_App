@@ -9,6 +9,7 @@ export default function TablaConPaginacion({
   itemsPorPaginaOpcional,
   onElementoSeleccionado,
   seleccionable = true,
+  cargando
 }) {
   const [paginaActual, setPaginaActual] = useState(0);
   const [elementoSeleccionado, setElementoSeleccionado] = useState(null);
@@ -72,7 +73,8 @@ export default function TablaConPaginacion({
     setPaginaActual(0); // Reiniciar a la primera página al cambiar los items por página
   };
 
-  return (
+  return (<>
+      {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
     <div>
       <Tabla
         columnas={columnas}
@@ -93,5 +95,8 @@ export default function TablaConPaginacion({
       />
       
     </div>
+  
+  </>
+
   );
 }

@@ -10,102 +10,97 @@ import NuevaCategoria from "../NuevaCategoria/NuevaCategoria"
 import NuevaMarca from "../NuevaMarca/NuevaMarca"
 import Modal from "../../Modal/Modal";
 
-export default function NuevoProducto({ }) {
+export default function NuevoProducto({ categorias, marcas, onGuardar }) {
 
+
+    /////////// MODAL NUEVA MARCA
     const [modalNuevaMarca, setModalNuevaMarca] = useState(false); // Abre o cierra el modal de nueva marca
-
     const manejaNuevaMarca = () => {
         setModalNuevaMarca(!modalNuevaMarca);
     };
 
+    ////////// MODAL NUEVA ACATEGORIA    
     const [modalNuevaCategoria, setModalNuevaCategoria] = useState(false); // Abre o cierra el modal nueva categoria
-
     const manejaNuevaCategoria = () => {
         setModalNuevaCategoria(!modalNuevaCategoria);
     };
 
+
+    //////////FORM HOOK
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
             fecha: new Date().toLocaleDateString('es-AR')
         }
     });
 
-    const[categorias,setCategorias] = useState([]);
-    const[marcas,setMarcas] = useState([]);
 
-    useEffect(()=>{
-      fetch('http://127.0.0.1:8000/api/categoria')
-      .then(respuesta=>respuesta.json())
-      .then(datos => setCategorias(datos))
-      .catch(e =>console.log(e));
-    },[]);
-   
+    /////// SE CARGA EL NUEVO PRODUCTO Y SE CARGA SU REGISTRO EN STOCK
+    const onSubmit = async (data) => {
+        setCargando(true);
+        try {
+            // Paso 1: Crear el producto
+            const respuestaProducto = await fetch('http://127.0.0.1:8000/api/producto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/marca')
-        .then(respuesta=>respuesta.json())
-        .then(datos => setMarcas(datos))
-        .catch(e =>console.log(e));
-      },[]);
+            if (!respuestaProducto.ok) {
+                console.error('Error al crear el producto');
+                return;
+            }
 
 
-      const onSubmit = async (data) => {
-  try {
-    // Paso 1: Crear el producto
-    const respuestaProducto = await fetch('http://127.0.0.1:8000/api/producto', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+            const productoCreado = await respuestaProducto.json();
+            const id_producto = productoCreado.id_producto; // Capturamos el ID del producto creado
+            console.log('Producto creado:', productoCreado);
 
-    if (!respuestaProducto.ok) {
-      console.error('Error al crear el producto');
-      return;
-    }
+            // Paso 2: Crear el registro en la tabla `stock`
+            const stockData = {
+                cantidad: data.cantidad,  // Usamos la cantidad del formulario
+                tipo: "Manual",
+                observaciones: "Carga Inicial",
+                id_producto: id_producto,  // Usamos el id_producto del producto recién creado
+                id_sucursal: 1,            // Valor fijo en 1
+            };
 
-  
-    const productoCreado = await respuestaProducto.json();
-    const id_producto = productoCreado.id_producto; // Capturamos el ID del producto creado
-    console.log('Producto creado:', productoCreado);
+            const respuestaStock = await fetch('http://127.0.0.1:8000/api/stock', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(stockData),
+            });
 
-    // Paso 2: Crear el registro en la tabla `stock`
-    const stockData = {
-      cantidad: data.cantidad,  // Usamos la cantidad del formulario
-      tipo: "Manual",
-      observaciones: "Carga Inicial",
-      id_producto: id_producto,  // Usamos el id_producto del producto recién creado
-      id_sucursal: 1,            // Valor fijo en 1
+            if (!respuestaStock.ok) {
+                console.error('Error al crear el registro en stock');
+                return;
+            }
+
+            const stockCreado = await respuestaStock.json();
+            console.log('Registro en stock creado:', stockCreado);
+
+            reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
+            onGuardar();
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        }finally{
+            setCargando(false);
+        }
     };
 
-    const respuestaStock = await fetch('http://127.0.0.1:8000/api/stock', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(stockData),
-    });
+     /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
+     const [cargando, setCargando] = useState(false);
 
-    if (!respuestaStock.ok) {
-      console.error('Error al crear el registro en stock');
-      return;
-    }
 
-    const stockCreado = await respuestaStock.json();
-    console.log('Registro en stock creado:', stockCreado);
-
-    reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
-
-  } catch (error) {
-    console.error('Error en la solicitud:', error);
-  }
-};
-
+    ///////LAYOUT
 
     return (
         <>
+         {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="__cuerpo_nuevo_producto">
                     <div className="__columna_1">
@@ -170,14 +165,14 @@ export default function NuevoProducto({ }) {
                     </div>
                     <div className="__columna_2">
                         <Tarjeta descripcion="Categoria" forid="categoria">
-                            <Selector opciones={categorias.map(cat => ({label:cat.nombre_categoria, value: cat.id_categoria}))}
-                             id="categoria"
+                            <Selector opciones={categorias.map(cat => ({ label: cat.nombre_categoria, value: cat.id_categoria }))}
+                                id="categoria"
                                 {...register("id_categoria")}>
                             </Selector>
                         </Tarjeta>
                         <Tarjeta descripcion="Marca" forid="marca">
-                            <Selector opciones={marcas.map(marca => ({label:marca.nombre_marca, value: marca.id_marca}))} 
-                            id="marca"
+                            <Selector opciones={marcas.map(marca => ({ label: marca.nombre_marca, value: marca.id_marca }))}
+                                id="marca"
                                 {...register("id_marca")}
                             >
                             </Selector>
@@ -199,8 +194,6 @@ export default function NuevoProducto({ }) {
                                 })}
                             > </Input>
                         </Tarjeta>
-
-
                     </div>
                     <div className="__columna_3">
                         <Tarjeta descripcion="Nueva Categoria">
@@ -209,12 +202,7 @@ export default function NuevoProducto({ }) {
                         <Tarjeta descripcion="Nueva Marca">
                             <Boton icono={iconMas} onClick={manejaNuevaMarca} habilitado></Boton>
                         </Tarjeta>
-                        
-
                     </div>
-
-
-
                 </div>
                 <div className="__formulario_boton">
                     <Boton descripcion='Agregar' habilitado submit></Boton>
@@ -223,10 +211,10 @@ export default function NuevoProducto({ }) {
             <div className="__modal_nuevo_proveedor">
 
                 <Modal visible={modalNuevaCategoria} titulo="Nuevo Categoria" funcion={manejaNuevaCategoria} anchura={"500px"} >
-                    <NuevaCategoria></NuevaCategoria>
+                    <NuevaCategoria onGuardar={manejaNuevaCategoria}></NuevaCategoria>
                 </Modal>
                 <Modal visible={modalNuevaMarca} titulo="Nuevo Marca" funcion={manejaNuevaMarca} anchura={"500px"} >
-                    <NuevaMarca></NuevaMarca>
+                    <NuevaMarca onGuardar={manejaNuevaMarca}></NuevaMarca>
                 </Modal>
             </div>
         </>

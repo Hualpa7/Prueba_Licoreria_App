@@ -26,6 +26,7 @@ export default function NuevoProveedor({ onGuardar }) {
     
           if (respuesta.ok) { 
             reset();
+            onGuardar();
             const proveedorCreado = await respuesta.json();
             console.log('Proveedor creado:', proveedorCreado);
           } else {

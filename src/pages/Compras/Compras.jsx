@@ -10,45 +10,41 @@ import PanelCompras from "../../Componentes/Paneles/PanelCompras/PanelCompras";
 
 
 export default function Compras({ }) {
-    const [modalNuevaCompra, setModalNuevaCompra] = useState(false); // Abre o cierra el modal nuevo prodcuto
-    const [datos, setDatos] = useState([]);
 
-    const manejaModalNuevaCompra = () => {
-        setModalNuevaCompra(!modalNuevaCompra);
-    };
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/compra')
-          .then(respuesta => respuesta.json())
-          .then(datos => {
-            const datosTransformados = datos.map(item => ({
-              Proveedor: item.nombreProveedor,
-              Producto: item.nombreProducto,
-              Cantidad: item.cantidad,
-              Fecha: new Date(item.fecha).toLocaleDateString(),
-              Correo: item.correo,
-              Telefono: item.telefono,
-              TOTAL: `$ ${item.total}`
-            }));
-            setDatos(datosTransformados);
-          })
-          .catch(e => console.log(e));
-      }, []);
+  ////////MANEJA MODAL NUEVA COMPRA
+  const [modalNuevaCompra, setModalNuevaCompra] = useState(false); // Abre o cierra el modal nuevo prodcuto
+  const manejaModalNuevaCompra = () => {
+    setModalNuevaCompra(!modalNuevaCompra);
+  };
 
 
-    const header = <PanelCompras></PanelCompras>
+  const [datos, setDatos] = useState([]);
+  const obtieneDatosFiltrados = (datosFiltrados) => {
+    setDatos(datosFiltrados);
+  };
+
+  /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
+  const [cargando, setCargando] = useState(false);
+
+  const manejaCargando = ((valor) => {
+    setCargando(valor);
+  });
+
+  const header = <PanelCompras onDatosFiltrados={obtieneDatosFiltrados} onManejaCargando={manejaCargando}></PanelCompras>
 
 
-    const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={6} itemsPorPaginaOpcional ></TablaConPaginacion>
+  const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={5} itemsPorPaginaOpcional
+    cargando={cargando}
+  ></TablaConPaginacion>
 
-    const navigation = <Pestanias></Pestanias>
+  const navigation = <Pestanias></Pestanias>
 
-    const footer = <div style={{ display: "flex" }}>
-        <Boton descripcion={"NUEVA"} onClick={manejaModalNuevaCompra} habilitado></Boton>
-        <Modal visible={modalNuevaCompra} titulo="Nueva Compra" funcion={manejaModalNuevaCompra} anchura={"800px"} >
-            <Compra></Compra>
-        </Modal>
-    </div>
+  const footer = <div style={{ display: "flex" }}>
+    <Boton descripcion={"NUEVA"} onClick={manejaModalNuevaCompra} habilitado></Boton>
+    <Modal visible={modalNuevaCompra} titulo="Nueva Compra" funcion={manejaModalNuevaCompra} anchura={"800px"} >
+      <Compra onGuardar={manejaModalNuevaCompra}></Compra>
+    </Modal>
+  </div>
 
-    return <PlantillaPages header={header} navigation={navigation} main={main} footer={footer} />;
+  return <PlantillaPages header={header} navigation={navigation} main={main} footer={footer} />;
 }

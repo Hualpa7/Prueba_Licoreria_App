@@ -1,57 +1,48 @@
-import React, { Suspense } from 'react'
-import { Routes, Route, Link,useLocation } from 'react-router-dom'
-import BotonPerfil from '../../Componentes/BotonPerfil/BotonPerfil';
-import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
-import './Perfil.css';
+import { Inicio, Compras, Ventas, Promociones, Vender, 
+    Productos,InicioSesion, Configuracion,
+     Categorias,Marcas,Proveedores,Sucursales,Usuarios,Roles,Datos } from "../";
+
+     import { Navigate } from "react-router-dom";
+     import React, { Suspense } from 'react';
+     import { BrowserRouter, Routes, Route, Link, Outlet } from 'react-router-dom';
+
+
+     const navItems = [
+        {
+            path: '',
+            element: <Datos />
+        },
+        {
+            path: 'configuraciones/*',
+            element: <Configuracion />,
+            children: [
+                { path: '', element: <Navigate to="categorias" replace /> },
+                { path: 'categorias', element: <Categorias /> },
+                { path: 'marcas', element: <Marcas /> },
+                { path: 'proveedores', element: <Proveedores /> },
+                { path: 'sucursales', element: <Sucursales /> },
+                { path: 'usuarios', element: <Usuarios /> },
+                { path: 'roles', element: <Roles /> }
+            ]
+        }
+    ];
 
 export default function Perfil() {
-    const location = useLocation(); // Obtener la ruta actual para resaltar la pestaña activa
-
-    const navItems = [
-        { path: "/datosPerfil/*", label: "Datos" },
-        { path: "/configuraciones/*", label: "Configurar" },
-    ];
-    const urlImg = `url("${'https://http2.mlstatic.com/D_NQ_NP_884067-MLA53246821009_012023-O.webp'}")`;
-
-    const header = <>
-        <div className='__panel_perfil'>
-            <div>
-                <span className='__usuario_imagen' style={{ backgroundImage: urlImg }} ></span>
-            </div>
-            <div className='__boton_perfil'>
-                <BotonPerfil></BotonPerfil>
-            </div>
-        </div>
-    </>
-
-    const navigation = <>
-        <ul className="__pestanias">
-            {navItems.map((item) => (
-                <li
-                    key={item.path}
-                    className={location.pathname === item.path ? "active disabled" : ""}
-                >
-                    <Link to={item.path}>{item.label}</Link>
-                </li>
-            ))}
-        </ul>
-
+    return <div>
         <Suspense fallback={<div>Cargando...</div>}>
             <Routes>
 
                 {navItems.map((route, index) => (
-                    <Route key={index} path={route.path} element={route.element} />
+                    <Route key={index} path={route.path} element={route.element} >
+                        {route.children?.map((chil, i) => (
+                            <Route key={i} path={chil.path} element={chil.element} >
+                            </Route>
+                        ))}
+
+                    </Route>
                 ))}
 
             </Routes>
         </Suspense>
-    </>
-
-
-
-    const main = <> <h1>Datos</h1>
-    </>
-
-
-    return <PlantillaPages header={header} navigation={navigation} main={main} />;
+    </div>
 }
