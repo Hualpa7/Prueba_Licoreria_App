@@ -1,15 +1,23 @@
 import React, { Suspense } from 'react'
-import { Routes, Route, Link,useLocation } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import BotonPerfil from '../../Componentes/BotonPerfil/BotonPerfil';
 import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
 import './Datos.css';
 
 export default function Datos() {
+
+    /////////////NAVEGAR HACIA PERFIL   
+    const navegarHacia = useNavigate();
+    const clickVender = () => {
+        navegarHacia('/vender');
+    }
+
+
     const location = useLocation(); // Obtener la ruta actual para resaltar la pestaña activa
 
     const navItems = [
         { path: "/perfil", label: "Datos" },
-        { path: "/configuraciones/*", label: "Configurar" },
+        { path: "/perfil/configuraciones", label: "Configurar" },
     ];
     const urlImg = `url("${'https://http2.mlstatic.com/D_NQ_NP_884067-MLA53246821009_012023-O.webp'}")`;
 
@@ -20,9 +28,11 @@ export default function Datos() {
             </div>
             <div className='__boton_perfil'>
                 <BotonPerfil></BotonPerfil>
+                <BotonPerfil onClick={clickVender}></BotonPerfil>
             </div>
         </div>
     </>
+
 
     const navigation = <>
         <ul className="__pestanias">
@@ -36,7 +46,7 @@ export default function Datos() {
             ))}
         </ul>
 
-        
+
     </>
 
 

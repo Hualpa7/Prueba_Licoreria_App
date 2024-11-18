@@ -5,7 +5,7 @@ import Boton from '../../Boton/Boton'
 import './NuevaMarca.css'
 import { useState } from 'react'
 
-export default function NuevaMarca({ onGuardar}) {
+export default function NuevaMarca({ onGuardar, actualizarCategoriasYMarcas}) {
 
   /////// HOOK FORM
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -26,6 +26,7 @@ export default function NuevaMarca({ onGuardar}) {
 
       if (respuesta.ok) {
         reset();
+        actualizarCategoriasYMarcas.current();
         onGuardar();
         const marcaCreada = await respuesta.json();
         console.log('Marca creada:', marcaCreada);
@@ -48,7 +49,7 @@ export default function NuevaMarca({ onGuardar}) {
     <>
     {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
     <form onSubmit={handleSubmit(onSubmit)} className="__form_nueva_marca_categoria">
-      <Tarjeta descripcion="Nueva Marca" forid="marca" mensajeError={errors.marca?.message} >
+      <Tarjeta descripcion="Nueva Marca" forid="marca" mensajeError={errors.nombre_marca?.message} >
         <Input
           tipo="text"
           id="marca"

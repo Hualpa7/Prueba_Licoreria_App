@@ -16,7 +16,7 @@ import { Inicio, Compras, Ventas, Promociones, Vender,
             path: 'configuraciones/*',
             element: <Configuracion />,
             children: [
-                { path: '', element: <Navigate to="categorias" replace /> },
+                { path: '', element: <Marcas /> },
                 { path: 'categorias', element: <Categorias /> },
                 { path: 'marcas', element: <Marcas /> },
                 { path: 'proveedores', element: <Proveedores /> },
@@ -44,5 +44,6 @@ export default function Perfil() {
 
             </Routes>
         </Suspense>
+        <Outlet/>
     </div>
 }

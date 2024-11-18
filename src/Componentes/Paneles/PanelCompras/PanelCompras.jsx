@@ -4,34 +4,30 @@ import Tarjeta from '../../ComponentesFormulario/Tarjeta/Tarjeta';
 import Radio from '../../Radio/Radio'
 import './PanelCompras.css'
 import BotonPerfil from '../../BotonPerfil/BotonPerfil';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import meses from '../../../Datos_Pruebas/Meses.json'
 import { useForm, useWatch } from 'react-hook-form';
+import { XyzTransition } from "@animxyz/react";
+import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
 
-export default function PanelCompras({ onDatosFiltrados, onManejaCargando }) {
+export default function PanelCompras({ onDatosFiltrados, onManejaCargando, proveedores }) {
 
-    /////////// NAVEGACION A PERFIL
-    const navegarHacia = useNavigate();
+    /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
+    const [opcionesPerfil, setOpcionesPerfil] = useState(false);
+
     const clickPerfil = () => {
-        navegarHacia('/datosPerfil');
+        setOpcionesPerfil(!opcionesPerfil);
     }
+
+    const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
 
     //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
     const transformaMayusucula = (str) => {
         return str.replace(/\b\w/g, (char) => char.toUpperCase());
     };
-    
 
 
-    ////////////OBTENGO A TODOS LOS PROVEEDORES
-    const [proveedores, setProveedores] = useState([]);
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/proveedor')
-            .then(respuesta => respuesta.json())
-            .then(datos => setProveedores(datos))
-            .catch(e => console.log(e));
-    }, []);
+
 
     ////////// SELECCION DE LA OPCION DEL RADIO
     const [seleccion, setSeleccion] = useState('');//valor por defecto
@@ -49,10 +45,7 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando }) {
     });
 
     // Observar en tiempo real el valor del radio button
-    const periodoCompras = useWatch({
-        control,
-        name: "periodo_compras"
-    });
+    const periodoCompras = useWatch({ control, name: "periodo_compras" });
 
 
     const obtenerDatosFiltrados = async (data) => { //funcion que hace la consulta dependiendo los filtros
@@ -70,7 +63,7 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando }) {
 
 
             const datos = await respuestaCompra.json();
-            console.log(datos);
+
             const datosTransformados = datos.map(item => ({
                 Proveedor: transformaMayusucula(item.nombreProveedor),
                 Producto: transformaMayusucula(item.nombreProducto),
@@ -94,17 +87,23 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando }) {
     const filtro = useWatch({ control });
 
 
+    //////PARA DARLE UN TIEMPO A LA BUSQUEDA POR NOMBRE O CODIGO
+    const timeOutBusquedaRef = useRef(null);
 
-
-    
-    
-    
-    //Effect para voler a mandar la solicitud de filtroo cada ve que se modifica algun filtro
     useEffect(() => {
-        obtenerDatosFiltrados(filtro);
-    }, [filtro])
+        if (filtro?.busqueda) {
+            clearTimeout(timeOutBusquedaRef.current);
+            timeOutBusquedaRef.current = setTimeout(() => {
+                obtenerDatosFiltrados(filtro);
+            }, 2000);
+        }
+        else {
+            obtenerDatosFiltrados(filtro);
+        }
 
-    console.log(filtro);
+        return () => clearTimeout(timeOutBusquedaRef.current);
+
+    }, [filtro])
 
 
 
@@ -115,70 +114,84 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando }) {
     return (
         <>
             <div className='__panel_compras'>
-                <div className='__columna1'>
-                    <div className='__col1'>
-                        <Tarjeta descripcion="Proveedor" forid="proveedor_panel">
-                            <Selector opciones={proveedores.map(prov => ({ label: prov.nombre, value: prov.id_proveedor }))}
-                                id="proveedor_panel"
-                                opcionNula="Todos"
-                                {...register("proveedor")} />
-                        </Tarjeta>
-                        <Tarjeta descripcion="Buscar Producto" forid="busqueda">
-                            <Input tipo="search" placeholder="Buscar" id="busqueda"
-                                {...register("busqueda")}
-                            />
-                        </Tarjeta>
-                    </div>
-                    <div className='__col2'>
-                        <Tarjeta descripcion="Por Codigo o Nombre" forid="tipo_busqueda">
-                            <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
-                                id="tipo_busqueda"
-                                {...register("tipo")} />
-                        </Tarjeta>
-                    </div>
-                </div>
-                <div className='__columna2'>
-                    <div className='__col1'>
-                        <div className='__linea_vertical'></div>
-                        <Radio opciones={["Compras del mes de", "Ver compras desde el", "Todas las compras"]}
-                            name="periodo_compras"
-                            value={periodoCompras}
-                            onChange={(valor) => setValue("periodo_compras", valor)} // Actualiza el valor en hook form
-                        ></Radio>
-                    </div>
-                    <div className='__col2'>
-                        <div className='__fila1'>
-                            <Selector opciones={meses}
-                                id="mes_compra"
-                                deshabilitado={periodoCompras !== "Compras del mes de"}
-                                {...register("mes_compra")}
-                            />
-                            <Selector opciones={[{ label: "2023", value: "2023" }, { label: "2024", value: "2024" }]}
-                                id="anio_compra"
-                                deshabilitado={periodoCompras !== "Compras del mes de"}
-                                {...register("anio_compra")}
-                            />
+                <form>
+                    <div className='__columna1'>
+                        <div className='__col1'>
+                            <Tarjeta descripcion="Proveedor" forid="proveedor_panel">
+                                <Selector opciones={proveedores.map(prov => ({ label: prov.nombre, value: prov.id_proveedor }))}
+                                    id="proveedor_panel"
+                                    opcionNula="Todos"
+                                    {...register("proveedor")} />
+                            </Tarjeta>
+                            <Tarjeta descripcion="Buscar Producto" forid="busqueda">
+                                <Input tipo="search" placeholder="Buscar" id="busqueda"
+                                    {...register("busqueda")}
+                                />
+                            </Tarjeta>
                         </div>
-                        <div className='__fila2'>
-                            <Input tipo="date"
-                                id="fecha_desde"
-                                deshabilitado={periodoCompras !== "Ver compras desde el"}
-                                {...register("fecha_desde")}
-                            ></Input>
-                            <label>al</label>
-                            <Input tipo="date"
-                                id="fecha_hasta"
-                                deshabilitado={periodoCompras !== "Ver compras desde el"}
-                                {...register("fecha_hasta")}
-                            ></Input>
+                        <div className='__col2'>
+                            <Tarjeta descripcion="Por Codigo o Nombre" forid="tipo_busqueda">
+                                <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
+                                    id="tipo_busqueda"
+                                    {...register("tipo")} />
+                            </Tarjeta>
                         </div>
                     </div>
-                    <div className='__col3'>
-                        <BotonPerfil onClick={clickPerfil}></BotonPerfil>
-
+                    <div className='__columna2'>
+                        <div className='__col1'>
+                            <div className='__linea_vertical'></div>
+                            <Radio opciones={["Compras del mes de", "Ver compras desde el", "Todas las compras"]}
+                                name="periodo_compras"
+                                value={periodoCompras}
+                                onChange={(valor) => setValue("periodo_compras", valor)} // Actualiza el valor en hook form
+                            ></Radio>
+                        </div>
+                        <div className='__col2'>
+                            <div className='__fila1'>
+                                <Selector opciones={meses}
+                                    id="mes_compra"
+                                    deshabilitado={periodoCompras !== "Compras del mes de"}
+                                    {...register("mes_compra")}
+                                />
+                                <Selector opciones={[{ label: "2023", value: "2023" }, { label: "2024", value: "2024" }]}
+                                    id="anio_compra"
+                                    deshabilitado={periodoCompras !== "Compras del mes de"}
+                                    {...register("anio_compra")}
+                                />
+                            </div>
+                            <div className='__fila2'>
+                                <Input tipo="date"
+                                    id="fecha_desde"
+                                    deshabilitado={periodoCompras !== "Ver compras desde el"}
+                                    {...register("fecha_desde")}
+                                ></Input>
+                                <label>al</label>
+                                <Input tipo="date"
+                                    id="fecha_hasta"
+                                    deshabilitado={periodoCompras !== "Ver compras desde el"}
+                                    {...register("fecha_hasta")}
+                                ></Input>
+                            </div>
+                        </div>
                     </div>
+                </form>
+                <div className='__boton_perfil'>
+                    <BotonPerfil onClick={clickPerfil}></BotonPerfil>
+                    <XyzTransition
+                        xyz="fade small-100% duration-3 origin-top"
+                        appear
+                    >
+                        {opcionesPerfil && (
+                            <ul className="__sugerencias">
+                                <li onClick={irAPerfil}>Datos</li>
+                                <li onClick={irAConfiguraciones}>Configuraciones</li>
+                                <li onClick={cerrarSesion}>Cerrar Sesión</li>
+                            </ul>
+                        )}
+                    </XyzTransition>
                 </div>
-            </div >
+            </div>
+        
         </>
     )
 }

@@ -1,4 +1,6 @@
 
+
+
 button {                  /*todos los botones en general*/
     justify-content: center;
     align-items: center;
@@ -28,13 +30,13 @@ button {                  /*todos los botones en general*/
     background-color: #9e030d; /*Color gris de fondo*/
     color: #f9f9f9;            /*Color gris letras*/
     border: 2px solid #6f0606; /*Bordes grises*/
-    transition: .7s;
+    transition: .3s;
 }
 
 
 .habilitado:hover{
     border-color:#f54646ad;
-    transition: .7s;
+    transition: .3s;
     background-color: #d12e2e;
     box-shadow: 5px 5px 10px #f16b6bcb;
     

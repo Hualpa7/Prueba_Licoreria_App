@@ -8,6 +8,7 @@ import Modal from "../../Componentes/Modal/Modal";
 import NuevoProducto from "../../Componentes/Formularios/NuevoProducto/NuevoProducto";
 import { useEffect, useState } from 'react'
 import columnas from '../../Datos_Pruebas/Columnas_Productos.json'
+import { useRef } from "react";
 
 
 
@@ -19,26 +20,7 @@ export default function Productos({ }) {
   const [marcas, setMarcas] = useState([]);
 
   const obtenerDatos = () => {
-    /* fetch('http://127.0.0.1:8000/api/producto')  NO LO USO PORQUE NECESITO QUE SE EJECUTE DEPENDIENDO LOS FILTROS
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          const datosTransformados = datos.map(item => ({
-            Codigo: item.codigo,
-            Nombre: item.producto,
-            Stock: item.stock,
-            Costo: `$ ${item.costo}`,
-            Modificacion: new Date(item.fecha_modificacion).toLocaleDateString(),
-            Descuento: `${item.id_descuento || 0} %`,
-            Cantidad_minima: item.alerta_minima,
-            Categoria: item.id_categoria,
-            Marca: item.id_marca,
-            id_producto: item.id_producto
-            }));
-            // setDatos(datosTransformados);
-            })
-            .catch(e => console.log(e));*/
-
-    fetch('http://127.0.0.1:8000/api/categoria')
+      fetch('http://127.0.0.1:8000/api/categoria')
       .then(respuesta => respuesta.json())
       .then(datos => setCategorias(datos))
       .catch(e => console.log(e));
@@ -66,6 +48,7 @@ export default function Productos({ }) {
     setModalNuevoProducto(!modalNuevoProducto);
     if (modalNuevoProducto) {
       obtenerDatos();
+      actualizarDatos();
     }
   };
 
@@ -82,7 +65,7 @@ export default function Productos({ }) {
 
     if (modalModifProducto) {  //si el modal estaba abierto, al cerrarse se setea a null el elmento seleccionado
       setElementoSeleccionado(null);
-      obtenerDatos();
+      actualizarDatos();
     }
   };
 
@@ -98,22 +81,43 @@ export default function Productos({ }) {
     }
   }, [elementoSeleccionado]);//Cuando cambie elementoSeleccionado se ejecuta el efecto
 
+  
+
+  ////REFERENCIA A PANEL PRODUCTOS
+
+  const panelProductosRef = useRef();
+
+  const actualizarDatos = () =>{
+    if(panelProductosRef.current){
+      panelProductosRef.current.actualizarDatos();
+    }
+  }
+
+
+  
+  
+  ////////SE CREA OBJETO PUNTERO TIPO USEREF PARA PASARLE LA FUNCION DE OBTENER MARCAS Y CATEGORIAS A SUS HIJOS
+  const actualizarCategoriasYMarcas = useRef(()=>{
+    obtenerDatos(); //los hijs al ejecutar actualizarCategoriasYMarcas, ejecutaran obtenerDatos()
+  })
+  
+  //console.log(localStorage.getItem("authToken"));
+  
   /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
   const [cargando, setCargando] = useState(false);
 
   const manejaCargando = ((valor) => {
         setCargando(valor);
   });
-
-
-
-
-
-
+  
   //LAYOUT
 
-  const header = <PanelProductos categorias={categorias} marcas={marcas}
-    onDatosFiltrados={obtieneDatosFiltrados} onManejaCargando={manejaCargando}>
+  const header = <PanelProductos 
+  ref={panelProductosRef}
+  categorias={categorias}
+   marcas={marcas}
+    onDatosFiltrados={obtieneDatosFiltrados} 
+    onManejaCargando={manejaCargando}>
   </PanelProductos>
 
 
@@ -131,7 +135,11 @@ export default function Productos({ }) {
       <ModificarProducto autocompletar={elemento} onGuardar={manejaModifProducto} categorias={categorias} marcas={marcas}></ModificarProducto>
     </Modal>
     <Modal visible={modalNuevoProducto} titulo="Cargar Nuevo Producto" funcion={manejaModalNuevoProducto} anchura={"800px"} >
-      <NuevoProducto categorias={categorias} onGuardar={manejaModalNuevoProducto} marcas={marcas}></NuevoProducto>
+      <NuevoProducto categorias={categorias} 
+      onGuardar={manejaModalNuevoProducto} 
+      marcas={marcas}
+      actualizarCategoriasYMarcas={actualizarCategoriasYMarcas} //paso la fucnion referencia
+      ></NuevoProducto>
     </Modal>
   </div>
 

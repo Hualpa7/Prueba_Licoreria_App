@@ -114,7 +114,7 @@ export default function ModificarProducto({ autocompletar, onGuardar, categorias
 
 
 
-    /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
+    /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTA MODIFICANDO)
     const [cargando, setCargando] = useState(false);
 
 

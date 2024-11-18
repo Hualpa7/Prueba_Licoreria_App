@@ -2,52 +2,210 @@ import Selector from '../../Selector/Selector';
 import './PanelPromociones.css'
 import Input from "../../Input/Input";
 import Tarjeta from '../../ComponentesFormulario/Tarjeta/Tarjeta';
-import { useState } from 'react'
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import BotonPerfil from '../../BotonPerfil/BotonPerfil';
-import { useNavigate } from 'react-router-dom';
-
-export default function PanelPromociones({ onTipoOferta }) {
-
-    const [oferta, setOferta] = useState('Combo');
-    const navegarHacia = useNavigate();
-
-    const clickPerfil = () => {
-        navegarHacia('/datosPerfil');
-    }
+import { XyzTransition } from "@animxyz/react";
+import { useForm, useWatch } from 'react-hook-form';
+import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
 
 
-    const manejaCambioOferta = (e) => {
-        setOferta(e.target.value);
-        onTipoOferta(e.target.value); //para pasarlo al padre promociones.jsx
-    }
+//4º ESTABLECEMOS COMO forwardRef, permitiendo al componente recibir una ref como segundo parametro
+const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos, onDatosFiltradosCombos, onManejaCargando, ...props }, ref) => {
 
 
+
+    /////5º EXPONEMOS EL METODO ACTUALIZAR REF PARA QUE LO VEA EL PADRE
+
+    useImperativeHandle(ref, () => ({  //Con este metodo indicamos que metodos o propiedades estaran disponibles a traves del ref
+        actualizarDatos: () => {
+            obtenerDatosDescuentos();
+        }
+    }));
+
+      /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
+      const [opcionesPerfil, setOpcionesPerfil] = useState(false);
+
+      const clickPerfil = () => {
+          setOpcionesPerfil(!opcionesPerfil);
+      }
+
+      const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
+
+    //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
+    const transformaMayusucula = (str) => {
+        return str.replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
+    //////////HOOK FORM
+    const { register, control, setValue } = useForm({
+        defaultValues: {
+            oferta: "Descuento"
+        }
+    });
+
+    /////////CAPTURAR LOS VALORES DEL FORMULARIO DINAMICAMENTE
+    const filtro = useWatch({ control });
+
+    // Observar en tiempo real el valor del selector de OFERT
+    const tipoOferta = useWatch({ control, name: "oferta" });
+
+    // Observar en tiempo real el valor del selector de tipo de Busqueda
+    const tipoBusqueda = useWatch({ control, name: "oferta" });
+
+    // Enviar `tipoOferta` al componente padre cada vez que cambie
+    useEffect(() => {
+        if (onTipoOferta) {
+            onTipoOferta(tipoOferta); // Llama a la función del padre pasando el valor de `tipoOferta`
+        }
+    }, [tipoOferta, onTipoOferta]);
+
+
+    //////PARA DARLE UN TIEMPO A LA BUSQUEDA POR NOMBRE O CODIGO
+    const timeOutBusquedaRef = useRef(null);
+
+    useEffect(() => {
+        if (filtro?.busqueda) {
+            clearTimeout(timeOutBusquedaRef.current);
+            timeOutBusquedaRef.current = setTimeout(() => {
+                tipoOferta === 'Combo' ? obtenerDatosCombos(filtro) : obtenerDatosDescuentos(filtro);
+            }, 2000);
+        }
+        else {
+            tipoOferta === 'Combo' ? obtenerDatosCombos(filtro) : obtenerDatosDescuentos(filtro);
+        }
+
+        return () => clearTimeout(timeOutBusquedaRef.current);
+
+    }, [filtro, tipoOferta])
+
+
+    /////////TRAEMOS LOS DATOS FILTRADOS DE DESCUENTOS
+
+    const obtenerDatosDescuentos = async (data) => { //funcion que hace la consulta dependiendo los filtros
+        onManejaCargando(true);
+        try {
+            if (filtro.tipo !== "Combo") {
+
+                const respuestaOferta = await fetch('http://127.0.0.1:8000/api/descuento/filtro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const datos = await respuestaOferta.json();
+
+                const datosTransformados = datos.map(item => ({
+                    Codigo: item.id_descuento,
+                    Producto: transformaMayusucula(item.producto),
+                    Costo: `$ ${item.costo.replace('.', ',')}`,
+                    Porcentaje_Desc: `${item.porcentaje} %`,
+                    Costo_Descuento_Aplicado: `$ ${(
+                        parseFloat(item.costo.replace(',', '.')) * (1 - item.porcentaje / 100)
+                    ).toFixed(2).replace('.', ',')}`,
+                    Duracion: item.duracion
+
+                }));
+                onDatosFiltradosDescuentos(datosTransformados);
+            }
+            else onDatosFiltradosDescuentos([]);
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        } finally {
+            onManejaCargando(false);
+        }
+    };
+
+
+    /////////TRAEMOS LOS DATOS FILTRADOS DE COMBOS
+
+    const obtenerDatosCombos = async (data) => { //funcion que hace la consulta dependiendo los filtros
+        onManejaCargando(true);
+        try {
+
+            const respuestaOferta = await fetch('http://127.0.0.1:8000/api/combo/filtro', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const datos = await respuestaOferta.json();
+
+            const datosTransformados = datos.map(item => ({
+                Nombre_Combo: item.nombre,
+                Descripcion: productos,
+                Costo_Combo: `$ ${item.costo}`,
+                Duracion: item.duracion,
+            }));
+            onDatosFiltradosCombos(datosTransformados);
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        } finally {
+            onManejaCargando(false);
+        }
+    };
+
+
+
+
+    //////////LAYOUT
     return (
         <>
             <div className='__panel_promociones'>
-                <div className='__columna1'>
-                    <div className='__col1'>
-                        <Tarjeta descripcion="Oferta" forid="oferta">
-                            <Selector opciones={[{ label: "Combo", value: "Combo" }, { label: "Descuento", value: "Descuento" }]}
-                                id="oferta" onChange={manejaCambioOferta} value={oferta} />
-                        </Tarjeta>
-                        <Tarjeta descripcion="Buscar Producto" forid="busqueda">
-                            <Input tipo="search" placeholder="Buscar" id="busqueda" />
-                        </Tarjeta>
+                <form>
+                    <div className='__columna1'>
+                        <div className='__col1'>
+                            <Tarjeta descripcion="Oferta" forid="oferta">
+                                <Selector opciones={[{ label: "Combo", value: "Combo" }, { label: "Descuento", value: "Descuento" }]}
+                                    id="oferta"
+                                    {...register("oferta")}
+                                />
+                            </Tarjeta>
+                            <Tarjeta descripcion="Buscar Producto/Combo" forid="busqueda">
+                                <Input tipo="search" placeholder="Buscar" id="busqueda"
+                                    {...register("busqueda")}
+                                />
+                            </Tarjeta>
+                        </div>
+                        <div className='__col2'>
+                            <Tarjeta descripcion="Por Producto o Combo" forid="tipo_busqueda">
+                                <Selector opciones={[{ label: "Producto", value: "Producto" }, { label: "Combo", value: "Combo" }]}
+                                    id="tipo_busqueda"
+                                    {...register("tipo")}
+                                />
+                            </Tarjeta>
+                        </div>
                     </div>
-                    <div className='__col2'>
-                        <Tarjeta descripcion="Por Codigo o Nombre" forid="tipo_busqueda">
-                            <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
-                                id="tipo_busqueda" />
-                        </Tarjeta>
-                    </div>
-                </div>
-                <div className='__columna2'>
-                    <div className='__col2'>
+
+                </form>
+                <div className='__boton_perfil'>
+                    
                         <BotonPerfil onClick={clickPerfil}></BotonPerfil>
-                    </div>
+                        <XyzTransition 
+                        xyz="fade small-100% duration-3 origin-top"
+                        appear
+                    >
+                        {opcionesPerfil && (
+                            <ul className="__sugerencias">
+                                <li onClick={irAPerfil}>Datos</li>
+                                <li onClick={irAConfiguraciones}>Configuraciones</li>
+                                <li onClick={cerrarSesion}>Cerrar Sesión</li>
+                            </ul>
+                        )}
+                    </XyzTransition>
                 </div>
+
+
             </div>
         </>
     )
-}
+
+
+});
+
+export default PanelPromociones;

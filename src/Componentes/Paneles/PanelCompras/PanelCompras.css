@@ -4,6 +4,11 @@
     gap: 15px;
 }
 
+.__panel_compras form{
+    flex: 1; /* Ocupa todo el espacio disponible */
+    display: flex;
+    gap: 15px;
+}
 .__panel_compras .__columna1{
     flex: 0.5;
     display: flex;

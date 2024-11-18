@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Routes, Route, Link, useLocation, Outlet } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, Outlet,useNavigate} from 'react-router-dom'
 import BotonPerfil from '../../Componentes/BotonPerfil/BotonPerfil';
 import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
 import './Configuracion.css';
@@ -8,37 +8,49 @@ import PestaniasConfiguraciones from '../../Componentes/PestaniasConfiguraciones
 
 export default function Configuracion() {
 
+    /////////////NAVEGAR HACIA PERFIL   
+    const navegarHacia = useNavigate();
+    const clickVender = () => {
+        navegarHacia('/vender');
+    }
 
     const location = useLocation(); // Obtener la ruta actual para resaltar la pestaña activa
 
     const navItems = [
         { path: "/perfil", label: "Datos" },
-        { path: "/configuraciones/*", label: "Configurar" },
+        { path: "/perfil/configuraciones", label: "Configurar" },
     ];
     const urlImg = `url("${'https://http2.mlstatic.com/D_NQ_NP_884067-MLA53246821009_012023-O.webp'}")`;
 
    
 
-
-
-    const header = <>
+   
+   
+   const header = <>
         <div className='__panel_perfil'>
             <div>
                 <span className='__usuario_imagen' style={{ backgroundImage: urlImg }} ></span>
             </div>
             <div className='__boton_perfil'>
                 <BotonPerfil></BotonPerfil>
+                <BotonPerfil onClick={clickVender}></BotonPerfil>
             </div>
         </div>
     </>
-
-    const navigation = <>
+       
+       const navigation = <>
         <ul className="__pestanias">
             {navItems.map((item) => (
                 <li
-                    key={item.path}
-                    className={location.pathname === item.path ? "active disabled" : ""}
-                >
+                key={item.path}
+                className={
+                    location.pathname === item.path ||
+                    (item.path === "/perfil/configuraciones" && location.pathname.startsWith("/perfil/configuraciones"))
+                        ? "active disabled"
+                        : ""
+                }
+                >  
+                
                     <Link to={item.path}>{item.label}</Link>
                 </li>
             ))}
@@ -51,7 +63,6 @@ export default function Configuracion() {
 
     const main = (
         <div>
-            <PestaniasConfiguraciones/>
             <Outlet/>
         </div>
     )

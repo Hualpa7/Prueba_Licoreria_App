@@ -1,6 +1,10 @@
+import PestaniasConfiguraciones from "../../../Componentes/PestaniasConfiguraciones/PestaniasConfiguraciones";
 
 export default function Sucursales(){
     return <>
-    <h1>Sucursales</h1>
+    <div>
+    <h1 style={{color:"white"}}>Sucursales</h1>
+    <PestaniasConfiguraciones></PestaniasConfiguraciones>
+    </div>
     </>
 }

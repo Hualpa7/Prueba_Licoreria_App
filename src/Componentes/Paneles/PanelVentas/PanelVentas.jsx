@@ -9,20 +9,27 @@ import BotonPerfil from '../../BotonPerfil/BotonPerfil';
 import { useNavigate } from 'react-router-dom';
 import { useForm, useWatch } from 'react-hook-form';
 import meses from '../../../Datos_Pruebas/Meses.json'
+import { XyzTransition } from "@animxyz/react";
+import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
 
-export default function PanelVentas({ onDatosFiltrados,onManejaCargando }) {
+export default function PanelVentas({ onDatosFiltrados, onManejaCargando }) {
 
-    /////////// NAVEGACION A PERFIL
-    const navegarHacia = useNavigate();
-    const clickPerfil = () => {
-        navegarHacia('/datosPerfil');
-    }
+     /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
+     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
+
+     const clickPerfil = () => {
+         setOpcionesPerfil(!opcionesPerfil);
+     }
+     const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
+
 
     ////////// SELECCION DE LA OPCION DEL RADIO
     const [seleccion, setSeleccion] = useState('');//valor por defecto
     const manejarSeleccion = (valor) => {
         setSeleccion(valor);
     };
+
+    
 
 
     ///////// HOOK FORM
@@ -73,23 +80,23 @@ export default function PanelVentas({ onDatosFiltrados,onManejaCargando }) {
             onDatosFiltrados(datosTransformados);
         } catch (error) {
             console.error('Error en la solicitud:', error);
-        }finally{
+        } finally {
             onManejaCargando(false);
         }
     };
-    
-    
+
+
     useEffect(() => {
         obtenerDatosFiltrados(filtro);
     }, [filtro])
-    
-   console.log(filtro);
-   
+
+    console.log(filtro);
+
 
     return (
         <>
-            <form>
-                <div className='__panel_ventas'>
+            <div className='__panel_ventas'>
+                <form>
                     <div className='__columna1'>
                         <Tarjeta descripcion="Metodo de Pago" forid="metodo_pago">
                             <Selector opciones={[{ label: "Efectivo", value: "Efectivo" }, { label: "Transferencia", value: "Transferencia" }]}
@@ -138,11 +145,23 @@ export default function PanelVentas({ onDatosFiltrados,onManejaCargando }) {
                     <div className='__columna4'>
                         <Boton habilitado descripcion="Generar Informe"></Boton>
                     </div>
-                    <div className='__columna5'>
-                        <BotonPerfil onClick={clickPerfil}></BotonPerfil>
-                    </div>
+                </form>
+                <div className='__boton_perfil'>
+                    <BotonPerfil onClick={clickPerfil}></BotonPerfil>
+                   <XyzTransition 
+                        xyz="fade small-100% duration-3 origin-top"
+                        appear
+                    >
+                        {opcionesPerfil && (
+                            <ul className="__sugerencias">
+                                <li onClick={irAPerfil}>Datos</li>
+                                <li onClick={irAConfiguraciones}>Configuraciones</li>
+                                <li onClick={cerrarSesion}>Cerrar Sesión</li>
+                            </ul>
+                        )}
+                    </XyzTransition>
                 </div>
-            </form>
+            </div>
         </>
     )
 }

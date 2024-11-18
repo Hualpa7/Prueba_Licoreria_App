@@ -2,7 +2,16 @@
     background-image: url(../../../assets/birra3.jpg);
     display: flex;
     gap: 15px;
+    justify-content: space-between; /* Distribuye formulario y botón */
+    align-items: flex-start; /* Alinea verticalmente */
 }
+
+.__panel_ventas form{
+    flex: 1; /* Ocupa todo el espacio disponible */
+    display: flex;
+    gap: 15px;
+}
+
 
 .__panel_ventas .__columna1{
    flex: 1;

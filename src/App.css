@@ -54,3 +54,29 @@
     padding: 0;
     font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
 }
+
+/*PARA LOS INPUTS DE BUSQUEDA, MUESTRA LAS SUGERENCIAS COMO UNA LISTA */
+.__sugerencias {
+  list-style: none; /* Elimina el estilo de lista */
+  padding: 0;
+  margin-top: 70px;
+  position: absolute; /* Posiciona el cuadro de sugerencias sobre otros elementos */
+  z-index: 1000; /* Asegura que está por encima de otros elementos */
+  background: white; /* Fondo blanco */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
+  max-height: 200px; /* Altura máxima para el cuadro de sugerencias */
+  overflow-y: auto; /* Habilita el scroll si hay muchas sugerencias */
+  font-weight: 100;
+}
+
+.__sugerencias li {
+  padding: 10px; /* Espaciado interno */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+.__sugerencias li:hover {
+  background: #e5314fc3; /* Fondo gris claro al pasar el ratón por encima */
+}
+

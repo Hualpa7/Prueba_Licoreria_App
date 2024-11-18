@@ -4,7 +4,7 @@ import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import './NuevoProveedor.css';
 
-export default function NuevoProveedor({ onGuardar }) {
+export default function NuevoProveedor({ onGuardar,actualizarProveedores }) {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
@@ -25,7 +25,8 @@ export default function NuevoProveedor({ onGuardar }) {
           });
     
           if (respuesta.ok) { 
-            reset();
+            actualizarProveedores.current();
+
             onGuardar();
             const proveedorCreado = await respuesta.json();
             console.log('Proveedor creado:', proveedorCreado);

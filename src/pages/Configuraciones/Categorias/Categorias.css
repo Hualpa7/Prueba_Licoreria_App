@@ -1,0 +1,56 @@
+.__cabecera_categorias{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.__cuerpo_categorias {
+    padding: 20px; /* Ajusta según tus necesidades */
+}
+
+.__lista_categorias {
+    max-height: 300px; /* Máxima altura antes de que aparezca el scroll */
+    overflow-y: auto; /* Añade scroll si supera la altura máxima */
+    border: 1px solid #ccc; /* Borde opcional */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para efecto de elevación */
+}
+
+.__categoria_item {
+    display: flex; /* Distribuye los elementos en línea */
+    justify-content: space-between; /* Coloca los elementos en extremos opuestos */
+    align-items: center; /* Centra los elementos verticalmente */
+    padding: 10px; /* Espaciado interno */
+    border-bottom: 3px solid #e0e0e0; /* Línea separadora */
+}
+
+.__categoria_item:last-child {
+    border-bottom: none; /* Elimina la línea del último elemento */
+}
+
+.__nombre_categoria{
+    flex-grow: 1; /* Permite que el nombre ocupe el espacio disponible */
+    font-size: 18px;
+    
+}
+
+.__lista_categorias  .__boton button{
+width: 10px;
+}
+
+.__cabecera_categorias .__boton button{
+    width: 10px;
+    transition: 0.5s;
+}
+
+.__cabecera_categorias .habilitado:hover{
+   width: 100px;
+   transition: 0.5s;
+}
+
+.__cabecera_categorias .habilitado.active{
+    width: 100px;
+    transition: 0.5s;
+ }
+

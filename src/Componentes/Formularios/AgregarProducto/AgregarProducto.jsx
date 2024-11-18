@@ -1,25 +1,47 @@
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from '../../Boton/Boton'
+import './AgregarProducto.css';
+import { useBusqueda } from "../../../hooks/useBusqueda";
 
-import './AgregarCarrito.css';
 
 
-export default function AgregarCarrito({ }) {
+export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        //constante que devuleve todo lo del form
+
+
+    //HOOKK FORM
+    const { register, handleSubmit, formState: { errors }, control, reset,setValue } = useForm({
+        defaultValues: {
+            tipo_busqueda_Producto: "Nombre",
+        }
 
     });
 
+     //USE WATCH PARA SABER QUE TIPO DE BUSQUEDA SE ESTA REALIZANDO, POR CODIGO O NOMBRE
+     const tipoBusquedaProducto = useWatch({ control, name: "tipo_busqueda_Producto" });
+
+      //USAR HOOK DE USEBUSQUEDA PARA BUSCAR PRODUCTO
+    const {
+        sugerencias: productoSugerencias,
+        terminoBusqueda: buscarProducto,
+        setTerminoBusqueda: setBuscarProducto,
+        seleccionado: productoSeleccionado,
+        manejarSeleccion: seleccionarProducto
+    } = useBusqueda('producto', tipoBusquedaProducto, setValue);
+
+
+
+    const onSubmit = (data) => {
+        console.log(productoSeleccionado);
+       onAgregarProducto({Codigo:data.id_producto, Nombre: `${productoSeleccionado}`,Cantidad:data.cantidad,IVA:data.iva});
+       onGuardar();
+    }
 
     return (
-        <form onSubmit={handleSubmit((data) => {
-            reset();
-            console.log(data);
-        })} className="__form_Agrego_carrito">
+        <form onSubmit={handleSubmit(onSubmit)} className="__form_Agrego_carrito">
             <div className="__cuerpo_agregar_carrito">
                 <div className="__columna1">
                     <Tarjeta descripcion="Producto" forid="producto" mensajeError={errors.producto?.message}>
@@ -27,9 +49,29 @@ export default function AgregarCarrito({ }) {
                             tipo="search"
                             id="producto"
                             placeholder="Buscar"
-                            {...register("producto", { required: { value: true, message: "Ingrese nombre del Producto" } })}
-                        />
+                            value={productoSeleccionado || buscarProducto}
+                            onChange={(e) => {
+                                setBuscarProducto(e.target.value);
+                                if (productoSeleccionado) seleccionarProducto(null);
+                            }}
+                            /*{...register("producto", {
+                                required:{
+                                    value:true,
+                                    message: "Ingrese producto"
+                                }
+                            })}*/
 
+                        />
+                        {productoSugerencias.length > 0 && (
+                            <ul className="__sugerencias">
+                                {productoSugerencias.map((producto) => (
+                                    <li key={producto.id_producto} onClick={() => seleccionarProducto(producto)}>
+                                        {tipoBusquedaProducto === "Nombre" ? producto.producto : producto.codigo}
+
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </Tarjeta>
                     <Tarjeta descripcion="Cantidad" forid="cantidad" mensajeError={errors.cantidad?.message}>
                         <Input
@@ -50,8 +92,8 @@ export default function AgregarCarrito({ }) {
                     </Tarjeta>
                 </div>
                 <div className="__columna2">
-                    <Selector opciones={["Codigo", "Producto"]} id="tipoBusqueda"
-                        {...register("tipoBusqueda")}
+                    <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]} id="tipoBusqueda"
+                        {...register("tipo_busqueda_Producto")}
                     >
                     </Selector>
 

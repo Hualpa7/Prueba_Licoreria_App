@@ -1,5 +1,5 @@
 import { useForm, useWatch } from "react-hook-form"
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
@@ -8,9 +8,10 @@ import iconMas from "../../../assets/mas.png";
 import Modal from "../../Modal/Modal";
 import NuevoProveedor from "../NuevoProveedor/NuevoProveedor";
 import './Compra.css';
+import { useBusqueda } from "../../../hooks/useBusqueda";
 
 
-export default function Compra({ onGuardar }) {
+export default function Compra({ onGuardar,actualizarProveedores }) {
 
     ////// CONTROLA MODAL DE NUEVO PROVEEDOR
     const [modalNuevoProveedor, setModalNuevoProveedor] = useState(false); // Abre o cierra el modal nueva oferta
@@ -88,132 +89,48 @@ export default function Compra({ onGuardar }) {
     };
 
 
-    /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
-    const [cargando, setCargando] = useState(false);
-
-
-
+    
+    
+    
     ////////BUSQUEDA COINCIDENCIAS DE PRODUCTO:
-
-    ////////// ESTADOS PARA LA BUSQUEDA DE PRODUCTO 
-    const [productoSugerencias, setProductoSugerencias] = useState([]); //array de sugerencias
-    const [buscarProducto, setBuscarProducto] = useState('');//busca producto string
-    const productoTimeOutRef = useRef(null);//para controlar el timeout de la busqueda de prodcutos y no realizar varias solicitudes
-    const [productoSeleccionado,setProductoSeleccionado] = useState(''); //Estado usado unicamente para que cuando seleccione un valor
-                                                                         //entre las sugerencias, no se vuelvan a mostrar las sugerencias
-
-    ///USE EFFECT PARA CONTROLAR EL SETTIMEOUT DE PRODUCTO y REALIZAR BUSQUEDA DE PRODUCTO////
-    useEffect(() => {
-        if (buscarProducto) {
-            clearTimeout(productoTimeOutRef.current);
-            productoTimeOutRef.current = setTimeout(() => {
-                obtenerSugerenciasProductos(buscarProducto, tipoBusquedaProducto);
-            }, 300);
-        } else {
-            setProductoSugerencias([]);
-        }
-
-        return () => clearTimeout(productoTimeOutRef.current);
-    }, [buscarProducto]);
-
-
-    /////DEL PRODCUTO ENCONTRADO EXTRAIGO SU ID_PRODUCTO
-    const seleccionarProducto = (producto) => {
-        setValue("id_producto", producto.id_producto);
-        setBuscarProducto('');
-        setProductoSeleccionado(producto.producto);
-        setProductoSugerencias([]);
-    }
-
-
+    
+    
     ///// Ver el tipo de busqueda para producto
     const tipoBusquedaProducto = useWatch({ control, name: "tipo_busqueda_Producto" });
+    
+    const { 
+        sugerencias: productoSugerencias,
+        terminoBusqueda: buscarProducto,
+        setTerminoBusqueda: setBuscarProducto,
+        seleccionado: productoSeleccionado,
+        manejarSeleccion: seleccionarProducto
+    } = useBusqueda('producto', tipoBusquedaProducto,setValue);
 
-    ///////// REALIZA LA BUSQUEDA y OBTIENE SUGERENCIAS
-    const obtenerSugerenciasProductos = async (termino, tipoBusquedaProducto) => {
-        if (tipoBusquedaProducto) {
-
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/api/producto/buscar`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({ termino, tipoBusquedaProducto }),
-                });
-                const resultados = await response.json();
-                setProductoSugerencias(resultados);
-            } catch (error) {
-                console.error("Error en la busqueda:", error);
-            }
-        }
-    };
-
-
+    
     ////////BUSQUEDA COINCIDENCIAS DE PROVEEDOR:
-
-
-    ////////// ESTADOS PARA LA BUSQUEDA DE PROVEEDOR 
-    const [proveedorSugerencias, setProveedorSugerencias] = useState([]); //array de sugerencias
-    const [buscarProveedor, setBuscarProveedor] = useState('');//busca producto string
-    const proveedorTimeOutRef = useRef(null);//para controlar el timeout de la busqueda de prodcutos y no realizar varias solicitudes
-    const [proveedorSeleccionado,setProveedorSeleccionado] = useState(''); //Estado usado unicamente para que cuando seleccione un valor
-    //entre las sugerencias, no se vuelvan a mostrar las sugerencias
-
-
-    ///USE EFFECT PARA CONTROLAR EL SETTIMEOUT DE PROVEEDORES y REALIZAR BUSQUEDA DE PROVEEDOR////
-    useEffect(() => {
-        if (buscarProveedor) {
-            clearTimeout(proveedorTimeOutRef.current);
-            proveedorTimeOutRef.current = setTimeout(() => {
-                obtenerSugerenciasProveedor(buscarProveedor, tipoBusquedaProveedor);
-            }, 300);
-        } else {
-            setProveedorSugerencias([]);
-        }
-
-        return () => clearTimeout(proveedorTimeOutRef.current);
-    }, [buscarProveedor]);
-
-
-    /////DEL PROVEEDOR ENCONTRADO EXTRAIGO SU ID_PROVEEDOR
-
-    const seleccionarProveedor = (proveedor) => {
-        setValue("id_proveedor", proveedor.id_proveedor);
-        setBuscarProveedor('');
-        setProveedorSeleccionado(proveedor.nombre)
-        setProveedorSugerencias([]);
-    }
-
+    
     ///// Ver el tipo de busqueda para proveedor
     const tipoBusquedaProveedor = useWatch({ control, name: "tipo_busqueda_Proveedor" });
 
-
-    ///////// REALIZA LA BUSQUEDA y OBTIENE SUGERENCIAS
-    const obtenerSugerenciasProveedor = async (termino, tipoBusquedaProveedor) => {
-        if (tipoBusquedaProveedor) {
-
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/api/proveedor/buscar`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({ termino, tipoBusquedaProveedor }),
-                });
-                const resultados = await response.json();
-                setProveedorSugerencias(resultados);
-            } catch (error) {
-                console.error("Error en la busqueda:", error);
-            }
-        }
-    };
-
-
-
-
+    const {
+        sugerencias: proveedorSugerencias,
+        terminoBusqueda: buscarProveedor,
+        setTerminoBusqueda: setBuscarProveedor,
+        seleccionado: proveedorSeleccionado,
+        manejarSeleccion: seleccionarProveedor
+    } = useBusqueda('proveedor', tipoBusquedaProveedor,setValue);
+    
+    
+    
+    
+    
+    
+    /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
+    const [cargando, setCargando] = useState(false);
+    
+    
+    
+    
     /////////////////LAYOUT
     return (
         <>
@@ -234,16 +151,19 @@ export default function Compra({ onGuardar }) {
                                 tipo="search"
                                 id="producto"
                                 placeholder="Buscar"
-                                value={productoSeleccionado? productoSeleccionado : buscarProducto}
-                                onChange={(e) => setBuscarProducto(e.target.value)}
+                                value={productoSeleccionado || buscarProducto}
+                                onChange={(e) =>{
+                                    setBuscarProducto(e.target.value);
+                                    if(productoSeleccionado) seleccionarProducto(null);
+                                }}
 
                             />
                             {productoSugerencias.length > 0 && (
                                 <ul className="__sugerencias">
                                     {productoSugerencias.map((producto) => (
                                         <li key={producto.id_producto} onClick={() => seleccionarProducto(producto)}>
-                                            {tipoBusquedaProducto === "Nombre" && producto.producto}
-                                            {tipoBusquedaProducto === "Codigo" && producto.codigo}
+                                            {tipoBusquedaProducto === "Nombre" ? producto.producto : producto.codigo}
+                                           
                                         </li>
                                     ))}
                                 </ul>
@@ -254,17 +174,18 @@ export default function Compra({ onGuardar }) {
                                 tipo="search"
                                 id="proveedor"
                                 placeholder="Buscar"
-                                value={proveedorSeleccionado? proveedorSeleccionado : buscarProveedor}
-                                onChange={(e) => setBuscarProveedor(e.target.value)}
-                    
-
+                                value={proveedorSeleccionado || buscarProveedor}
+                                onChange={(e) => {
+                                    setBuscarProveedor(e.target.value);
+                                    if(proveedorSeleccionado) seleccionarProveedor(null);  
+                                }}
                             />
                             {proveedorSugerencias.length > 0 && (
                                 <ul className="__sugerencias">
                                     {proveedorSugerencias.map((proveedor) => (
                                         <li key={proveedor.id_proveedor} onClick={() => seleccionarProveedor(proveedor)}>
-                                            {tipoBusquedaProveedor === "Nombre" && proveedor.nombre}
-                                            {tipoBusquedaProveedor === "Correo" && proveedor.correo}
+                                            {tipoBusquedaProveedor === "Nombre" ? proveedor.nombre : proveedor.correo}
+                                            
                                         </li>
                                     ))}
                                 </ul>
@@ -351,7 +272,7 @@ export default function Compra({ onGuardar }) {
             <div className="__modal_nuevo_proveedor">
 
                 <Modal visible={modalNuevoProveedor} titulo="Nuevo Proveedor" funcion={manejaNuevoProveedor} anchura={"500px"} >
-                    <NuevoProveedor onGuardar={manejaNuevoProveedor}></NuevoProveedor>
+                    <NuevoProveedor onGuardar={manejaNuevoProveedor} actualizarProveedores ={actualizarProveedores}></NuevoProveedor>
                 </Modal>
             </div>
         </>

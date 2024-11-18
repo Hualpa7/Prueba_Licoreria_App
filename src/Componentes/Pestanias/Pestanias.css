@@ -25,13 +25,13 @@ ul.__pestanias {
     text-align: center;
     text-decoration: none;
     color: white;
-    transition: .5s;
+    transition: .3s;
     background-color: #861018a3;
   }
   
   ul.__pestanias li a:hover {
     background-color: #9e030d; /* Color de hover */
-    transition: .7s;
+    transition: .3s;
     box-shadow: 5px 5px 10px #f16b6bcb;
     padding: 20px 20px;
     

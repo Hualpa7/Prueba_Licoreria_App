@@ -10,7 +10,7 @@ import NuevaCategoria from "../NuevaCategoria/NuevaCategoria"
 import NuevaMarca from "../NuevaMarca/NuevaMarca"
 import Modal from "../../Modal/Modal";
 
-export default function NuevoProducto({ categorias, marcas, onGuardar }) {
+export default function NuevoProducto({ categorias, marcas, onGuardar, actualizarCategoriasYMarcas }) { //recibe funcion para actualziar
 
 
     /////////// MODAL NUEVA MARCA
@@ -209,12 +209,12 @@ export default function NuevoProducto({ categorias, marcas, onGuardar }) {
                 </div>
             </form>
             <div className="__modal_nuevo_proveedor">
-
-                <Modal visible={modalNuevaCategoria} titulo="Nuevo Categoria" funcion={manejaNuevaCategoria} anchura={"500px"} >
-                    <NuevaCategoria onGuardar={manejaNuevaCategoria}></NuevaCategoria>
+                  {/*PASO LA FUNCION DE ACTUALIZAR MARCAS Y CATEGORIAS A CATEGORIA Y MARCA*/}
+                <Modal visible={modalNuevaCategoria} titulo="Nueva Categoria" funcion={manejaNuevaCategoria} anchura={"500px"} >
+                    <NuevaCategoria onGuardar={manejaNuevaCategoria} actualizarCategoriasYMarcas={actualizarCategoriasYMarcas}></NuevaCategoria>
                 </Modal>
-                <Modal visible={modalNuevaMarca} titulo="Nuevo Marca" funcion={manejaNuevaMarca} anchura={"500px"} >
-                    <NuevaMarca onGuardar={manejaNuevaMarca}></NuevaMarca>
+                <Modal visible={modalNuevaMarca} titulo="Nueva Marca" funcion={manejaNuevaMarca} anchura={"500px"} >
+                    <NuevaMarca onGuardar={manejaNuevaMarca} actualizarCategoriasYMarcas={actualizarCategoriasYMarcas}></NuevaMarca>
                 </Modal>
             </div>
         </>

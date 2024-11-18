@@ -5,31 +5,71 @@ import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import '../NuevoDescuento/FormularioDescuento.css'
 
-export default function ModificarDescuento({autocompletar, onGuardar }) {
+export default function ModificarDescuento({ autocompletar, onGuardar }) {
 
     const [modificar, setModificar] = useState(false); // Estado que Habilita la modificacion del descuento
 
     const manejaModificacion = () => {
-        setModificar(!modificar); 
+        setModificar(!modificar);
     };
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
-            porcentaje_descuento:autocompletar.Porcentaje_Desc,
-            duracion_descuento: autocompletar.Duracion
+            porcentaje: autocompletar.porcentaje,
+            duracion: (autocompletar.duracion).split(' ')[0] //se convierte para separar fecha de hora asi me figura como relleno
 
         }
 
     });
 
+    //////////ACTUALIZAR DESCUENTO
+
+    const onSubmit = async(data) => {
+        setCargando(true);
+       
+        try {
+            const descuentoUrl = `http://127.0.0.1:8000/api/descuento/${autocompletar.id_descuento}`;
+        
+            const respuestaDescuento = await fetch(descuentoUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!respuestaDescuento.ok) {
+                console.error('Error al modificar el descuento');
+                return;
+            }
+
+
+            const descuentoModificado = await respuestaDescuento.json();
+            console.log('Descuento modificado:', descuentoModificado);
+
+
+            onGuardar();
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+        } finally{
+            setCargando(false);
+        }
+    }
+
+
+      /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTA MODIFICANDO)
+      const [cargando, setCargando] = useState(false);
+
+
+
     return (
         <>
-            {/* Formulario de descuento */}
-            <form onSubmit={handleSubmit((data) => {
-                reset();
-                console.log(data);
-                onGuardar();
-            })} className="__formulario_descuento">
+          
+            {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
+            <form onSubmit={handleSubmit(onSubmit)} className="__formulario_descuento">
                 <div className="__cuerpo_descuento">
                     <div className="__columna1">
                         <Tarjeta descripcion="Producto" forid="producto" >
@@ -37,15 +77,15 @@ export default function ModificarDescuento({autocompletar, onGuardar }) {
                                 tipo="input"
                                 id="producto"
                                 deshabilitado
-                                placeholder = {autocompletar.Producto}
+                                placeholder={autocompletar.producto}
                             />
                         </Tarjeta>
-                        <Tarjeta descripcion="Porcentaje a Aplicar" forid="porcentaje" mensajeError={errors.porcentaje_descuento?.message}>
+                        <Tarjeta descripcion="Porcentaje a Aplicar" forid="porcentaje" mensajeError={errors.porcentaje?.message}>
                             <Input
                                 tipo="porcentaje"
                                 id="porcentaje"
                                 deshabilitado={!modificar}
-                                {...register("porcentaje_descuento", {
+                                {...register("porcentaje", {
                                     required: {
                                         value: true,
                                         message: "Ingrese porcentaje del Descuento"
@@ -60,35 +100,36 @@ export default function ModificarDescuento({autocompletar, onGuardar }) {
 
                     </div>
                     <div className="__columna2">
-                    <Tarjeta descripcion="Codigo" forid="codigo" >
+                        <Tarjeta descripcion="Codigo del Descuento" forid="codigo" >
                             <Input
                                 tipo="input"
                                 id="producto"
                                 deshabilitado
-                                placeholder = {autocompletar.Codigo}
+                                placeholder={autocompletar.id_descuento}
                             />
                         </Tarjeta>
-                    <Tarjeta descripcion="Duracion" forid="duracion_descuento" mensajeError={errors.duracion_descuento?.message}>
-                        <Input
-                            tipo="date"
-                            deshabilitado={!modificar}
-                            id="duracion_descuento"
-                            {...register("duracion_descuento", {
-                                required: { value: true, message: "Ingrese fecha limite del descuento" },
-                                validate: (value) => {
-                                    const fechaDescuento = new Date(value);
-                                    const fechaActual = new Date();
-                                    if (fechaDescuento > fechaActual) return true;
-                                    else return "Ingrese una fecha posterior al dia de hoy";
-                                }
-                            })}
-                        />
-                    </Tarjeta>
+                        <Tarjeta descripcion="Duracion" forid="duracion" mensajeError={errors.duracion?.message}>
+                            <Input
+                                tipo="date"
+                                deshabilitado={!modificar}
+
+                                id="duracion"
+                                {...register("duracion", {
+                                    required: { value: true, message: "Ingrese fecha limite del descuento" },
+                                    validate: (value) => {
+                                        const fechaDescuento = new Date(value.replace(/-/g, '/'));
+                                        const fechaActual = new Date();
+                                        if (!isNaN(fechaDescuento) && fechaDescuento > fechaActual) return true;
+                                        else return "Ingrese una fecha posterior al dia de hoy";
+                                    }
+                                })}
+                            />
+                        </Tarjeta>
                     </div>
                 </div>
                 <div className="__boton_descuento">
-                <Boton descripcion='Modificar' habilitado ={!modificar} onClick={manejaModificacion}></Boton>
-                <Boton descripcion='Guardar' habilitado={modificar} submit></Boton>
+                    <Boton descripcion='Modificar' habilitado={!modificar} onClick={manejaModificacion}></Boton>
+                    <Boton descripcion='Guardar' habilitado={modificar} submit></Boton>
                 </div>
             </form>
         </>

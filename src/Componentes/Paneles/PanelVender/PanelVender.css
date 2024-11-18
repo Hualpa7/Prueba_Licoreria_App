@@ -1,7 +1,15 @@
 .__panel_vender{
     background-image: url(../../../assets/birra3.jpg);
     display: flex;
+    gap: 15px;
+    justify-content: space-between; /* Distribuye formulario y botón */
+    align-items: flex-start; /* Alinea verticalmente */
+}
 
+.__panel_vender form{
+    flex: 1; /* Ocupa todo el espacio disponible */
+    display: flex;
+    gap: 15px;
 }
 
 .__panel_vender .__columna1{

@@ -11,7 +11,7 @@
     
 }
 
-.__columna1{
+.__cuerpo_agregar_carrito .__columna1{
     gap: 30px;
     margin-top: 5px;
     display: flex;
@@ -20,7 +20,7 @@
     margin-left: 40px;
 }
 
-.__columna2{
+.__cuerpo_agregar_carrito .__columna2{
     gap: 30px;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
   
 }
 
-.__columna3{
+.__form_Agrego_carrito .__columna3{
     display: flex;
     flex-direction: column;
     justify-content: end;

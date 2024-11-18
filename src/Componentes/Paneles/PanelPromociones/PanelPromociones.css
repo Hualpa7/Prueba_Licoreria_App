@@ -3,6 +3,10 @@
     display: flex;
 }
 
+.__panel_promociones form{
+flex-grow: 1;
+}
+
 .__panel_promociones .__columna1{
     flex: 1;
     display: flex;

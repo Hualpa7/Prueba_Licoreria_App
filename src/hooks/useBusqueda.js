@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const useBusqueda = (endpoint, tipoBusqueda) => {
+export const useBusqueda = (endpoint, tipoBusqueda,setValue) => {
   const [sugerencias, setSugerencias] = useState([]);
   const [terminoBusqueda, setTerminoBusqueda] = useState('');
   const [seleccionado, setSeleccionado] = useState('');
@@ -41,10 +41,12 @@ export const useBusqueda = (endpoint, tipoBusqueda) => {
     }
   };
 
-  const manejarSeleccion = (item, setValue) => {
-    setValue(`id_${endpoint}`, item[`id_${endpoint}`]);
-    setTerminoBusqueda('');
-    setSeleccionado(endpoint === 'producto' ? item.producto : item.nombre);
+  const manejarSeleccion = (item) => {
+    if (setValue) {
+      setValue(`id_${endpoint}`, item ? item[`id_${endpoint}`] : '');
+    }
+    setTerminoBusqueda(item ? '' : terminoBusqueda);
+    setSeleccionado(item ? (endpoint === 'producto' ? item.producto : item.nombre) : '');
     setSugerencias([]);
   };
 

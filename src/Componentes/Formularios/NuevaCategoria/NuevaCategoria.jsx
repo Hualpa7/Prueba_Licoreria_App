@@ -5,7 +5,8 @@ import Boton from '../../Boton/Boton'
 import '../NuevaMarca/NuevaMarca.css'
 import { useState } from 'react'
 
-export default function NuevaCategoria({ onGuardar }) {
+//PASO LA REFERENCIA PARA EJECUTAR LA FUNCION ACTUALIZAR MARCAS Y CATEGORIAS, ASI SE ACTUALIZA EN PRODUCTOS.JSX Y SE LA PASA NUEVOPRDUCTO.JSX SIMULTANEAMNETE
+export default function NuevaCategoria({ onGuardar,actualizarCategoriasYMarcas }) {
 
   ////////HOOK FORM
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -13,6 +14,7 @@ export default function NuevaCategoria({ onGuardar }) {
 
   /////// CREACION POST DE CATEGORIA
   const onSubmit = async (data) => {
+    setCargando(true);
     try {
       const respuesta = await fetch('http://127.0.0.1:8000/api/categoria', { //solicitud POST a mi API
         method: 'POST',
@@ -24,6 +26,7 @@ export default function NuevaCategoria({ onGuardar }) {
 
       if (respuesta.ok) { //Si esta todo bien se resetea el fomrulario
         reset();
+        actualizarCategoriasYMarcas.current(); //LLAMA A LA FUNCION PARA ACTUALIZAR LUEGO DE QUE SE AGREGO LA NUEVA CATEGORIA
         onGuardar();
         const categoriaCreada = await respuesta.json();//promesa devuelve el JSON creado y lo muestro
         console.log('Categoría creada:', categoriaCreada);
@@ -32,7 +35,9 @@ export default function NuevaCategoria({ onGuardar }) {
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);// si ocurre un problema al no conectarse a la API
-    }
+    }finally{
+      setCargando(false);
+    } 
   };
 
   /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
@@ -45,7 +50,7 @@ export default function NuevaCategoria({ onGuardar }) {
     {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
 
     <form onSubmit={handleSubmit(onSubmit)} className="__form_nueva_marca_categoria">
-      <Tarjeta descripcion="Nueva Categoria" forid="categoria" mensajeError={errors.categoria?.message} >
+      <Tarjeta descripcion="Nueva Categoria" forid="categoria" mensajeError={errors.nombre_categoria?.message} >
         <Input
           tipo="text"
           id="categoria"

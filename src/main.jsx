@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'; //importamos desestructurado solo el createroot
 import  React,{useState} from 'react';
 
-
+import "@animxyz/core";
 import App from './App';
 import NuevoRol from './Componentes/Formularios/NuevoRol/NuevoRol';
 import CheckBoxes from './Componentes/CheckBoxes/CheckBoxes';
