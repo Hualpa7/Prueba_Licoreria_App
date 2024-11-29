@@ -29,15 +29,18 @@ export default function ModificarCategoria({ onGuardar, id_categoria }) {
 
             if (!respuesta.ok) {
                 console.error('Error al modificar la categoria');
+                toast.error("Error al modificar la categoria.",{className:"__toaster_error"});
 
 
             }
             const categoriaCreada = await respuesta.json();
             console.log('Categoria Modificada:', categoriaCreada);
+            toast.success("Categoria modificada correctamente.",{className:"success"});
             onGuardar();
 
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error inesperado al modificar la categoria.",{className:"__toaster_error"});
         } finally {
             setCargando(false);
         }

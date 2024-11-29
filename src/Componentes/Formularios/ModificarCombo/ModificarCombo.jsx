@@ -7,36 +7,45 @@ import { useState } from "react";
 import TablaConPaginacion from "../../TablaConPaginacion/TablaConPaginacion";
 import Modal from "../../Modal/Modal";
 import AgregarProducto from "../AgregarProducto/AgregarProducto";
-import './FormularioCombo.css'
+import '../NuevoCombo/FormularioCombo.css'
 import agregar from '../../../assets/agregar_combo.png'
 import quitar from '../../../assets/quitar_combo.png'
 import { toast } from "sonner";
 
-export default function FormularioCombo({ onGuardar }) {
+export default function ModificarCombo({ onGuardar, autocompletar }) {
 
-    //MANTIENE ARRAY DE PRODUCTOS Y SU MANEJO
-    const [productos, setProductos] = useState([]);
+    //CONTROLA MODIFICAR
+    const [modificar, setModificar] = useState(false); // Estado que Habilita la modificacion del descuento
 
-    const manejarAgregarProducto = (producto) => {
-        setProductos([...productos, producto]);
+    const manejaModificacion = () => {
+        setModificar(!modificar);
     };
 
-    //CONTROLA MODAL DE AGREGAR NUEVO PRODUCTO AL COMBO
-    const [modalAgregarProducto, setModalAgregarProducto] = useState(false);
 
-    const manejaModalAgregarProducto = () => {
-        setModalAgregarProducto(!modalAgregarProducto);
-    }
+    //MANTIENE ARRAY DE PRODUCTOS Y SU MANEJO
+    const [productos, setProductos] = useState(autocompletar.productos);
+
+    //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
+    const transformaMayusucula = (str) => {
+        return str.replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
 
     //HOOK FORM
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
-            id_sucursal: "1"
+            id_sucursal: "1",
+            codigo: transformaMayusucula(autocompletar.codigo),
+            nombre: transformaMayusucula(autocompletar.nombre),
+            duracion: (autocompletar.duracion).split(' ')[0], //se convierte para separar fecha de hora asi me figura como relleno
+            costo: (autocompletar.costo.replace('.', ','))
         }
 
     });
 
 
+
+    //SUBMIT PARA REALIZAR LA ACTUALIZACION
     const onSumbit = async (data) => {
         if (productos.length === 0) {
             alert("No hay productos en el combo");
@@ -50,8 +59,8 @@ export default function FormularioCombo({ onGuardar }) {
                     productos, // Array de productos con ID_Producto y Cantidad
                 };
                 console.log(payload);
-                const respuesta = await fetch('http://127.0.0.1:8000/api/combo', {
-                    method: 'POST',
+                const respuesta = await fetch(`http://127.0.0.1:8000/api/combo/${autocompletar.id_combo}`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -60,18 +69,18 @@ export default function FormularioCombo({ onGuardar }) {
                 });
 
                 if (!respuesta.ok) {
-                    console.error('Error al crear el combo');
-                    toast.error("Error al crear el combo.",{className:"__toaster_error"});
+                    console.error('Error al modificar el combo');
+                    toast.error("Error al modificar el combo.", { className: "__toaster_error" });
                     return;
                 }
                 const comboCreado = await respuesta.json();
-                console.log("Combo creado:", comboCreado);
-                toast.success("Combo creado correctamente.",{className:"__toaster_success"});
+                console.log("Combo Modificado:", comboCreado);
+                toast.success("Combo modificado correctamente.", { className: "__toaster_success" });
                 onGuardar();
 
             } catch (error) {
                 console.error('Error en la solicitud:', error);
-                toast.error("Error inesperado al crear el combo.",{className:"__toaster_error"});
+                toast.error("Error inesperado al modificar el combo.", { className: "__toaster_error" });
             } finally {
                 setCargando(false);
             }
@@ -79,6 +88,7 @@ export default function FormularioCombo({ onGuardar }) {
         }
 
     }
+
     /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
     const [cargando, setCargando] = useState(false);
 
@@ -96,6 +106,7 @@ export default function FormularioCombo({ onGuardar }) {
                                 tipo="text"
                                 id="codigo"
                                 placeholder="Codigo"
+                                deshabilitado={!modificar}
                                 {...register("codigo", { required: { value: true, message: "Ingrese un codigo del Combo" } })}
                             />
                         </Tarjeta>
@@ -105,31 +116,25 @@ export default function FormularioCombo({ onGuardar }) {
                                 tipo="text "
                                 id="nombre"
                                 placeholder="Nombre del combo"
+                                deshabilitado={!modificar}
                                 {...register("nombre", { required: { value: true, message: "Ingrese nombre del Combo" } })}
                             > </Input>
                         </Tarjeta>
                     </div>
                     <div className="__productos_combo">
                         <TablaConPaginacion
-                            columnas={["Nombre", "cantidad"]}
+                            columnas={["producto", "cantidad"]}
                             datos={productos}
                             itemsPorPagina={6}
                         >
                         </TablaConPaginacion>
-                        <div className="__agregar_quitar">
-
-                            <Boton icono={agregar} habilitado onClick={manejaModalAgregarProducto} ></Boton>
-                            <div className="__quitar">
-                                <Boton icono={quitar} habilitado></Boton>
-                            </div>
-                        </div>
-
                     </div>
                     <div className="__fila3">
                         <Tarjeta descripcion="Duracion" forid="duracion_combo" mensajeError={errors.duracion?.message}>
                             <Input
                                 tipo="date"
                                 id="duracion_combo"
+                                deshabilitado={!modificar}
                                 {...register("duracion", {
                                     required: { value: true, message: "Ingrese fecha limite del descuento" },
                                     validate: (value) => {
@@ -146,6 +151,7 @@ export default function FormularioCombo({ onGuardar }) {
                                 tipo="costo"
                                 id="costo"
                                 placeholder="00,00"
+                                deshabilitado={!modificar}
                                 {...register("costo", {
                                     required: {
                                         value: true,
@@ -169,12 +175,10 @@ export default function FormularioCombo({ onGuardar }) {
                     </div>
                 </div>
                 <div className="__boton_combo">
-                    <Boton descripcion='Crear' habilitado submit></Boton>
+                    <Boton descripcion='Modificar' habilitado={!modificar} onClick={manejaModificacion}></Boton>
+                    <Boton descripcion='Guardar' habilitado={modificar} submit></Boton>
                 </div>
             </form >
-            <Modal visible={modalAgregarProducto} titulo="Agregar al Combo" anchura="600px" funcion={manejaModalAgregarProducto}>
-                <AgregarProducto onGuardar={manejaModalAgregarProducto} onAgregarProducto={manejarAgregarProducto} paraCombo></AgregarProducto>
-            </Modal>
         </>
     )
 }

@@ -4,6 +4,7 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from '../../Boton/Boton'
 import './NuevaMarca.css'
 import { useState } from 'react'
+import { toast } from "sonner";
 
 export default function NuevaMarca({ onGuardar, actualizarCategoriasYMarcas}) {
 
@@ -26,15 +27,18 @@ export default function NuevaMarca({ onGuardar, actualizarCategoriasYMarcas}) {
 
       if (respuesta.ok) {
         reset();
+        toast.success("Marca creada correctamente.",{className:"__toaster_success"});
         actualizarCategoriasYMarcas.current();
         onGuardar();
         const marcaCreada = await respuesta.json();
         console.log('Marca creada:', marcaCreada);
       } else {
         console.error('Error al crear la marca');
+        toast.error("Error al crear la marca.",{className:"__toaster_error"});
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
+      toast.error("Error inesperado al crear la marca.",{className:"__toaster_error"});
     }finally{
       setCargando(false);
     }

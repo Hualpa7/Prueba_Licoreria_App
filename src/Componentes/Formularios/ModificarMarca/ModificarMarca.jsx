@@ -4,6 +4,7 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from '../../Boton/Boton'
 import '../NuevaMarca/NuevaMarca.css'
 import { useState } from 'react'
+import { toast } from "sonner";
 
 
 export default function ModificarMarca({ onGuardar, id_marca }) {
@@ -29,15 +30,17 @@ export default function ModificarMarca({ onGuardar, id_marca }) {
 
             if (!respuesta.ok) {
                 console.error('Error al modificar la marca');
-
+                toast.error("Error al modificar la marca.",{className:"__toaster_error"});
 
             }
             const marcaCreada = await respuesta.json();
             console.log('Marca Modificada:', marcaCreada);
+            toast.success("Marca modificada correctamente.",{className:"__toaster_success"});
             onGuardar();
 
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error inesperado al modificar la marca.",{className:"__toaster_error"});
         } finally {
             setCargando(false);
         }

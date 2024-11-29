@@ -7,7 +7,7 @@ import '../NuevoProducto/NuevoProducto.css';
 import './ModificarProducto.css';
 import restar from '../../../assets/eliminar.png'
 import { useState, useEffect } from 'react'
-
+import { toast} from "sonner";
 
 export default function ModificarProducto({ autocompletar, onGuardar, categorias, marcas }) {
 
@@ -68,6 +68,7 @@ export default function ModificarProducto({ autocompletar, onGuardar, categorias
 
             if (!respuestaProducto.ok) {
                 console.error('Error al modificar el producto');
+                toast.error("Error al modificar el producto",{className:"__toaster_error"});
                 return;
             }
 
@@ -95,21 +96,33 @@ export default function ModificarProducto({ autocompletar, onGuardar, categorias
 
             if (!respuestaStock.ok) {
                 console.error('Error al crear el registro en stock');
+                toast.error("Error al crear el registro en stock.",{className:"__toaster_error"});
                 return;
             }
 
             const stockCreado = await respuestaStock.json();
             console.log('Registro en stock creado:', stockCreado);
 
-            reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
-            onGuardar();
 
+            
+            
+            toast.success("Producto modificado correctamente.",{className:"__toaster_success"});
+            reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
+
+            onGuardar();
+           
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error inesperado al modficar el producto.",{className:"__toaster_error"});
         } finally{
             setCargando(false);
         }
+        
     };
+
+
+
+    
 
 
 
@@ -230,6 +243,7 @@ export default function ModificarProducto({ autocompletar, onGuardar, categorias
                     </div>
                 </div>
                 <div className="__formulario_boton">
+                   
                     <Boton descripcion='Modificar' habilitado={!modificar} onClick={manejaModificacion}></Boton>
                     <Boton descripcion='Guardar' habilitado={modificar} submit></Boton>
                 </div>

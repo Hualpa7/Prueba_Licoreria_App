@@ -2,5 +2,8 @@
     "Codigo",
     "Nombre",
     "Cantidad",
-    "IVA"
+    "Subtotal",
+    "IVA",
+    "Descuento",
+    "Neto"
 ]

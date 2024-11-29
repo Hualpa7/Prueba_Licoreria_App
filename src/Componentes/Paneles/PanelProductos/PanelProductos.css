@@ -6,6 +6,7 @@
 
 .__panel_productos form{
     flex-grow: 1;
+    display: flex;
 }
 
 .__panel_productos .__columna1{

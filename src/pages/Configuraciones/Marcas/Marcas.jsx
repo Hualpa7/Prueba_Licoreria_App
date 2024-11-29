@@ -58,7 +58,7 @@ export default function Marcas({ }) {
 
     const main = <div className='__cuerpo_marcas'>
         <div className='__cabecera_marcas'>
-            <h1 class="xyz " xyz=" down">Marcas</h1>
+            <h1 >Marcas</h1>
             <Boton icono={mas} habilitado onClick={manejamodalNuevaMarca}></Boton>
         </div>
         <div className='__lista_marcas'>

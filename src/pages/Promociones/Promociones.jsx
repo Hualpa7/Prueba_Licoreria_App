@@ -5,13 +5,12 @@ import Pestanias from "../../Componentes/Pestanias/Pestanias";
 import Boton from "../../Componentes/Boton/Boton";
 import { useState, useEffect, useRef } from 'react'
 import columnasCombo from '../../Datos_Pruebas/Columnas_Combo.json'
-import datosCombo from '../../Datos_Pruebas/Datos_Combo.json'
 import columnasDescuento from '../../Datos_Pruebas/Columnas_Descuentos.json'
-
 import Modal from "../../Componentes/Modal/Modal";
 import FormularioCombo from "../../Componentes/Formularios/NuevoCombo/FormularioCombo";
 import FormularioDescuento from "../../Componentes/Formularios/NuevoDescuento/FormularioDescuento";
 import ModificarDescuento from "../../Componentes/Formularios/ModificarDescuento/ModificarDescuento";
+import ModificarCombo from "../../Componentes/Formularios/ModificarCombo/ModificarCombo";
 
 
 export default function Promociones({ }) {
@@ -69,7 +68,7 @@ export default function Promociones({ }) {
   };
 
 
-  //FUNCION PARA ELIMINAR 
+  //FUNCION PARA ELIMINAR DESCUENTO
 
 
   const eliminaDescuento = async () => {
@@ -107,12 +106,13 @@ export default function Promociones({ }) {
   const manejarSeleccion = (elemento) => {
     setElementoSeleccionado(elemento);
   };
+  
 
   ///////SELECCION ELEMENTO TIPO DESCUENTO
   const [descuentoSeleccionado, setDescuentoSeleccionado] = useState();
 
   useEffect(() => {
-    if (elementoSeleccionado) {
+    if (elementoSeleccionado && ofertaSeleccionada==='Descuento') {
       fetch(`http://127.0.0.1:8000/api/descuento/${elementoSeleccionado.Codigo}`)
         .then(respuesta => respuesta.json())
         .then(datos => setDescuentoSeleccionado(datos))
@@ -121,11 +121,24 @@ export default function Promociones({ }) {
   }, [elementoSeleccionado]);//Cuando cambie elementoSeleccionado se ejecuta el efecto
 
 
+   ///////SELECCION ELEMENTO TIPO DESCUENTO
+   const [comboSeleccionado, setComboSeleccionado] = useState();
+  
+  useEffect(() => {
+    if (elementoSeleccionado && ofertaSeleccionada==='Combo') {
+      fetch(`http://127.0.0.1:8000/api/combo/${elementoSeleccionado.id_combo}`)
+        .then(respuesta => respuesta.json())
+        .then(datos => setComboSeleccionado(datos))
+        .catch(e => console.log(e));
+    }
+  }, [elementoSeleccionado]);//Cuando cambie elementoSeleccionado se ejecuta el efecto
+
+  console.log(comboSeleccionado);
 
   ////ACTUALIZACION DE DATOS USANDO REF PARA INDICARLE AL COMPONENTE DE PANEL PRODUCTOS QUE ACTUALICE LA BUSQUEDA DESPUES DE CADA CRUD
 
   const panelPromocionesRef = useRef(); // 1º objeto puntero que usamos para acceder al componente HIJO
-
+  
   const actualizarDatos = () => { // 2º funcion que actualiza los datos
     if (panelPromocionesRef.current) { //current en un principi podria ser null, si no lo esta lo accede
       panelPromocionesRef.current.actualizarDatos();
@@ -180,12 +193,14 @@ Los nuevos datos se muestran en la tabla*/
     <Boton descripcion={"VER"} onClick={manejaModifiOferta} habilitado={elementoSeleccionado}></Boton>
     <Boton descripcion={"ELIMINAR"} onClick={manejaEliminacionOferta} habilitado={elementoSeleccionado}></Boton>
 
-    <Modal visible={modalNuevo} titulo={`Cargar Nuevo ${ofertaSeleccionada}`} funcion={manejaModalNuevo} anchura={"600px"} >
-      {ofertaSeleccionada === 'Combo' ? <FormularioCombo /> : <FormularioDescuento onGuardar={manejaModalNuevo} />}
+    <Modal visible={modalNuevo} titulo={`Cargar Nuevo ${ofertaSeleccionada}`} funcion={manejaModalNuevo} anchura={ofertaSeleccionada === 'Combo' ? "900px" : "600px"} >
+      {ofertaSeleccionada === 'Combo' ? <FormularioCombo onGuardar={manejaModalNuevo}/> : <FormularioDescuento onGuardar={manejaModalNuevo} />}
     </Modal>
 
-    <Modal visible={modalModifOferta} titulo={`Detalles del ${ofertaSeleccionada}`} funcion={manejaModifiOferta} anchura={"600px"} >
-      {ofertaSeleccionada === 'Combo' ? '' : <ModificarDescuento autocompletar={descuentoSeleccionado} onGuardar={manejaModifiOferta} />}
+    <Modal visible={modalModifOferta} titulo={`Detalles del ${ofertaSeleccionada}`} funcion={manejaModifiOferta} anchura={ofertaSeleccionada === 'Combo' ? "900px" : "600px"} >
+      {ofertaSeleccionada === 'Combo' ? 
+      <ModificarCombo autocompletar={comboSeleccionado} onGuardar={manejaModifiOferta}/> : 
+      <ModificarDescuento autocompletar={descuentoSeleccionado} onGuardar={manejaModifiOferta} />}
     </Modal>
 
     <Modal visible={modalEliminafOferta} titulo={`Eliminar ${ofertaSeleccionada}?`} funcion={manejaEliminacionOferta} anchura={"500px"} >

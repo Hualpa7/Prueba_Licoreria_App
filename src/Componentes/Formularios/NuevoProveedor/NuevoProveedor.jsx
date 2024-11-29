@@ -3,6 +3,7 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import './NuevoProveedor.css';
+import { toast } from "sonner";
 
 export default function NuevoProveedor({ onGuardar,actualizarProveedores }) {
 
@@ -26,15 +27,17 @@ export default function NuevoProveedor({ onGuardar,actualizarProveedores }) {
     
           if (respuesta.ok) { 
             actualizarProveedores.current();
-
+            toast.success("Proveedor registrado correctamente.",{className:"__toaster_success"});
             onGuardar();
             const proveedorCreado = await respuesta.json();
             console.log('Proveedor creado:', proveedorCreado);
           } else {
             console.error('Error al crear el proveedor'); 
+            toast.error("Error al registrar al proveedor.",{className:"__toaster_error"});
           }
         } catch (error) {
           console.error('Error en la solicitud:', error);
+          toast.error("Error inesperado al registrar al proveedor.",{className:"__toaster_error"});
         }
       };
 

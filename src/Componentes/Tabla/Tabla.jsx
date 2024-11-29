@@ -18,6 +18,14 @@ export default function Tabla({ columnas, datos, onSeleccionar, onOrdenar, colum
   };
 
 
+  //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
+  const transformaMayusucula = (str) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+
+//LAYOUT
+
   return (
     <div className="__tabla_contenedor">
       <table>
@@ -48,7 +56,7 @@ export default function Tabla({ columnas, datos, onSeleccionar, onOrdenar, colum
                 return (
                   <td key={i}>
                     {Array.isArray(valor)
-                      ? valor.map(item => `${item.Bebida} x${item.Cantidad}`).join(' - ')
+                      ? valor.map(item => `${transformaMayusucula(item.producto)} x${item.cantidad} unid.`).join(' - ')
                       : valor}
                   </td>
                 );

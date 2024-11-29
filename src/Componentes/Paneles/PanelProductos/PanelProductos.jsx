@@ -23,7 +23,7 @@ const PanelProductos = forwardRef(({ categorias, marcas, onDatosFiltrados, onMan
 
     /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
-   
+
 
     const clickPerfil = () => {
         setOpcionesPerfil(!opcionesPerfil);
@@ -31,7 +31,7 @@ const PanelProductos = forwardRef(({ categorias, marcas, onDatosFiltrados, onMan
 
     const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
 
-  
+
 
 
 
@@ -145,12 +145,23 @@ const PanelProductos = forwardRef(({ categorias, marcas, onDatosFiltrados, onMan
                             </Tarjeta>
                         </div>
                     </div>
+                    <div className='__columna2'>
+                        <div className='__col1'>
+                            <Tarjeta descripcion="Marcas" forid="marcas">
+                                <Selector opciones={marcas.map(marca => ({ label: marca.nombre_marca, value: marca.id_marca }))}
+                                    opcionNula="Todas"
+                                    id="marcas"
+                                    {...register("id_marca")}
+                                />
+                            </Tarjeta>
+                        </div>
+                    </div>
                 </form>
 
                 <div className="__boton_perfil">
                     <BotonPerfil onClick={clickPerfil} />
 
-                    <XyzTransition 
+                    <XyzTransition
                         xyz="fade small-100% duration-3 origin-top"
                         appear
                     >

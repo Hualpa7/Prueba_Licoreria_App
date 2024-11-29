@@ -76,9 +76,12 @@ export default function Ventas({ }) {
             Subtotal: `$ ${(parseFloat(item.costo.replace(',', '.')) * item.cantidad).toFixed(2).replace('.', ',')}`,
             IVA: `${item.iva} %`,
             Descuento: `${item.descuento_porcentaje === null ? 0 : item.descuento_porcentaje} %`,
-            TOTAL: `$ ${((parseFloat(item.costo.replace(',', '.')) -
-              (parseFloat(item.costo.replace(',', '.')) * (item.descuento_porcentaje === null ? 0 : item.descuento_porcentaje) / 100) +
-              (parseFloat(item.costo.replace(',', '.')) * (item.iva) / 100)) * item.cantidad).toFixed(2).replace('.', ',')}`,
+            TOTAL: `$ ${(
+              (parseFloat(item.costo.replace(',', '.')) *
+              (1 + item.iva / 100) * // Agrega el IVA
+              (1 - (item.descuento_porcentaje === null ? 0 : item.descuento_porcentaje / 100))) * // Aplica el descuento 
+              item.cantidad).toFixed(2).replace('.', ',')}`
+
           }));
           setVenta(datosVentaTransformados);
         })
@@ -86,13 +89,13 @@ export default function Ventas({ }) {
     }
   }, [elementoSeleccionado]);
 
- //console.log(elementoSeleccionado);
+  //console.log(elementoSeleccionado);
 
   /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
   const [cargando, setCargando] = useState(false);
 
   const manejaCargando = ((valor) => {
-        setCargando(valor);
+    setCargando(valor);
   });
 
 
@@ -101,8 +104,8 @@ export default function Ventas({ }) {
   const header = <PanelVentas onDatosFiltrados={obtieneDatosFiltrados} onManejaCargando={manejaCargando}></PanelVentas>
 
 
-  const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={5} 
-  itemsPorPaginaOpcional onElementoSeleccionado={manejarSeleccion} cargando={cargando}>
+  const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={5}
+    itemsPorPaginaOpcional onElementoSeleccionado={manejarSeleccion} cargando={cargando}>
 
   </TablaConPaginacion>
 

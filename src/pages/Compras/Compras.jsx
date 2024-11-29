@@ -16,7 +16,7 @@ export default function Compras({ }) {
   ////////////OBTENGO A TODOS LOS PROVEEDORES
   const [proveedores, setProveedores] = useState([]);
 
-  const obtenerProveedores = ()=> {
+  const obtenerProveedores = () => {
     fetch('http://127.0.0.1:8000/api/proveedor')
       .then(respuesta => respuesta.json())
       .then(datos => setProveedores(datos))
@@ -34,14 +34,20 @@ export default function Compras({ }) {
   const [modalNuevaCompra, setModalNuevaCompra] = useState(false); // Abre o cierra el modal nuevo prodcuto
   const manejaModalNuevaCompra = () => {
     setModalNuevaCompra(!modalNuevaCompra);
+
+    if (modalNuevaCompra) {  //si el modal estaba abierto, actualiza los datos
+      actualizarDatos();//acutaliza datos despues de cerrarse el modal
+    }
   };
 
 
   const [datos, setDatos] = useState([]);
   const obtieneDatosFiltrados = (datosFiltrados) => {
     setDatos(datosFiltrados);
+    
   };
 
+  
   /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
   const [cargando, setCargando] = useState(false);
 
@@ -53,17 +59,32 @@ export default function Compras({ }) {
   ///CREO UN PUNTERO USEREF PARA PASARSELO AL MODAL DE NUEVA COMPRA PARA QUE RECIBA y SE LO PASE
   /// A NUEVO PROVEEDOR, ASI CUANDO CREE UNO NUEVO, SEEJECUTA NUEVAMENTE LA FUNCION OBTENERPROVEEDORES CON ELNUEVO PROVEEDOR
 
-  const actualizarProveedores = useRef( () =>{
+  const actualizarProveedores = useRef(() => {
     obtenerProveedores();
   })
+
+  ////ACTUALIZACION DE DATOS USANDO REF PARA INDICARLE AL COMPONENTE DE PANEL COMPRAS QUE ACTUALICE LA BUSQUEDA DESPUES DE CADA CRUD
+  const panelComprasRef = useRef();
+
+  const actualizarDatos = () => {
+    if (panelComprasRef.current) {
+      panelComprasRef.current.actualizarDatos();
+    }
+  };
 
 
   ////LAYOUT
 
-  const header = <PanelCompras onDatosFiltrados={obtieneDatosFiltrados} onManejaCargando={manejaCargando} proveedores={proveedores}></PanelCompras>
+  const header = <PanelCompras
+    ref={panelComprasRef}
+    onDatosFiltrados={obtieneDatosFiltrados}
+    onManejaCargando={manejaCargando}
+    proveedores={proveedores}>
+
+  </PanelCompras>
 
 
-  const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={5} itemsPorPaginaOpcional
+  const main = <TablaConPaginacion columnas={columnas} datos={datos} itemsPorPagina={6} itemsPorPaginaOpcional
     cargando={cargando}
   ></TablaConPaginacion>
 
@@ -72,7 +93,7 @@ export default function Compras({ }) {
   const footer = <div style={{ display: "flex" }}>
     <Boton descripcion={"NUEVA"} onClick={manejaModalNuevaCompra} habilitado></Boton>
     <Modal visible={modalNuevaCompra} titulo="Nueva Compra" funcion={manejaModalNuevaCompra} anchura={"800px"} >
-      <Compra onGuardar={manejaModalNuevaCompra} actualizarProveedores = {actualizarProveedores}></Compra>
+      <Compra onGuardar={manejaModalNuevaCompra} actualizarProveedores={actualizarProveedores} siguienteCompra={(datos[datos.length-1]?.id_compra)}></Compra>
     </Modal>
   </div>
 

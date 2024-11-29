@@ -7,29 +7,30 @@ import BotonPerfil from '../../BotonPerfil/BotonPerfil';
 import { XyzTransition } from "@animxyz/react";
 import { useForm, useWatch } from 'react-hook-form';
 import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
+import { toast } from 'sonner';
 
 
 //4º ESTABLECEMOS COMO forwardRef, permitiendo al componente recibir una ref como segundo parametro
 const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos, onDatosFiltradosCombos, onManejaCargando, ...props }, ref) => {
 
 
-
     /////5º EXPONEMOS EL METODO ACTUALIZAR REF PARA QUE LO VEA EL PADRE
 
     useImperativeHandle(ref, () => ({  //Con este metodo indicamos que metodos o propiedades estaran disponibles a traves del ref
         actualizarDatos: () => {
-            obtenerDatosDescuentos();
+            tipoOferta === 'Descuento' ? obtenerDatosDescuentos() : obtenerDatosCombos();
+            
         }
     }));
 
-      /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
-      const [opcionesPerfil, setOpcionesPerfil] = useState(false);
+    /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
+    const [opcionesPerfil, setOpcionesPerfil] = useState(false);
 
-      const clickPerfil = () => {
-          setOpcionesPerfil(!opcionesPerfil);
-      }
+    const clickPerfil = () => {
+        setOpcionesPerfil(!opcionesPerfil);
+    }
 
-      const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
+    const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
 
     //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
     const transformaMayusucula = (str) => {
@@ -40,6 +41,7 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
     const { register, control, setValue } = useForm({
         defaultValues: {
             oferta: "Descuento"
+
         }
     });
 
@@ -49,8 +51,7 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
     // Observar en tiempo real el valor del selector de OFERT
     const tipoOferta = useWatch({ control, name: "oferta" });
 
-    // Observar en tiempo real el valor del selector de tipo de Busqueda
-    const tipoBusqueda = useWatch({ control, name: "oferta" });
+
 
     // Enviar `tipoOferta` al componente padre cada vez que cambie
     useEffect(() => {
@@ -83,8 +84,9 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
 
     const obtenerDatosDescuentos = async (data) => { //funcion que hace la consulta dependiendo los filtros
         onManejaCargando(true);
+
         try {
-            if (filtro.tipo !== "Combo") {
+            if (filtro.tipo !== "Combo" ) {
 
                 const respuestaOferta = await fetch('http://127.0.0.1:8000/api/descuento/filtro', {
                     method: 'POST',
@@ -110,13 +112,19 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
                 }));
                 onDatosFiltradosDescuentos(datosTransformados);
             }
-            else onDatosFiltradosDescuentos([]);
+            else {
+                onDatosFiltradosDescuentos([]);
+                toast.info("Cambie la opcion de Busqueda a Producto.", { className: "__toaster_info" });
+            }
+
         } catch (error) {
             console.error('Error en la solicitud:', error);
         } finally {
             onManejaCargando(false);
         }
+
     };
+
 
 
     /////////TRAEMOS LOS DATOS FILTRADOS DE COMBOS
@@ -124,31 +132,40 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
     const obtenerDatosCombos = async (data) => { //funcion que hace la consulta dependiendo los filtros
         onManejaCargando(true);
         try {
+            if (filtro.tipo !== "Producto") {
+                const respuestaOferta = await fetch('http://127.0.0.1:8000/api/combo/filtro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+    
+                const datos = await respuestaOferta.json();
+    
+                const datosTransformados = datos.map(item => ({
+                    id_combo: item.id_combo,
+                    Nombre_Combo: transformaMayusucula(item.nombre),
+                    Descripcion: item.productos,
+                    Costo_Combo: `$ ${item.costo.replace('.', ',')}`,
+                    Duracion: new Date(item.duracion).toLocaleDateString(),
+                }));
+                onDatosFiltradosCombos(datosTransformados);
+            }
+            else{
+                onDatosFiltradosCombos([]);
+                toast.info("Cambie la opcion de Busqueda a Combo.", { className: "__toaster_info" });
+            }
 
-            const respuestaOferta = await fetch('http://127.0.0.1:8000/api/combo/filtro', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            const datos = await respuestaOferta.json();
-
-            const datosTransformados = datos.map(item => ({
-                Nombre_Combo: item.nombre,
-                Descripcion: productos,
-                Costo_Combo: `$ ${item.costo}`,
-                Duracion: item.duracion,
-            }));
-            onDatosFiltradosCombos(datosTransformados);
         } catch (error) {
             console.error('Error en la solicitud:', error);
         } finally {
             onManejaCargando(false);
         }
     };
+
+
 
 
 
@@ -160,9 +177,10 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
                 <form>
                     <div className='__columna1'>
                         <div className='__col1'>
-                            <Tarjeta descripcion="Oferta" forid="oferta">
-                                <Selector opciones={[{ label: "Combo", value: "Combo" }, { label: "Descuento", value: "Descuento" }]}
+                            <Tarjeta descripcion="Tipo de Oferta" forid="oferta">
+                                <Selector opciones={[{ label: "Combos", value: "Combo" }, { label: "Descuentos", value: "Descuento" }]}
                                     id="oferta"
+                                    opcionDefecto
                                     {...register("oferta")}
                                 />
                             </Tarjeta>
@@ -176,6 +194,7 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
                             <Tarjeta descripcion="Por Producto o Combo" forid="tipo_busqueda">
                                 <Selector opciones={[{ label: "Producto", value: "Producto" }, { label: "Combo", value: "Combo" }]}
                                     id="tipo_busqueda"
+                                    opcionDefecto
                                     {...register("tipo")}
                                 />
                             </Tarjeta>
@@ -184,9 +203,9 @@ const PanelPromociones = forwardRef(({ onTipoOferta, onDatosFiltradosDescuentos,
 
                 </form>
                 <div className='__boton_perfil'>
-                    
-                        <BotonPerfil onClick={clickPerfil}></BotonPerfil>
-                        <XyzTransition 
+
+                    <BotonPerfil onClick={clickPerfil}></BotonPerfil>
+                    <XyzTransition
                         xyz="fade small-100% duration-3 origin-top"
                         appear
                     >

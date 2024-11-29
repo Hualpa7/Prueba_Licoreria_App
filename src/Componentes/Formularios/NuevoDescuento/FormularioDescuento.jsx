@@ -6,6 +6,7 @@ import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Boton from "../../Boton/Boton";
 import './FormularioDescuento.css';
+import { toast } from "sonner";
 
 
 export default function FormularioDescuento({ onGuardar }) {
@@ -32,15 +33,18 @@ export default function FormularioDescuento({ onGuardar }) {
                 body: JSON.stringify(data),
             });
             if (!respuestaDescuento.ok) {
-                console.error('Error al crear la compra');
+                console.error('Error al crear el descuento');
+                toast.error("Error al crear el descuento.",{className:"__toaster_error"});
                 return;
             }
 
             reset();
+            toast.success("Descuento creado correctamente.",{className:"__toaster_success"});
             onGuardar();
             console.log(data);
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error al crear el combo.",{className:"__toaster_success"});
         } finally {
             setCargando(false);
         }
@@ -120,6 +124,7 @@ export default function FormularioDescuento({ onGuardar }) {
 
                         <Tarjeta descripcion="Buscar por">
                             <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]} id="tipoBusqueda"
+                            opcionDefecto
                              {...register("tipo_busqueda_Producto")}
                             />
                         </Tarjeta>

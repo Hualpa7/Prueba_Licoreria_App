@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
 
+
 export default function IniciarSesion() {
     const navegarHacia = useNavigate();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
-        
+
     });
 
 
@@ -24,21 +25,37 @@ export default function IniciarSesion() {
                 body: JSON.stringify(data), //se crea el JSON con los datos del formulario
             });
 
-
+            
             const resultado = await respuesta.json();
 
-            // Guarda el token en el almacenamiento local
-            const token = resultado.token; 
+            // Se obtiene el token
+            const token = resultado.token;
             if (!token) {
                 throw new Error("Token no recibido");
             }
 
-            localStorage.setItem("authToken", token);//Guarda el token
+             //Con el token obtengo los datos del usuario
+             const respuestaUsuario = await fetch("http://127.0.0.1:8000/api/usuario/usuario", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+             });
+             const usuario = await respuestaUsuario.json();
+             console.log(usuario);
 
-            // Redirige al usuario a la página de productos
+
+
+
+            localStorage.setItem("authToken", token);//Guarda el token
+            localStorage.setItem("usuario", JSON.stringify(usuario));//Guardamos al usuario
+
+            // Redirige al usuario a la página de vender
             setCargando(false);
-            navegarHacia('/productos');
-            
+            navegarHacia('/vender');
+
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             alert("Usuario o contraseña incorrectos");
@@ -46,17 +63,17 @@ export default function IniciarSesion() {
     }
 
     /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
-  const [cargando, setCargando] = useState(false);
+    const [cargando, setCargando] = useState(false);
 
-  const manejaCargando = ((valor) => {
+    const manejaCargando = ((valor) => {
         setCargando(valor);
-  });
+    });
 
-  //LAYOUT
+    //LAYOUT
 
     return (
         <>
-           {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
+            {cargando && <div className='__cargando_fondo'><div className="__cargando"></div> </div>}
             <div className="formLogin">
                 <div id="inicio"> <h2>Inicio de Sesion</h2>
                 </div>

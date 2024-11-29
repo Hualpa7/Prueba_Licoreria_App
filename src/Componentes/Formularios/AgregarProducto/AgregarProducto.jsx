@@ -8,22 +8,22 @@ import { useBusqueda } from "../../../hooks/useBusqueda";
 
 
 
-export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
+export default function AgregarProducto({ onGuardar, onAgregarProducto, paraCombo }) {
 
 
 
     //HOOKK FORM
-    const { register, handleSubmit, formState: { errors }, control, reset,setValue } = useForm({
+    const { register, handleSubmit, formState: { errors }, control, reset, setValue } = useForm({
         defaultValues: {
             tipo_busqueda_Producto: "Nombre",
         }
 
     });
 
-     //USE WATCH PARA SABER QUE TIPO DE BUSQUEDA SE ESTA REALIZANDO, POR CODIGO O NOMBRE
-     const tipoBusquedaProducto = useWatch({ control, name: "tipo_busqueda_Producto" });
+    //USE WATCH PARA SABER QUE TIPO DE BUSQUEDA SE ESTA REALIZANDO, POR CODIGO O NOMBRE
+    const tipoBusquedaProducto = useWatch({ control, name: "tipo_busqueda_Producto" });
 
-      //USAR HOOK DE USEBUSQUEDA PARA BUSCAR PRODUCTO
+    //USAR HOOK DE USEBUSQUEDA PARA BUSCAR PRODUCTO
     const {
         sugerencias: productoSugerencias,
         terminoBusqueda: buscarProducto,
@@ -36,9 +36,15 @@ export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
 
     const onSubmit = (data) => {
         console.log(productoSeleccionado);
-       onAgregarProducto({Codigo:data.id_producto, Nombre: `${productoSeleccionado}`,Cantidad:data.cantidad,IVA:data.iva});
-       onGuardar();
+        const producto = { id_producto: data.id_producto, Nombre: `${productoSeleccionado}`, cantidad: data.cantidad, };
+        if (!paraCombo) {
+            producto.IVA = data.iva;
+        }
+        onAgregarProducto(producto);
+        onGuardar();
     }
+
+    ///LAYOUT
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="__form_Agrego_carrito">
@@ -54,12 +60,12 @@ export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
                                 setBuscarProducto(e.target.value);
                                 if (productoSeleccionado) seleccionarProducto(null);
                             }}
-                            /*{...register("producto", {
-                                required:{
-                                    value:true,
-                                    message: "Ingrese producto"
-                                }
-                            })}*/
+                        /*{...register("producto", {
+                            required:{
+                                value:true,
+                                message: "Ingrese producto"
+                            }
+                        })}*/
 
                         />
                         {productoSugerencias.length > 0 && (
@@ -93,11 +99,11 @@ export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
                 </div>
                 <div className="__columna2">
                     <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]} id="tipoBusqueda"
+                        opcionDefecto
                         {...register("tipo_busqueda_Producto")}
                     >
                     </Selector>
-
-                    <Tarjeta descripcion="IVA %" forid="iva" mensajeError={errors.iva?.message}>
+                    {!paraCombo && <Tarjeta descripcion="IVA %" forid="iva" mensajeError={errors.iva?.message}>
                         <Input
                             tipo="input"
                             id="iva"
@@ -113,7 +119,8 @@ export default function AgregarProducto({ onGuardar,onAgregarProducto }) {
                                 },
                             })}
                         />
-                    </Tarjeta>
+                    </Tarjeta>}
+
                 </div>
             </div>
             <div className="__columna3">

@@ -4,6 +4,7 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Input from "../../Input/Input";
 import Boton from "../../Boton/Boton";
 import '../NuevoDescuento/FormularioDescuento.css'
+import { toast } from "sonner";
 
 export default function ModificarDescuento({ autocompletar, onGuardar }) {
 
@@ -42,6 +43,7 @@ export default function ModificarDescuento({ autocompletar, onGuardar }) {
 
             if (!respuestaDescuento.ok) {
                 console.error('Error al modificar el descuento');
+                toast.error("Error al modificar el descuento.",{className:"__toaster_error"});
                 return;
             }
 
@@ -49,11 +51,12 @@ export default function ModificarDescuento({ autocompletar, onGuardar }) {
             const descuentoModificado = await respuestaDescuento.json();
             console.log('Descuento modificado:', descuentoModificado);
 
-
+            toast.success("Descuento modificado correctamente.",{className:"__toaster_success"});
             onGuardar();
 
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error inesperado al modificar el descuento.",{className:"__toaster_error"});
         } finally{
             setCargando(false);
         }

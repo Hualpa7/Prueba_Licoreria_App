@@ -2,7 +2,7 @@ import './Selector.css';
 import { useState, useEffect } from 'react';
 import React, { forwardRef } from 'react';
 
-const Selector = forwardRef(function Selector({ opciones, id, defaultValue, opcionNula,deshabilitado, ...restoProp }, ref) {
+const Selector = forwardRef(function Selector({ opciones, id, defaultValue, opcionDefecto,opcionNula,deshabilitado, ...restoProp }, ref) {
     const deshabilit = deshabilitado ? 'no-habilitado' : '';
 
     return (
@@ -14,7 +14,8 @@ const Selector = forwardRef(function Selector({ opciones, id, defaultValue, opci
             className={`__selector ${deshabilit}`}
             {...restoProp}
         >
-            <option value=""> {opcionNula ? opcionNula : "Seleccionar"}</option>
+
+            {!opcionDefecto && (<option value=""> {opcionNula ? opcionNula : "Seleccionar"}</option>) }
             {opciones.map((opcion, indice) => (
                 <option key={indice} value={opcion.value}>
                     {opcion.label}

@@ -1,8 +1,10 @@
-import { Inicio, Compras, Ventas, Promociones, Vender, 
-    Productos,InicioSesion,Perfil, Configuracion,
-     Categorias,Marcas,Proveedores,Sucursales,Usuarios,Roles,Datos } from "./pages";
+import {
+    Inicio, Compras, Ventas, Promociones, Vender,
+    Productos, InicioSesion, Perfil, Configuracion,
+    Categorias, Marcas, Proveedores, Sucursales, Usuarios, Roles, Datos
+} from "./pages";
 
-     import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -10,40 +12,40 @@ import { Inicio, Compras, Ventas, Promociones, Vender,
 const routes = [
     {
         path: '/',
-        element: <Inicio/>
+        element: <Inicio />
     },
     {
         path: '/compras/*',
-        element: <Compras/>
+        element: <Compras />
     },
     {
         path: '/ventas/*',
-        element: <Ventas/>
+        element: <Ventas />
     },
     {
         path: '/productos/*',
-        element: <Productos/>
+        element: <Productos />
     },
     {
         path: '/promociones/*',
-        element: <Promociones/>
+        element: <Promociones />
     },
     {
         path: '/vender/*',
-        element: <Vender/>
+        element: <Vender />
     },
     {
         path: '/inicioSesion',
-        element: <InicioSesion/>
+        element: <InicioSesion />
     },
     {
         path: 'perfil/*',
-        element: <Perfil/>
+        element: <Perfil />
     },
-    
+
     {
         path: '*',
-        element: <Inicio/>
+        element: <Inicio />
     }
 ]
 

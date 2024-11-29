@@ -4,13 +4,13 @@ import Tarjeta from '../../ComponentesFormulario/Tarjeta/Tarjeta';
 import Radio from '../../Radio/Radio'
 import './PanelCompras.css'
 import BotonPerfil from '../../BotonPerfil/BotonPerfil';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import meses from '../../../Datos_Pruebas/Meses.json'
 import { useForm, useWatch } from 'react-hook-form';
 import { XyzTransition } from "@animxyz/react";
 import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
 
-export default function PanelCompras({ onDatosFiltrados, onManejaCargando, proveedores }) {
+const PanelCompras = forwardRef(({ onDatosFiltrados, onManejaCargando, proveedores }, ref) => {
 
     /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
@@ -20,6 +20,14 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando, prove
     }
 
     const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
+
+
+    ///////FUNCION REF DEL PADRE QUE LE INDICA QUE OBTENGA LOS DATOS NUEVAMENTE DEL BACKKEND
+    useImperativeHandle(ref, () => ({  //Con este metodo indicamos que metodos o propiedades estaran disponibles a traves del ref
+        actualizarDatos: () => {
+            obtenerDatosFiltrados();
+        }
+    }));
 
     //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
     const transformaMayusucula = (str) => {
@@ -40,7 +48,9 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando, prove
 
     const { register, control, setValue } = useForm({
         defaultValues: {
-            periodo_compras: "Todas las compras" // Valor por defecto
+            periodo_compras: "Todas las compras", // Valor por defecto
+            tipo: "Nombre"
+
         }
     });
 
@@ -65,6 +75,7 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando, prove
             const datos = await respuestaCompra.json();
 
             const datosTransformados = datos.map(item => ({
+                id_compra: item.id_compra,
                 Proveedor: transformaMayusucula(item.nombreProveedor),
                 Producto: transformaMayusucula(item.nombreProducto),
                 Cantidad: item.cantidad,
@@ -133,6 +144,7 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando, prove
                             <Tarjeta descripcion="Por Codigo o Nombre" forid="tipo_busqueda">
                                 <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
                                     id="tipo_busqueda"
+                                    opcionDefecto
                                     {...register("tipo")} />
                             </Tarjeta>
                         </div>
@@ -191,7 +203,7 @@ export default function PanelCompras({ onDatosFiltrados, onManejaCargando, prove
                     </XyzTransition>
                 </div>
             </div>
-        
+
         </>
     )
-}
+}); export default PanelCompras;

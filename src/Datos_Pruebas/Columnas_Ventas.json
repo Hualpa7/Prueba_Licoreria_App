@@ -1,8 +1,8 @@
 [
     "Numero_Venta",
-    "Total",
+    "Neto",
     "Fecha",
     "Descuento_Gral",
-    "Neto",
+    "Total",
     "Vendedor"
   ]

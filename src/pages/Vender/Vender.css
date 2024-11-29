@@ -1,0 +1,58 @@
+.__cuerpo_vender{
+    display: flex;
+    gap:50px;
+}
+
+.__cuerpo_vender .__agregar_quitar{
+    gap:70px;
+}
+
+
+.__cuerpo_vender .__agregar_quitar  .habilitado:hover{
+    background-color: rgb(207, 251, 222);
+}
+
+.__cuerpo_vender .__agregar_quitar .__quitar .habilitado:hover{
+    background-color: rgb(249, 203, 203);
+}
+
+.__footer_vender form{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+.__footer_vender form .__tarjeta .__input-costo{
+    background-image: url(/src/assets/peso.png);
+    background-repeat: no-repeat;
+    background-position-x: 7px;
+    background-position-y: 12px;
+    padding-left: 35px;
+    width: 100px;
+    height: 35px;
+    background-size: 25px;
+    font-size: 20px;
+}
+
+
+.__footer_vender form .__tarjeta .__input-porcentaje{
+    background-image: url(/src/assets/porcentaje.png);
+    background-repeat: no-repeat;
+    background-position-x: 7px;
+    background-position-y: 13px;
+    padding-left: 40px;
+    width: 100px;
+    height: 35px;
+    background-size: 23px;
+    font-size: 20px;
+}
+
+.__footer_vender form button{
+   height: 65px;
+ }
+ 
+
+.__footer_vender form .__boton{
+   align-content: end;
+}

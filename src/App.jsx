@@ -5,10 +5,15 @@ import routes from './routes.config'
 import Pestanias from './Componentes/Pestanias/Pestanias'
 import Productos from './pages/Productos/Productos'
 import { Inicio } from './pages'
+import { Toaster } from 'sonner'
 
 export default function App() {
   return (
+
     <BrowserRouter>
+      <Toaster
+        richColors
+       />
       <Suspense fallback={<div className='__cargando'></div>}>
         <Routes>
           {routes.map((route, index) => (
@@ -17,6 +22,7 @@ export default function App() {
         </Routes>
       </Suspense>
     </BrowserRouter>
+
   );
 }
 

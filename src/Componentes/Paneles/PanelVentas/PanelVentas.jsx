@@ -68,13 +68,13 @@ export default function PanelVentas({ onDatosFiltrados, onManejaCargando }) {
             console.log(datos);
             const datosTransformados = datos.map(item => ({
                 Numero_Venta: item.id_venta,
-                Total: `$ ${item.total}`,
+                Neto: `$ ${item.total}`,
                 Fecha: new Date(item.fecha).toLocaleDateString(),
                 Descuento_Gral: `${item.descuento_gral || 0} %`,
-                Neto: `$ ${(
+                Total: `$ ${(
                     parseFloat(item.total.replace(',', '.')) * (1 - item.descuento_gral / 100)
                 ).toFixed(2).replace('.', ',')}`, //arreglado
-
+                
                 Vendedor: `${item.usuario.nombre} ${item.usuario.apellido}`,
             }));
             onDatosFiltrados(datosTransformados);

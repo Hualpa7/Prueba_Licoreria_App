@@ -1,0 +1,46 @@
+.__cuerpo_combo {
+    display: flex;
+    flex-direction: column;
+}
+
+.__cuerpo_combo .__fila1 {
+    display: flex;
+    margin-left: 5px;
+    gap: 100px;
+}
+
+.__cuerpo_combo .__productos_combo {
+    display: flex;
+}
+
+.__cuerpo_combo .__fila3 {
+    display: flex;
+    margin-left: 5px;
+    gap: 100px;
+}
+
+.__productos_combo {
+    margin-top: 35px;
+    gap: 30px;
+}
+
+.__productos_combo .__tabla_contenedor {
+    height: 200px;
+    width: auto;
+}
+
+.__formulario_combo .__boton_combo {
+    display: flex;
+    justify-content: end;
+}
+
+
+.__productos_combo .__tabla_contenedor{
+    border: 1px solid #333;
+    box-shadow: 10px 9px 6px rgba(0, 0, 0, 0.1);
+}
+
+.__productos_combo table{
+    margin: 0;
+    width: 101%;
+}

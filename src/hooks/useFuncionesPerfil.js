@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useUsuarioStore } from '../store/Usuario';
 
 export const useFuncionesPerfil = () => {
+    const {cierraSesion} = useUsuarioStore(); //funcion de cierre sesion de la store
     
     const navegarHacia = useNavigate();
-
+    const {token} = useUsuarioStore();
     const cerrarSesion = async () => {
-        const token = localStorage.getItem("authToken");
+       
         try {
+           
             const respuesta = await fetch("http://127.0.0.1:8000/api/usuario/cerrarSesion", {
                 method: 'POST',
                 headers: {
@@ -15,8 +18,8 @@ export const useFuncionesPerfil = () => {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            const resultado = await respuesta.json();
-            console.log(resultado);
+  
+            cierraSesion();
             navegarHacia('/inicioSesion');
         } catch (error) {
             console.error("Error al cerrar sesión:", error);

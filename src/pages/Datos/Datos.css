@@ -27,3 +27,28 @@
     margin-top: 5px;
     flex:1;
 }
+
+
+.__cuerpo_datos{
+    background-color: white;
+    height: 350px;
+    width:  922px;
+    padding: 10px 10px 50px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 0 10px 10px 0;
+   
+}
+
+.__cuerpo_datos h1{
+   margin-left: 20px;
+}
+
+.__cuerpo_datos .__datos{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin-left: 20px;
+    list-style: none;
+}

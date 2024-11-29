@@ -1,82 +1,164 @@
 /* Añade esto en tu archivo CSS */
 @keyframes spinner {
-    0%,50% {
-      transform: scale(2) rotate(0deg);
-    }
-    100%,50% {
-      transform: scale(0.5) rotate(360deg);
-    }
+
+  0%,
+  50% {
+    transform: scale(2) rotate(0deg);
   }
 
-  @keyframes expand {
-    0%,100% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(0.5);
-    }
+  100%,
+  50% {
+    transform: scale(0.5) rotate(360deg);
+  }
+}
+
+@keyframes expand {
+
+  0%,
+  100% {
+    transform: scale(1);
   }
 
-  .__cargando_fondo{
-    position: fixed; /*Permite que se mantenga una posicion fija,ocupando toda la pantalla*/
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;  /*lo anterior para que ocupen toda la pantalla*/
-    background-color: rgba(43, 42, 42, 0.612); /* Fondo oscuro semi-transparente */
-    display: flex; /*aplicoo flex para centrar la ventana*/
-    justify-content: center;
-    align-items: center; /*con estas propiedades alineo*/
-    z-index: 1000; /* me asegura que esté por encima de otros elementos.. valor alto para indicar prioridad */
-    cursor: wait;
+  100% {
+    transform: scale(0.5);
   }
-  
-  .__cargando {
-    width: 80px;
-    height: 80px;
-    background-image: url('/src/assets/cargando.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    border-radius: 50%;
-    animation: spinner 1s alternate-reverse infinite;
-    position: fixed;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-  }
-  
-  
+}
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+.__cargando_fondo {
+  position: fixed;
+  /*Permite que se mantenga una posicion fija,ocupando toda la pantalla*/
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*lo anterior para que ocupen toda la pantalla*/
+  background-color: rgba(43, 42, 42, 0.612);
+  /* Fondo oscuro semi-transparente */
+  display: flex;
+  /*aplicoo flex para centrar la ventana*/
+  justify-content: center;
+  align-items: center;
+  /*con estas propiedades alineo*/
+  z-index: 1000;
+  /* me asegura que esté por encima de otros elementos.. valor alto para indicar prioridad */
+  cursor: wait;
+}
+
+.__cargando {
+  width: 80px;
+  height: 80px;
+  background-image: url('/src/assets/cargando.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  border-radius: 50%;
+  animation: spinner 1s alternate-reverse infinite;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
 }
 
 /*PARA LOS INPUTS DE BUSQUEDA, MUESTRA LAS SUGERENCIAS COMO UNA LISTA */
 .__sugerencias {
-  list-style: none; /* Elimina el estilo de lista */
+  list-style: none;
+  /* Elimina el estilo de lista */
   padding: 0;
   margin-top: 70px;
-  position: absolute; /* Posiciona el cuadro de sugerencias sobre otros elementos */
-  z-index: 1000; /* Asegura que está por encima de otros elementos */
-  background: white; /* Fondo blanco */
-  border: 1px solid #ccc; /* Borde gris claro */
-  border-radius: 4px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
-  max-height: 200px; /* Altura máxima para el cuadro de sugerencias */
-  overflow-y: auto; /* Habilita el scroll si hay muchas sugerencias */
+  position: absolute;
+  /* Posiciona el cuadro de sugerencias sobre otros elementos */
+  z-index: 1000;
+  /* Asegura que está por encima de otros elementos */
+  background: white;
+  /* Fondo blanco */
+  border: 1px solid #ccc;
+  /* Borde gris claro */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra para un efecto de elevación */
+  max-height: 200px;
+  /* Altura máxima para el cuadro de sugerencias */
+  overflow-y: auto;
+  /* Habilita el scroll si hay muchas sugerencias */
   font-weight: 100;
 }
 
 .__sugerencias li {
-  padding: 10px; /* Espaciado interno */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  padding: 10px;
+  /* Espaciado interno */
+  cursor: pointer;
+  /* Cambia el cursor al pasar por encima */
 }
 
 .__sugerencias li:hover {
-  background: #e5314fc3; /* Fondo gris claro al pasar el ratón por encima */
+  background: #e5314fc3;
+  /* Fondo gris claro al pasar el ratón por encima */
 }
 
+/*ESTILOS PARA EL TOASTER*/
+
+.__toaster_success {
+  background: rgb(205, 255, 219) !important;
+  font-size: 17px;
+}
+
+.__toaster_error {
+  background: #ffd3dd !important;
+  font-size: 17px;
+}
+
+.__toaster_info {
+  font-size: 17px;
+}
+
+/*ESTILOS PARA LOS BOTONES DE AGREGAR O QUITAR PRODUCTO DE CARRTIO O COMBO*/
+
+.__agregar_quitar {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap:27px;
+  margin-right: 40px;
+}
+
+
+.__agregar_quitar  button{
+  height: 80px;
+  width: 90px;
+}
+
+.__agregar_quitar  .__boton_icono{
+  height: 80px;
+  width: 90px;
+}
+
+.__agregar_quitar  .habilitado{
+  background-color: white;
+  border: 2px solid #141313;
+}
+
+.__agregar_quitar  .habilitado:hover{
+  background-color: rgba(7, 218, 81, 0.142);
+  border: 4px solid #141313;
+  border-color:#08db64ad;
+  transition: .2s;
+  box-shadow: 5px 5px 10px #77e781d5;
+}
+
+.__agregar_quitar .__quitar .habilitado:hover{
+  background-color: rgba(221, 44, 44, 0.273);
+  border: 4px solid #141313;
+  border-color:#db1d08ad;
+  transition: .2s;
+  box-shadow: 5px 5px 10px #e77777d5;
+}

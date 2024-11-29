@@ -9,6 +9,7 @@ import iconMas from "../../../assets/mas.png";
 import NuevaCategoria from "../NuevaCategoria/NuevaCategoria"
 import NuevaMarca from "../NuevaMarca/NuevaMarca"
 import Modal from "../../Modal/Modal";
+import { toast } from "sonner";
 
 export default function NuevoProducto({ categorias, marcas, onGuardar, actualizarCategoriasYMarcas }) { //recibe funcion para actualziar
 
@@ -49,7 +50,7 @@ export default function NuevoProducto({ categorias, marcas, onGuardar, actualiza
             });
 
             if (!respuestaProducto.ok) {
-                console.error('Error al crear el producto');
+                toast.error("Error al crear el producto.",{className:"__toaster_error"});
                 return;
             }
 
@@ -77,12 +78,14 @@ export default function NuevoProducto({ categorias, marcas, onGuardar, actualiza
 
             if (!respuestaStock.ok) {
                 console.error('Error al crear el registro en stock');
+                toast.error("Error al crear el registro en stock.",{className:"__toaster_error"});
                 return;
             }
 
             const stockCreado = await respuestaStock.json();
             console.log('Registro en stock creado:', stockCreado);
 
+            toast.success("Producto creado correctamente.",{className:"__toaster_success"});
             reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
             onGuardar();
         } catch (error) {

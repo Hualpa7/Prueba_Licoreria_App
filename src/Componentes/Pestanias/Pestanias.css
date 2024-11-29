@@ -12,7 +12,7 @@ ul.__pestanias {
     font-size: 20px;
     width: 150px;
     font-variant: all-small-caps;
-   width: 150px;
+   width: 180px;
     
     
   }
@@ -26,7 +26,7 @@ ul.__pestanias {
     text-decoration: none;
     color: white;
     transition: .3s;
-    background-color: #861018a3;
+    background-color: #72717173;
   }
   
   ul.__pestanias li a:hover {

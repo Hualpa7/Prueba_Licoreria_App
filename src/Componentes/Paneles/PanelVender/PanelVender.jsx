@@ -6,8 +6,9 @@ import BotonPerfil from '../../BotonPerfil/BotonPerfil';
 import { XyzTransition } from "@animxyz/react";
 import { useState } from 'react';
 import { useFuncionesPerfil } from '../../../hooks/useFuncionesPerfil';
+import { useForm } from 'react-hook-form';
 
-export default function PanelVender() {
+export default function PanelVender({control ,register,vendedor}) {
 
     /////////// NAVEGACION A PERFIL O CONFIGURACIONES y CERRAR SESION
     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
@@ -17,6 +18,8 @@ export default function PanelVender() {
     }
 
     const { irAPerfil, irAConfiguraciones, cerrarSesion } = useFuncionesPerfil(); //HOOK PARA NAVEGAR Y CERRAR SESION
+
+   
 
     ///LAYOUT
     return (
@@ -29,12 +32,18 @@ export default function PanelVender() {
                                 <Input tipo="text" placeholder="24/10/2024" id="fecha" deshabilitado />
                             </Tarjeta>
                             <Tarjeta descripcion="Vendedor" forid="vendedor">
-                                <Input tipo="text" placeholder="Gaston" id="vendedor" deshabilitado />
+                                <Input tipo="text" placeholder={vendedor} id="vendedor" 
+                                deshabilitado 
+                                />
                             </Tarjeta>
                         </div>
                         <div className='__col2'>
                             <Tarjeta descripcion="Metodo de Pago" forid="metodo_pago">
-                                <Selector opciones={["Efectivo", "Transferencia"]} id="metodo_pago" />
+                                <Selector opciones={[{ label: "Efectivo", value: "Efectivo" }, { label: "Transferencia", value: "Transferencia" }]}
+                                 id="metodo_pago" 
+                                 opcionDefecto
+                                 {...register("metodo_pago")}
+                                 />
                             </Tarjeta>
                         </div>
                     </div>

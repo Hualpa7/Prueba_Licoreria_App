@@ -4,7 +4,7 @@
     font-size: 0.8rem;
    font-weight:600;
     position: absolute;  /* Posiciona el span absolutamente */
-    background: rgba(255, 255, 255, 0.597);  /* Fondo semi-transparente para que no tape completamente otros elementos */
+
     padding: 2px;  /* Añade un pequeño padding para mejor visibilidad */
     z-index: 1; 
     margin-top:72px ;

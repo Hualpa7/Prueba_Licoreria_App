@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import BotonPerfil from '../../Componentes/BotonPerfil/BotonPerfil';
 import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
 import './Datos.css';
+import Boton from '../../Componentes/Boton/Boton';
 
 export default function Datos() {
 
@@ -51,8 +52,19 @@ export default function Datos() {
 
 
 
-    const main = <> <h1>Datos</h1>
-    </>
+    const main = 
+    <div className='__cuerpo_datos'>
+        <h1>Datos</h1>
+        <ul className='__datos'>
+            <li>Nombre: Gaston Hualpa</li>
+            <li>Correo: hualpahualpa@gmail.com</li>
+            <li>DNI: 40524760</li>
+            <li><span>Cambiar contraseña?</span>
+            <Boton descripcion="Cambiar" habilitado></Boton></li>
+        </ul>
+    </div>
+
+
 
 
     return <PlantillaPages header={header} navigation={navigation} main={main} />;

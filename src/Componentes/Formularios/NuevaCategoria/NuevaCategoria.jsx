@@ -4,6 +4,7 @@ import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from '../../Boton/Boton'
 import '../NuevaMarca/NuevaMarca.css'
 import { useState } from 'react'
+import { toast } from "sonner";
 
 //PASO LA REFERENCIA PARA EJECUTAR LA FUNCION ACTUALIZAR MARCAS Y CATEGORIAS, ASI SE ACTUALIZA EN PRODUCTOS.JSX Y SE LA PASA NUEVOPRDUCTO.JSX SIMULTANEAMNETE
 export default function NuevaCategoria({ onGuardar,actualizarCategoriasYMarcas }) {
@@ -25,6 +26,7 @@ export default function NuevaCategoria({ onGuardar,actualizarCategoriasYMarcas }
       });
 
       if (respuesta.ok) { //Si esta todo bien se resetea el fomrulario
+        toast.success("Categoria creada correctamente.",{className:"__toaster_success"});
         reset();
         actualizarCategoriasYMarcas.current(); //LLAMA A LA FUNCION PARA ACTUALIZAR LUEGO DE QUE SE AGREGO LA NUEVA CATEGORIA
         onGuardar();
@@ -32,9 +34,11 @@ export default function NuevaCategoria({ onGuardar,actualizarCategoriasYMarcas }
         console.log('Categoría creada:', categoriaCreada);
       } else {
         console.error('Error al crear la categoría'); //Si ocurre un error, manejado en en backend
+        toast.error("Error al crear la categoria.",{className:"__toaster_error"});
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);// si ocurre un problema al no conectarse a la API
+      toast.error("Error inesperado al crear la categoria.",{className:"__toaster_error"});
     }finally{
       setCargando(false);
     } 

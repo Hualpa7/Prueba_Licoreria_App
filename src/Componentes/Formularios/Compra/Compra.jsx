@@ -9,9 +9,10 @@ import Modal from "../../Modal/Modal";
 import NuevoProveedor from "../NuevoProveedor/NuevoProveedor";
 import './Compra.css';
 import { useBusqueda } from "../../../hooks/useBusqueda";
+import { toast } from "sonner";
 
 
-export default function Compra({ onGuardar,actualizarProveedores }) {
+export default function Compra({ onGuardar, actualizarProveedores, siguienteCompra }) {
 
     ////// CONTROLA MODAL DE NUEVO PROVEEDOR
     const [modalNuevoProveedor, setModalNuevoProveedor] = useState(false); // Abre o cierra el modal nueva oferta
@@ -25,8 +26,8 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
     const { register, handleSubmit, formState: { errors }, reset, setValue, control } = useForm({
         defaultValues: {    //constante que devuleve todo lo del form
             id_sucursal: "1",  //cambiar HARDCOEDEADO
-            tipo_busqueda_Producto:"Nombre",
-            tipo_busqueda_Proveedor:"Nombre"
+            tipo_busqueda_Producto: "Nombre",
+            tipo_busqueda_Proveedor: "Nombre"
         }
     });
 
@@ -47,6 +48,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
             console.log(data);
             if (!respuestaCompra.ok) {
                 console.error('Error al crear la compra');
+                toast.error("Error al realizar la compra.",{className:"__toaster_error"});
                 return;
             }
 
@@ -73,42 +75,44 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
 
             if (!respuestaStock.ok) {
                 console.error('Error al crear el registro en stock');
+                toast.error("Error al crear el resgistro en stock.",{className:"__toaster_error"});
                 return;
             }
 
             const stockCreado = await respuestaStock.json();
             console.log('Registro en stock creado:', stockCreado);
-
+            toast.success("Compra realizada!.",{className:"__toaster_success"});
             reset(); // Resetea el formulario solo después de que ambas operaciones fueron exitosas
             onGuardar();
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            toast.error("Error inesperado al realizar la compra.",{className:"__toaster_error"});
         } finally {
             setCargando(false);
         }
     };
 
 
-    
-    
-    
+
+
+
     ////////BUSQUEDA COINCIDENCIAS DE PRODUCTO:
-    
-    
+
+
     ///// Ver el tipo de busqueda para producto
     const tipoBusquedaProducto = useWatch({ control, name: "tipo_busqueda_Producto" });
-    
-    const { 
+
+    const {
         sugerencias: productoSugerencias,
         terminoBusqueda: buscarProducto,
         setTerminoBusqueda: setBuscarProducto,
         seleccionado: productoSeleccionado,
         manejarSeleccion: seleccionarProducto
-    } = useBusqueda('producto', tipoBusquedaProducto,setValue);
+    } = useBusqueda('producto', tipoBusquedaProducto, setValue);
 
-    
+
     ////////BUSQUEDA COINCIDENCIAS DE PROVEEDOR:
-    
+
     ///// Ver el tipo de busqueda para proveedor
     const tipoBusquedaProveedor = useWatch({ control, name: "tipo_busqueda_Proveedor" });
 
@@ -118,19 +122,19 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
         setTerminoBusqueda: setBuscarProveedor,
         seleccionado: proveedorSeleccionado,
         manejarSeleccion: seleccionarProveedor
-    } = useBusqueda('proveedor', tipoBusquedaProveedor,setValue);
-    
-    
-    
-    
-    
-    
+    } = useBusqueda('proveedor', tipoBusquedaProveedor, setValue);
+
+
+
+
+
+
     /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
     const [cargando, setCargando] = useState(false);
-    
-    
-    
-    
+
+
+
+
     /////////////////LAYOUT
     return (
         <>
@@ -143,7 +147,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                                 tipo="text"
                                 id="compra"
                                 deshabilitado
-
+                                placeholder={siguienteCompra+1}
                             />
                         </Tarjeta>
                         <Tarjeta descripcion="Producto" forid="producto" mensajeError={errors.producto?.message}>
@@ -152,9 +156,9 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                                 id="producto"
                                 placeholder="Buscar"
                                 value={productoSeleccionado || buscarProducto}
-                                onChange={(e) =>{
+                                onChange={(e) => {
                                     setBuscarProducto(e.target.value);
-                                    if(productoSeleccionado) seleccionarProducto(null);
+                                    if (productoSeleccionado) seleccionarProducto(null);
                                 }}
 
                             />
@@ -163,7 +167,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                                     {productoSugerencias.map((producto) => (
                                         <li key={producto.id_producto} onClick={() => seleccionarProducto(producto)}>
                                             {tipoBusquedaProducto === "Nombre" ? producto.producto : producto.codigo}
-                                           
+
                                         </li>
                                     ))}
                                 </ul>
@@ -177,7 +181,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                                 value={proveedorSeleccionado || buscarProveedor}
                                 onChange={(e) => {
                                     setBuscarProveedor(e.target.value);
-                                    if(proveedorSeleccionado) seleccionarProveedor(null);  
+                                    if (proveedorSeleccionado) seleccionarProveedor(null);
                                 }}
                             />
                             {proveedorSugerencias.length > 0 && (
@@ -185,7 +189,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                                     {proveedorSugerencias.map((proveedor) => (
                                         <li key={proveedor.id_proveedor} onClick={() => seleccionarProveedor(proveedor)}>
                                             {tipoBusquedaProveedor === "Nombre" ? proveedor.nombre : proveedor.correo}
-                                            
+
                                         </li>
                                     ))}
                                 </ul>
@@ -221,18 +225,21 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
                             />
                         </Tarjeta>
 
+                        <Tarjeta descripcion="Buscar por">
+                            <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
+                                opcionDefecto
+                                {...register("tipo_busqueda_Producto")}
+                            />
+                        </Tarjeta>
 
-                        <Selector opciones={[{ label: "Codigo", value: "Codigo" }, { label: "Nombre", value: "Nombre" }]}
-                        
-                        
-                            {...register("tipo_busqueda_Producto")}
-                        />
+                        <Tarjeta descripcion="Buscar por">
 
-                        <Selector opciones={[{ label: "Correo", value: "Correo" }, { label: "Nombre", value: "Nombre" }]}
-                        
-                        
-                            {...register("tipo_busqueda_Proveedor")}
-                        />
+                            <Selector opciones={[{ label: "Correo", value: "Correo" }, { label: "Nombre", value: "Nombre" }]}
+
+                                opcionDefecto
+                                {...register("tipo_busqueda_Proveedor")}
+                            />
+                        </Tarjeta>
                     </div>
                     <div className="__tercera_columna">
                         <Tarjeta descripcion="Cargar Nuevo Proveedor">
@@ -272,7 +279,7 @@ export default function Compra({ onGuardar,actualizarProveedores }) {
             <div className="__modal_nuevo_proveedor">
 
                 <Modal visible={modalNuevoProveedor} titulo="Nuevo Proveedor" funcion={manejaNuevoProveedor} anchura={"500px"} >
-                    <NuevoProveedor onGuardar={manejaNuevoProveedor} actualizarProveedores ={actualizarProveedores}></NuevoProveedor>
+                    <NuevoProveedor onGuardar={manejaNuevoProveedor} actualizarProveedores={actualizarProveedores}></NuevoProveedor>
                 </Modal>
             </div>
         </>
