@@ -31,27 +31,11 @@ export default function Ventas({ }) {
     setDatos(datosFiltrados);
   };
 
-  console.log(datos);
-  /*
-    useEffect(() => {
-      fetch('http://127.0.0.1:8000/api/venta')
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          const datosTransformados = datos.map(item => ({
-            Numero_Venta: item.id_venta,
-            Total: `$ ${item.total}`,
-            Fecha: new Date(item.fecha).toLocaleDateString(),
-            Descuento_Gral: `${item.descuento_gral || 0} %`,
-            Neto: `$ ${(
-              parseFloat(item.total.replace(',', '.')) * (1 - item.descuento_gral / 100)
-            ).toFixed(2).replace('.', ',')}`, //arreglado
-  
-            Vendedor: `${item.usuario.nombre} ${item.usuario.apellido}`,
-          }));
-          setDatos(datosTransformados);
-        })
-        .catch(e => console.log(e));
-    }, []);*/
+   //////////FUNCION PRIMMERA LETRA DE UNA PALABRA EN MAYUSCULAS
+   const transformaMayusucula = (str) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 
   /////////SE ENCARGA DE LA SELECCION DE UNA VENTA EN LA TABLA Y DE HABILITAR EL BOTON PARA Visualizar
 
@@ -69,18 +53,19 @@ export default function Ventas({ }) {
       fetch(`http://127.0.0.1:8000/api/venta/${elementoSeleccionado.Numero_Venta}`)
         .then(respuesta => respuesta.json())
         .then(venta => {
-          const datosVentaTransformados = venta.productos.map(item => ({
+          const datosVentaTransformados = venta.detalles.map(item => (
+            {
             Codigo: item.codigo,
-            Producto: item.producto,
+            Item: transformaMayusucula(item.nombre),
             Cantidad: item.cantidad,
             Subtotal: `$ ${(parseFloat(item.costo.replace(',', '.')) * item.cantidad).toFixed(2).replace('.', ',')}`,
             IVA: `${item.iva} %`,
             Descuento: `${item.descuento_porcentaje === null ? 0 : item.descuento_porcentaje} %`,
-            TOTAL: `$ ${(
+            TOTAL: !item.es_combo ? `$ ${(
               (parseFloat(item.costo.replace(',', '.')) *
               (1 + item.iva / 100) * // Agrega el IVA
               (1 - (item.descuento_porcentaje === null ? 0 : item.descuento_porcentaje / 100))) * // Aplica el descuento 
-              item.cantidad).toFixed(2).replace('.', ',')}`
+              item.cantidad).toFixed(2).replace('.', ',')}` : `$ ${(parseFloat(item.costo.replace(',', '.')) * item.cantidad).toFixed(2).replace('.', ',')}`
 
           }));
           setVenta(datosVentaTransformados);

@@ -6,7 +6,7 @@ import Boton from "../../Boton/Boton";
 import { useState } from "react";
 import TablaConPaginacion from "../../TablaConPaginacion/TablaConPaginacion";
 import Modal from "../../Modal/Modal";
-import AgregarProducto from "../AgregarProducto/AgregarProducto";
+import AgregarProductoCombo from "../AgregarProductoCombo/AgregarProductoCombo";
 import './FormularioCombo.css'
 import agregar from '../../../assets/agregar_combo.png'
 import quitar from '../../../assets/quitar_combo.png'
@@ -173,7 +173,7 @@ export default function FormularioCombo({ onGuardar }) {
                 </div>
             </form >
             <Modal visible={modalAgregarProducto} titulo="Agregar al Combo" anchura="600px" funcion={manejaModalAgregarProducto}>
-                <AgregarProducto onGuardar={manejaModalAgregarProducto} onAgregarProducto={manejarAgregarProducto} paraCombo></AgregarProducto>
+                <AgregarProductoCombo onGuardar={manejaModalAgregarProducto} onAgregarProducto={manejarAgregarProducto}></AgregarProductoCombo>
             </Modal>
         </>
     )

@@ -3,12 +3,12 @@ import Input from "../../Input/Input";
 import Selector from "../../Selector/Selector";
 import Tarjeta from "../../ComponentesFormulario/Tarjeta/Tarjeta";
 import Boton from '../../Boton/Boton'
-import './AgregarProducto.css';
+import './AgregarProductoCombo.css';
 import { useBusqueda } from "../../../hooks/useBusqueda";
 
 
 
-export default function AgregarProducto({ onGuardar, onAgregarProducto, paraCombo }) {
+export default function AgregarProductoCombo({ onGuardar, onAgregarProducto, paraCombo }) {
 
 
 
@@ -37,9 +37,6 @@ export default function AgregarProducto({ onGuardar, onAgregarProducto, paraComb
     const onSubmit = (data) => {
         console.log(productoSeleccionado);
         const producto = { id_producto: data.id_producto, Nombre: `${productoSeleccionado}`, cantidad: data.cantidad, };
-        if (!paraCombo) {
-            producto.IVA = data.iva;
-        }
         onAgregarProducto(producto);
         onGuardar();
     }
@@ -103,23 +100,6 @@ export default function AgregarProducto({ onGuardar, onAgregarProducto, paraComb
                         {...register("tipo_busqueda_Producto")}
                     >
                     </Selector>
-                    {!paraCombo && <Tarjeta descripcion="IVA %" forid="iva" mensajeError={errors.iva?.message}>
-                        <Input
-                            tipo="input"
-                            id="iva"
-                            defaultValue={21}
-                            {...register("iva", {
-                                required: {
-                                    value: true,
-                                    message: "Ingrese IVA del Producto"
-                                },
-                                validate: (value) => {
-                                    if (value >= 0 && value <= 100) return true;
-                                    else return "Ingrese un IVA entre '0%' y '100%' ";
-                                },
-                            })}
-                        />
-                    </Tarjeta>}
 
                 </div>
             </div>

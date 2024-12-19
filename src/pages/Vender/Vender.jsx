@@ -3,7 +3,7 @@ import PlantillaPages from '../../Componentes/PlantillaPages/PlantillaPages'
 import Boton from '../../Componentes/Boton/Boton'
 import PanelVender from '../../Componentes/Paneles/PanelVender/PanelVender'
 import { useEffect, useState } from "react";
-import AgregarProducto from "../../Componentes/Formularios/AgregarProducto/AgregarProducto";
+import AgregarProductoCarrito from "../../Componentes/Formularios/AgregarProductoCarrito/AgregarProductoCarrito";
 import Modal from "../../Componentes/Modal/Modal";
 import TablaConPaginacion from "../../Componentes/TablaConPaginacion/TablaConPaginacion";
 import columnas from "../../Datos_Pruebas/Columnas_Vender.json"
@@ -21,47 +21,72 @@ export default function Vender({ }) {
 
   const token = localStorage.getItem("authToken");
   const navegarHacia = useNavigate();
-  
+
   if (!token) {
     alert("No puede acceder. Inicie Sesion.")
     navegarHacia('/inicioSesion');
   }
-  
+
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   console.log(usuario);
-    
+
   //MANTIENE ARRAY DE PRODUCTOS Y SU MANEJO
   const [productos, setProductos] = useState([]);
 
 
+
   //CAPTURO EL PRODCUTO Y CON SU ID, LO BUSCO EN EL BACCKEND PARA RECUPERAR LOS DEMAS DATOS
-  const manejarAgregarProducto = async (producto) => {
+  const manejarAgregarProducto = async (item) => {
     try {
-      const respuesta = await fetch(`http://127.0.0.1:8000/api/producto/${producto.id_producto}`);
-      const datosDelBackend = await respuesta.json();
+      if (!item.esCombo) {
+        const respuesta = await fetch(`http://127.0.0.1:8000/api/producto/${item.id_producto}`);
+        const datosDelBackend = await respuesta.json();
+        //combino los datos del backend con los del prodcuto (iva,cantidad)
+        const productoCompleto = {
+          ...item,
+          ...datosDelBackend
+        };
+        const datosTransformados = {
+          esCombo: productoCompleto.es_combo,
+          id_producto: productoCompleto.id_producto,
+          Codigo: productoCompleto.codigo,
+          Nombre: productoCompleto.Nombre,
+          Cantidad: productoCompleto.cantidad,
+          Subtotal: `$ ${(parseFloat(productoCompleto.costo.replace(',', '.')) * productoCompleto.cantidad).toFixed(2).replace('.', ',')}`,
+          IVA: productoCompleto.IVA,
+          Descuento: `${productoCompleto.descuento === null ? "0" : productoCompleto.descuento.porcentaje} %`,
+          Neto: `$ ${(
+            parseFloat(productoCompleto.costo.replace(',', '.')) *
+            (1 + productoCompleto.IVA / 100) * // Agrega el IVA
+            (1 - (productoCompleto.descuento === null ? 0 : productoCompleto.descuento.porcentaje / 100)) * // Aplica el descuento 
+            productoCompleto.cantidad).toFixed(2).replace('.', ',')}`
+        }
 
-      //combino los datos del backend con los del prodcuto (iva,cantidad)
-      const productoCompleto = {
-        ...producto,
-        ...datosDelBackend
-      };
+        setProductos([...productos, datosTransformados])
+      }
+      else {
+        const respuesta = await fetch(`http://127.0.0.1:8000/api/combo/${item.id_combo}`);
+        const datosDelBackend = await respuesta.json();
+        //combino los datos del backend con los del prodcuto (iva,cantidad)
+        const comboCompleto = {
+          ...item,
+          ...datosDelBackend
+        };
+        const datosTransformados = {
+          esCombo: comboCompleto.es_combo,
+          id_combo: comboCompleto.id_combo,
+          Codigo: comboCompleto.codigo,
+          Nombre: comboCompleto.Nombre,
+          Cantidad: comboCompleto.cantidad,
+          Subtotal: `$ ${(parseFloat(comboCompleto.costo.replace(',', '.')) * comboCompleto.cantidad).toFixed(2).replace('.', ',')}`,
+          IVA: 0,
+          Descuento: 0,
+          Neto: `$ ${(parseFloat(comboCompleto.costo.replace(',', '.')) * comboCompleto.cantidad).toFixed(2).replace('.', ',')}`
+        }
 
-      const datosTransformados = {
-        id_producto: productoCompleto.id_producto,
-        Codigo: productoCompleto.codigo,
-        Nombre: productoCompleto.Nombre,
-        Cantidad: productoCompleto.cantidad,
-        Subtotal: `$ ${(parseFloat(productoCompleto.costo.replace(',', '.')) * productoCompleto.cantidad).toFixed(2).replace('.', ',')}`,
-        IVA: productoCompleto.IVA,
-        Descuento: `${productoCompleto.descuento === null ? "0" : productoCompleto.descuento.porcentaje} %`,
-        Neto: `$ ${(
-          parseFloat(productoCompleto.costo.replace(',', '.')) *
-          (1 + productoCompleto.IVA / 100) * // Agrega el IVA
-          (1 - (productoCompleto.descuento === null ? 0 : productoCompleto.descuento.porcentaje / 100)) * // Aplica el descuento 
-          productoCompleto.cantidad).toFixed(2).replace('.', ',')}`
+        setProductos([...productos, datosTransformados])
       }
 
-      setProductos([...productos, datosTransformados])
     } catch (error) {
       console.error("Error al obtener datos del backend:", error);
     }
@@ -79,15 +104,12 @@ export default function Vender({ }) {
   //HOOK FORM
   const { register, handleSubmit, formState: { errors }, control, setValue, reset } = useForm({
     defaultValues: {
-      id_sucursal: usuario.id_sucursal,
+      id_sucursal: usuario.sucursal[0].id_sucursal,
       id_usuario: usuario.id_usuario,
       descuento_gral: 0,
       metodo_pago: "Efectivo"
     }
   })
-
- 
-
 
 
 
@@ -124,6 +146,7 @@ export default function Vender({ }) {
         ...data, // Datos del formulario
         productos, // Array de productos
       };
+      console.log(datosConProductos);
       datosConProductos.total = datosConProductos.total.replace(',', '.');
       const respuesta = await fetch('http://127.0.0.1:8000/api/venta', {
         method: 'POST',
@@ -135,8 +158,15 @@ export default function Vender({ }) {
       });
 
       if (!respuesta.ok) {
-        console.error('Error al realizar la venta');
-        toast.error("Error al realizar la venta.", { className: "__toaster_error" });
+        const errorData = await respuesta.json(); // Convierte la respuesta a JSON
+        console.error('Error al realizar la venta:', errorData);
+        
+        // Muestra el mensaje de error del backend si existe
+        if (errorData.message) {
+          toast.error(errorData.message, { className: "__toaster_error" });
+        } else {
+          toast.error("Error al realizar la venta.", { className: "__toaster_error" });
+        }
         return;
       }
       toast.success("Venta realizada!.", { className: "__toaster_success" });
@@ -161,11 +191,22 @@ export default function Vender({ }) {
   //QUITA PRODUCTO DEL CARRITO
   const quitarProducto = () => {
     if (seleccionado) {
-      const arrayProductos = productos.filter(producto => producto.id_producto !== seleccionado.id_producto);
-      setProductos(arrayProductos);
-      setSeleccionado(null);
+
+      if (!seleccionado.esCombo) {
+        const arrayProductos = productos.filter(producto => producto.id_producto !== seleccionado.id_producto);
+        setProductos(arrayProductos);
+        setSeleccionado(null);
+      }
+      else {
+        const arrayProductos = productos.filter(producto => producto.id_combo !== seleccionado.id_combo);
+        setProductos(arrayProductos);
+        setSeleccionado(null);
+      }
+
     }
   }
+
+
 
 
   /////////// ESTADO PARA SABER CUANDO SE ESTA CARGANDO (SE ESTAN TRAYENDO LOS DATOS)
@@ -202,7 +243,7 @@ export default function Vender({ }) {
 
     <div className="__footer_vender">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ display: "flex", marginLeft: "50px", gap: "50px",color:"white" }}>
+        <div style={{ display: "flex", marginLeft: "50px", gap: "50px", color: "white" }}>
           <Tarjeta descripcion="Descuento General" forid="descuento_gral" mensajeError={errors.descuento_gral?.message}>
             <Input
               tipo="porcentaje"
@@ -232,7 +273,7 @@ export default function Vender({ }) {
           </Tarjeta>
 
         </div>
-        <div style={{ display: "flex", marginRight: "50px", gap: "50px",color:"white" }}>
+        <div style={{ display: "flex", marginRight: "50px", gap: "50px", color: "white" }}>
           <Tarjeta descripcion="TOTAL" forid="total_con_descuento">
             <Input
               tipo="costo"
@@ -250,7 +291,7 @@ export default function Vender({ }) {
 
 
       <Modal visible={modalAgregarProducto} titulo="Agregar al Carrito" anchura="600px" funcion={manejaModalAgregarProducto}>
-        <AgregarProducto onGuardar={manejaModalAgregarProducto} onAgregarProducto={manejarAgregarProducto}></AgregarProducto>
+        <AgregarProductoCarrito onGuardar={manejaModalAgregarProducto} onAgregarProducto={manejarAgregarProducto}></AgregarProductoCarrito>
       </Modal>
     </div>
 

@@ -6,7 +6,7 @@ import Boton from "../../Boton/Boton";
 import { useState } from "react";
 import TablaConPaginacion from "../../TablaConPaginacion/TablaConPaginacion";
 import Modal from "../../Modal/Modal";
-import AgregarProducto from "../AgregarProducto/AgregarProducto";
+import AgregarProducto from "../AgregarProductoCarrito/AgregarProductoCarrito";
 import '../NuevoCombo/FormularioCombo.css'
 import agregar from '../../../assets/agregar_combo.png'
 import quitar from '../../../assets/quitar_combo.png'

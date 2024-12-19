@@ -65,7 +65,7 @@ export default function PanelVentas({ onDatosFiltrados, onManejaCargando }) {
 
 
             const datos = await respuestaVenta.json();
-            console.log(datos);
+            
             const datosTransformados = datos.map(item => ({
                 Numero_Venta: item.id_venta,
                 Neto: `$ ${item.total}`,
@@ -90,7 +90,7 @@ export default function PanelVentas({ onDatosFiltrados, onManejaCargando }) {
         obtenerDatosFiltrados(filtro);
     }, [filtro])
 
-    console.log(filtro);
+    
 
 
     return (
